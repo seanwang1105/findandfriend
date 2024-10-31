@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Image Carousel -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/image_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+
+        <!-- 定义用于显示地点名称的 TextView -->
+        <TextView
+            android:id="@+id/location_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location Name"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingBottom="8dp" />
+
+        <!-- 定义用于显示地点描述的 TextView -->
+        <TextView
+            android:id="@+id/location_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location Description"
+            android:textSize="16sp" />
+        <!-- Star Rating System -->
+        <TextView
+            android:id="@+id/friend_reviews_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friend Reviews"
+            android:textStyle="bold"
+            android:padding="16dp" />
+
+        <!-- Call to Action Buttons -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/btn_meet_here"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meet Here"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"/>
+
+            <Button
+                android:id="@+id/btn_save_for_later"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save For Later"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"/>
+
+            <Button
+                android:id="@+id/btn_Review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Review"
+                android:layout_below="@id/btn_meet_here"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"/>
+
+            <Button
+                android:id="@+id/btn_Nav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Navigation"
+                android:layout_below="@id/btn_save_for_later"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+</ScrollView>
+    <!-- Bottom Navigation View -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color"
+        app:labelVisibilityMode="labeled" />
+
+</RelativeLayout>

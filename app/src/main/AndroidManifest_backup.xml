@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.findandfriend" xmlns:tools="">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Findandfriend"
+        tools:targetApi="31">
+
+        <!-- 设置 LoginActivity 为启动页面 -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- MainActivity 不再作为启动页，但可以通过代码启动 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <!-- 不需要 MAIN 和 LAUNCHER 过滤器 -->
+        </activity>
+
+        <activity
+            android:name=".EditProfileActivity"
+            android:exported="true">
+            <!-- 其他活动 -->
+        </activity>
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".FriendsActivityFeedActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ReviewRatingActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".LocationDetailsActivity"
+            android:exported="true">
+        </activity>
+
+        <!-- Google Maps API key configuration -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".MiddlePointActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

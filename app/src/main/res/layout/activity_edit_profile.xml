@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- SET AVATAR -->
+        <ImageView
+            android:id="@+id/edit_profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_user_profile"
+            android:scaleType="centerCrop"
+            android:contentDescription="Profile Image"
+            android:layout_marginBottom="16dp"
+            android:onClick="changeProfileImage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click to change photo"
+            android:layout_marginBottom="24dp" />
+
+        <!-- EDIT NAME -->
+        <EditText
+            android:id="@+id/edit_profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your name"
+            android:layout_marginBottom="16dp" />
+
+        <!-- EDIT EMAIL -->
+        <EditText
+            android:id="@+id/edit_profile_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your email"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="24dp" />
+
+        <!-- SAVE -->
+        <Button
+            android:id="@+id/btn_save_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Changes" />
+
+    </LinearLayout>
+</ScrollView>

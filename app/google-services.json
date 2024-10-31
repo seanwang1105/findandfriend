@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111182375024",
+    "project_id": "findandfriend-c07a4",
+    "storage_bucket": "findandfriend-c07a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111182375024:android:a02b522fd703bcf4236cb5",
+        "android_client_info": {
+          "package_name": "com.example.findandfriend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU3OER_So-YBTOCpE1sE0C1ArzCvUWeA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
