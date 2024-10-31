@@ -8,12 +8,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.os.AsyncTask;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,7 +77,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Save email and password to local file
-        saveCredentials(email, password);
+        //saveCredentials(email, password);
+        new RegisterTask().execute(email, password);
         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
     }
 
@@ -98,9 +110,11 @@ public class LoginActivity extends AppCompatActivity {
                 finish();  // close current activity
             } else {
                 // Login failed
+                verifyWithServer(email, password);
                 Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
             }
         } else {
+            verifyWithServer(email, password);
             // No saved credentials
             Toast.makeText(this, "No registered users. Please register first.", Toast.LENGTH_SHORT).show();
         }
@@ -145,6 +159,87 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+    private void verifyWithServer(String email, String password) {
+        String serverUrl = "http://192.168.68.74:5000/login";
+        JSONObject loginData = new JSONObject();
+        try {
+            loginData.put("email", email);
+            loginData.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, serverUrl, loginData,
+                response -> {
+                    // 从服务器成功验证，保存到本地
+                    try {
+                        if (response.has("status") && response.getString("status").equals("Login successful")) {
+                            saveCredentials(email, password);  // 加密存储
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    Toast.makeText(this, "Server connection failed.", Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }
+        );
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    private class RegisterTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String email = params[0];
+            String password = params[1];
+
+            try {
+                // Set up URL and connection properties
+                URL url = new URL("http://192.168.68.74:5000/register");  // Use 10.0.2.2 for localhost in emulator
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json; utf-8");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setDoOutput(true);
+
+                // Create JSON body with email and password
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", email);
+                jsonParam.put("password", password);
+
+                // Send JSON data
+                try (OutputStream os = conn.getOutputStream()) {
+                    byte[] input = jsonParam.toString().getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                    return "Registration successful";
+                } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
+                    return "User already exists";
+                } else {
+                    return "Registration failed";
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Error: " + e.getMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
         }
     }
 }
