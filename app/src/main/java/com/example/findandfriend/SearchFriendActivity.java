@@ -1,6 +1,8 @@
 // SearchFriendActivity.java
 package com.example.findandfriend;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class SearchFriendActivity extends AppCompatActivity {
     private RecyclerView searchResultsRecyclerView;
     private FriendSearchAdapter friendSearchAdapter;
     private List<Friend> searchResults;
+    private static final String TAG = "SearchFriendActivity";
+    private static final String SERVER_URL = "http://192.168.68.74:5000/search_friends";  // Replace with your server's IP and port
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,45 +70,7 @@ public class SearchFriendActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchFriendActivity.this, FriendsActivityFeedActivity.class);
                 startActivity(intent);
            });
-        /*
-        // set default menu to (Home)
-        bottomNavigationView.setSelectedItemId(R.id.nav_home);
 
-        // process BottomNavigationView click event
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-
-                if (itemId == R.id.nav_home) {
-                    // return to main menu
-                    Intent intent = new Intent(SearchFriendActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    return true;
-
-                } else if (itemId == R.id.nav_discover) {
-                    // goto MiddlePointActivity
-                    Intent intent = new Intent(SearchFriendActivity.this, MiddlePointActivity.class);
-                    startActivity(intent);
-                    return true;
-
-                } else if (itemId == R.id.nav_friends) {
-                    // goto FriendsActivityFeedActivity
-                    Intent intent = new Intent(SearchFriendActivity.this, FriendsActivityFeedActivity.class);
-                    startActivity(intent);
-                    return true;
-
-                } else if (itemId == R.id.nav_profile) {
-                    // goto ProfileActivity:
-                    Intent intent = new Intent(SearchFriendActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-                }
-
-                return true;
-            }
-        });
-      */
     }
 
     private void setupSearchView() {
@@ -132,97 +99,45 @@ public class SearchFriendActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*
     private void performSearch(String query) {
-        // Replace with your server's search API URL
-        String url = "https://yourserver.com/api/search_friends?name=" + query;
-
+        String url = SERVER_URL + "?query=" + query;
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-                    // Parse the JSON response and update the RecyclerView
                     parseSearchResults(response);
                 },
                 error -> {
-
-                    parseSearchResults("response");
-                    //handleVolleyError(error);
-                  // Handle error
-                    Toast.makeText(this, "Error fetching search results", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error during search: " + error.getMessage());
+                    Toast.makeText(SearchFriendActivity.this, "Error occurred while searching.", Toast.LENGTH_SHORT).show();
                 });
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000, // Timeout in milliseconds (e.g., 10 seconds)
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Number of retries
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
     }
 
-   private void parseSearchResults(String response) {
-       try {
-           JSONArray jsonArray = new JSONArray(response);
-           searchResults.clear();
-           for (int i = 0; i < jsonArray.length(); i++) {
-               JSONObject friendObject = jsonArray.getJSONObject(i);
-               String id = friendObject.getString("id");
-               String name = friendObject.getString("name");
-               double latitude = friendObject.getDouble("latitude");
-               double longitude = friendObject.getDouble("longitude");
-               String timeAtLocation = friendObject.getString("timeAtLocation");
-               int avatarResourceId = R.drawable.ic_friend_avatar1;
-
-               Friend friend = new Friend(id, name, latitude, longitude, timeAtLocation, avatarResourceId);
-               searchResults.add(friend);
-           }
-           friendSearchAdapter.notifyDataSetChanged();
-       } catch (Exception e) {
-           e.printStackTrace();
-           Toast.makeText(this, "Error parsing search results", Toast.LENGTH_SHORT).show();
-         }
-   }
-
-   private void handleVolleyError(VolleyError error) {
-       if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-           // This indicates that the server did not respond or there's no internet connection
-           Toast.makeText(this, "Server not responding. Please check your internet connection.", Toast.LENGTH_LONG).show();
-       } else if (error instanceof AuthFailureError) {
-           // Error indicating that there was an Authentication Failure while performing the request
-           Toast.makeText(this, "Authentication error.", Toast.LENGTH_LONG).show();
-       } else if (error instanceof ServerError) {
-           // Indicates that the server responded with an error response
-           Toast.makeText(this, "Server error.", Toast.LENGTH_LONG).show();
-       } else if (error instanceof NetworkError) {
-           // Indicates that there was network error while performing the request
-           Toast.makeText(this, "Network error.", Toast.LENGTH_LONG).show();
-       } else if (error instanceof ParseError) {
-           // Indicates that the server response could not be parsed
-           Toast.makeText(this, "Parse error.", Toast.LENGTH_LONG).show();
-       } else {
-           Toast.makeText(this, "An unexpected error occurred.", Toast.LENGTH_LONG).show();
-       }
-
-       // Optionally, log the error or perform additional actions
-       Log.e("VolleyError", "Error occurred", error);
-   }
-    */
-    private void performSearch(String query){
-
-        parseSearchResults("response");
-    }
     private void parseSearchResults(String response) {
-        Toast.makeText(this, "build friend list", Toast.LENGTH_SHORT).show();
-        searchResults.clear();
-        Friend friend = new Friend("4", "john clue", 37.4, -122, "10min", R.drawable.ic_friend_avatar1);
-        searchResults.add(friend);
-        Friend friend1 = new Friend("2", "Emily clue", 37.0, -112, "10min", R.drawable.ic_friend_avatar1);
-        searchResults.add(friend1);
-        Friend friend2 = new Friend("3", "Bob clue", 38.4, -132, "10min", R.drawable.ic_friend_avatar1);
-        searchResults.add(friend2);
-        System.out.println(searchResults);
-        friendSearchAdapter.notifyDataSetChanged();
+        try {
+            searchResults.clear();
+            JSONObject jsonResponse = new JSONObject(response);
+            JSONArray friendsArray = jsonResponse.getJSONArray("friends");
+
+            for (int i = 0; i < friendsArray.length(); i++) {
+                JSONObject friendObj = friendsArray.getJSONObject(i);
+                String name = friendObj.getString("name");
+                String email = friendObj.getString("email");
+                double latitude = friendObj.optDouble("latitude", 0.0); // Assuming location data exists, default to 0.0
+                double longitude = friendObj.optDouble("longitude", 0.0);
+                String rating = friendObj.optString("rating", "N/A"); // Assuming rating exists, default to "N/A"
+
+                Friend friend = new Friend(email, name, latitude, longitude, rating, R.drawable.ic_friend_avatar1);
+                searchResults.add(friend);
+            }
+
+            friendSearchAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing search results: ", e);
+            Toast.makeText(this, "Failed to load search results.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

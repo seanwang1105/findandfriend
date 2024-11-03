@@ -36,7 +36,7 @@ public class FriendsActivityFeedActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         btn_addfriend.setOnClickListener(v -> {
-                // 创建Intent并传递选定的好友数据到MiddlePointActivity
+                // MiddlePointActivity
                 Intent intent = new Intent(FriendsActivityFeedActivity.this, SearchFriendActivity.class);
                 startActivity(intent);
 
