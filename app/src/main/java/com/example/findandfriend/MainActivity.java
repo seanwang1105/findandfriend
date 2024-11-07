@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Define location request settings
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(180000); // Update every 5 seconds
+        locationRequest.setInterval(5000); // Update every 5 seconds
         locationRequest.setFastestInterval(2000); // Fastest possible update interval
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -130,19 +130,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 if (locationResult == null || locationResult.getLocations().isEmpty()) {
-                    // 当没有获取到有效的位置信息时，处理数据丢失或故障
+                    // data missing error
                     Log.e(TAG, "Location data is missing or unavailable.");
                     handleLocationFailure();
                     return;
                 }
                 System.out.println(locationResult);
                 for (Location location : locationResult.getLocations()) {
-                    // 获取新的位置信息
+                    // get location information
                     if (location == null || location.getAccuracy() < 0 || location.getLatitude() == 0.0 || location.getLongitude() == 0.0) {
-                        // 当传感器返回异常数据时，处理异常数据
+                        // handle error
                         Log.e(TAG, "Received invalid location data.");
                         handleInvalidLocationData();
-                        continue; // 跳过无效的数据
+                        continue; // skip error data
                     }
 
                     double latitude = location.getLatitude();
@@ -150,33 +150,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     float accuracy = location.getAccuracy();
                     long timeStamp = location.getTime();
 
-                    // 应用卡尔曼滤波器平滑数据
+                    // use kalmanfilter
                     kalmanFilter.process(latitude, longitude, accuracy, timeStamp);
                     currentlatitute = kalmanFilter.getLat();
                     currentlogitute = kalmanFilter.getLng();
 
-                    // 更新地图上的本机位置标记
+                    // add marker on map
                     if (googleMap != null) {
                         LatLng currentLatLng = new LatLng(currentlatitute, currentlogitute);
                         runOnUiThread(() -> {
                             if (myselfMarker == null) {
-                                // 创建新的标记
+                                // creat new marker
                                 MarkerOptions markerOptions = new MarkerOptions()
                                         .position(currentLatLng)
                                         .title("My Location")
                                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                                 myselfMarker = googleMap.addMarker(markerOptions);
-                                // 将相机移动到当前位置
+                                // move camera to current position
                                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 10));
                             } else {
-                                // 更新标记位置
+                                // update marker
                                 myselfMarker.setPosition(currentLatLng);
                             }
                         });
                     }
                     List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
-                    if (updateflag== false) {
-                        friendAdapter.updateFriends(friends);  // 假设 FriendAdapter 有一个 updateFriends 方法来更新数据
+                    if (updateflag== false&&!friends.isEmpty()) {
+                        friendAdapter.updateFriendDistances(friends);;
                         friendAdapter.notifyDataSetChanged();
                         //updateflag=true;
                     }
@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Friend> selectedFriends = friendAdapter.getSelectedFriends();
             selectedFriends.add(new Friend("me","Me", currentlatitute, currentlogitute, "0 min", R.drawable.ic_friend_avatar1));
             if (!selectedFriends.isEmpty()) {
-                // 创建Intent并传递选定的好友数据到MiddlePointActivity
                 Intent intent = new Intent(MainActivity.this, MiddlePointActivity.class);
                 intent.putParcelableArrayListExtra("selected_friends", new ArrayList<>(selectedFriends));
                 startActivity(intent);
@@ -203,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             List<Friend> selectedFriends = friendAdapter.getSelectedFriends();
 
             if (!selectedFriends.isEmpty()) {
-                // 创建Intent并传递选定的好友数据到MiddlePointActivity
                 Intent intent = new Intent(MainActivity.this, MiddlePointActivity.class);
                 intent.putParcelableArrayListExtra("selected_friends", new ArrayList<>(selectedFriends));
                 startActivity(intent);
@@ -377,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .position(friendLocation)
                     .title(friend.name)
                     .snippet("Time at location: " + friend.timeAtLocation)
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));  // 设置头像为图标
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
             googleMap.addMarker(markerOptions);
         } else {
@@ -395,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         disableLocationDependentFeatures();
 
-        LatLng defaultLatLng = new LatLng(0, 0);  // 示例默认位置
+        LatLng defaultLatLng = new LatLng(0, 0);
         if (googleMap != null) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLatLng, 5));
         }
@@ -404,30 +402,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void handleInvalidLocationData() {
-        // 提示用户传感器数据不准确
         Toast.makeText(MainActivity.this, "Received invalid location data. Please check your sensor.", Toast.LENGTH_LONG).show();
 
         invalidLocationCount++;
         Log.e(TAG, "Invalid sensor data detected.");
 
-        // 如果无效数据超过一定次数，则提示用户
-        if (invalidLocationCount >= 3) {
+          if (invalidLocationCount >= 3) {
             Toast.makeText(MainActivity.this, "Multiple invalid location readings. Please check your sensor.", Toast.LENGTH_LONG).show();
-            invalidLocationCount = 0;  // 重置计数
+            invalidLocationCount = 0;
         }
     }
 
     private void checkSensorAvailability() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        // 检查GPS是否启用
+
         boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (!isGpsEnabled) {
             Toast.makeText(this, "GPS is disabled. Please enable it for better location accuracy.", Toast.LENGTH_LONG).show();
             Log.e(TAG, "GPS is not available.");
         }
 
-        // 检查网络定位（Wi-Fi/蜂窝网络）是否启用
+
         boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         if (!isNetworkEnabled) {
             Toast.makeText(this, "Network location is disabled. Please enable it.", Toast.LENGTH_LONG).show();
@@ -473,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return friends;
     }
 
+    //calcualte distance between user and friend
     private double haversine(double lat1, double lon1, double lat2, double lon2) {
             // Convert latitude and longitude from degrees to radians
             lat1 = Math.toRadians(lat1);

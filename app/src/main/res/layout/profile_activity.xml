@@ -52,7 +52,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Edit Profile"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/quantum_grey"
+            android:textAllCaps="false"
+            android:backgroundTint="@android:color/white"
+            android:iconifiedByDefault="false"
+            android:layout_marginTop="8dp"/>
 
         <!-- 操作按钮：收藏 -->
         <Button
@@ -60,7 +65,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="View Favorites"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/quantum_grey"
+            android:textAllCaps="false"
+            android:backgroundTint="@android:color/white"
+            android:iconifiedByDefault="false"
+            android:layout_marginTop="8dp"/>
 
         <!-- 操作按钮：退出登录 -->
         <Button
@@ -68,7 +78,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Logout"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@android:color/holo_red_dark"
+            android:textAllCaps="false"
+            android:backgroundTint="@android:color/white"
+            android:iconifiedByDefault="false"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 </ScrollView>

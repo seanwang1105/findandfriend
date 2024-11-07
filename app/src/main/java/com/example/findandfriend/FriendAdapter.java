@@ -28,6 +28,18 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
         notifyDataSetChanged();
     }
 
+    public void updateFriendDistances(List<Friend> updatedFriends) {
+        for (Friend updatedFriend : updatedFriends) {
+            for (Friend friend : friendList) {
+                if (friend.id.equals(updatedFriend.id)) {  // Assuming each friend has a unique 'id'
+                    friend.timeAtLocation = updatedFriend.timeAtLocation;  // Update only the distance/time field
+                    break;
+                }
+            }
+        }
+        notifyDataSetChanged();  // Notify that only distance data has changed
+    }
+
     @NonNull
     @Override
     public FriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

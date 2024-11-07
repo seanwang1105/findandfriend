@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray">
 
 
 <LinearLayout
@@ -12,17 +13,22 @@
     <Button
         android:id="@+id/find_friend"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="find friends"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_add"
-        />
+        android:text="Find friends                                                          >>"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@color/quantum_grey"
+        android:textAllCaps="false"
+        android:gravity="start" />
+
+
     <!-- Friends Activity List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_feed_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:background="@android:color/white"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>
     <!-- Bottom Navigation Bar -->

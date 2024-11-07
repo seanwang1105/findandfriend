@@ -1,6 +1,7 @@
 package com.example.findandfriend;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -16,12 +17,16 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -77,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Save email and password to local file
-        //saveCredentials(email, password);
+        saveCredentials(email, password);
         new RegisterTask().execute(email, password);
         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
     }
@@ -98,26 +103,34 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Load saved credentials and verify
-        String[] savedCredentials = loadCredentials();
-        if (savedCredentials != null) {
-            String savedEmail = savedCredentials[0];
-            String savedPassword = savedCredentials[1];
-
-            if (email.equals(savedEmail) && password.equals(savedPassword)) {
-                // Success: go to MainActivity
+        verifyWithServer(email, password, success -> {
+            if (success) {
+                // login to server and save to local
+                saveCredentials(email, password);
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish();  // close current activity
+                finish();
             } else {
-                // Login failed
-                verifyWithServer(email, password);
-                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                // fail to login on server check local file
+                String[] savedCredentials = loadCredentials();
+                if (savedCredentials != null) {
+                    String savedEmail = savedCredentials[0];
+                    String savedPassword = savedCredentials[1];
+
+                    // local username and password verificaiton
+                    if (email.equals(savedEmail) && password.equals(savedPassword)) {
+                        Toast.makeText(this, "Logged in with locally saved credentials", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "No registered users. Please register first.", Toast.LENGTH_SHORT).show();
+                }
             }
-        } else {
-            verifyWithServer(email, password);
-            // No saved credentials
-            Toast.makeText(this, "No registered users. Please register first.", Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
     // Save credentials to local file
@@ -161,7 +174,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    private void verifyWithServer(String email, String password) {
+
+    private void verifyWithServer(String email, String password, OnLoginResultCallback callback) {
         String serverUrl = "http://192.168.68.74:5000/login";
         JSONObject loginData = new JSONObject();
         try {
@@ -171,30 +185,46 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // create request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, serverUrl, loginData,
                 response -> {
-                    // 从服务器成功验证，保存到本地
                     try {
+
                         if (response.has("status") && response.getString("status").equals("Login successful")) {
-                            saveCredentials(email, password);  // 加密存储
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            String token = response.getString("token");
+                            saveToken(token);  //save token
+                            callback.onResult(true);
                         } else {
-                            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                            callback.onResult(false);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        callback.onResult(false);
                     }
                 },
                 error -> {
                     Toast.makeText(this, "Server connection failed.", Toast.LENGTH_SHORT).show();
                     error.printStackTrace();
+                    callback.onResult(false);
                 }
         );
 
+        // add to request quene
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+    interface OnLoginResultCallback {
+        void onResult(boolean success);
+    }
+
+    // save JWT Token
+    private void saveToken(String token) {
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        System.out.println("token is"+token);
+        editor.putString("token", token);
+        editor.apply();
+    }
+
 
     private class RegisterTask extends AsyncTask<String, Void, String> {
         @Override
@@ -203,30 +233,51 @@ public class LoginActivity extends AppCompatActivity {
             String password = params[1];
 
             try {
-                // Set up URL and connection properties
-                URL url = new URL("http://192.168.68.74:5000/register");  // Use 10.0.2.2 for localhost in emulator
+
+                URL url = new URL("http://192.168.68.74:5000/register");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json; utf-8");
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
 
-                // Create JSON body with email and password
+                // create json request
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", email);
                 jsonParam.put("password", password);
 
-                // Send JSON data
+                // send request
                 try (OutputStream os = conn.getOutputStream()) {
                     byte[] input = jsonParam.toString().getBytes("utf-8");
                     os.write(input, 0, input.length);
                 }
 
                 int responseCode = conn.getResponseCode();
+                InputStream inputStream;
+
+                if (responseCode >= 200 && responseCode < 300) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = in.readLine()) != null) {
+                    response.append(line);
+                }
+
+                in.close();
+
+                JSONObject responseJson = new JSONObject(response.toString());
+
                 if (responseCode == HttpURLConnection.HTTP_CREATED) {
                     return "Registration successful";
                 } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
-                    return "User already exists";
+                    return responseJson.getString("error");
                 } else {
                     return "Registration failed";
                 }

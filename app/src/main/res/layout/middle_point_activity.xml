@@ -1,37 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!-- Search Bar -->
+    <!--  Search Bar  -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:queryHint="Search friends or locations"
-        android:iconifiedByDefault="false" />
-
-
-    <!-- Map View -->
+        android:iconifiedByDefault="false"/>
+    <!--  Map View  -->
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_middle_point"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_below="@id/search_view"
-        android:layout_alignParentTop="false" />
-
-
-    <!-- List of Equidistant Locations -->
+        android:layout_alignParentTop="false"/>
+    <!--  List of Equidistant Locations  -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_results_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/map_middle_point" />
-
-    <!-- Floating Action Button for Meet Here -->
-
+        android:layout_height="0dp"
+        android:layout_below="@id/map_middle_point"
+        android:layout_above="@id/bottom_navigation"
+        android:background="@android:color/white"/>
+    <!--  Floating Action Button for Meet Here  -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_meet_here"
         android:layout_width="wrap_content"
@@ -40,15 +34,13 @@
         android:layout_marginBottom="200dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_meet_here" />
-
+        android:src="@drawable/ic_meet_here"/>
     <FrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
-
-    <!-- Bottom Navigation Bar -->
+        android:visibility="gone"/>
+    <!--  Bottom Navigation Bar  -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -57,5 +49,5 @@
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="labeled" />
+        app:labelVisibilityMode="labeled"/>
 </RelativeLayout>

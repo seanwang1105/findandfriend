@@ -3,6 +3,7 @@ package com.example.findandfriend;
 
 import static androidx.fragment.app.FragmentManager.TAG;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -36,7 +37,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchFriendActivity extends AppCompatActivity {
 
@@ -103,6 +106,15 @@ public class SearchFriendActivity extends AppCompatActivity {
         String url = SERVER_URL + "?query=" + query;
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+
+        if (token == null) {
+            Toast.makeText(SearchFriendActivity.this, "Authorization token is missing. Please log in again.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // create request and Authorization header
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     parseSearchResults(response);
@@ -110,7 +122,14 @@ public class SearchFriendActivity extends AppCompatActivity {
                 error -> {
                     Log.e(TAG, "Error during search: " + error.getMessage());
                     Toast.makeText(SearchFriendActivity.this, "Error occurred while searching.", Toast.LENGTH_SHORT).show();
-                });
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // add token to request head
+                return headers;
+            }
+        };
 
         queue.add(stringRequest);
     }
