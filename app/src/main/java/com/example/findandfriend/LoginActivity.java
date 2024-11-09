@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (savedCredentials != null) {
                     String savedEmail = savedCredentials[0];
                     String savedPassword = savedCredentials[1];
-
+                    new RegisterTask().execute(email, password);
                     // local username and password verificaiton
                     if (email.equals(savedEmail) && password.equals(savedPassword)) {
                         Toast.makeText(this, "Logged in with locally saved credentials", Toast.LENGTH_SHORT).show();
