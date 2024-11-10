@@ -6,5 +6,4 @@
 8. a simple python code findandfriend\findandfriendserver\readdatabase.py to check database read and write 
 9. The findandfriend\findandfriendserver\sqlserver.py is the server code. I tested at home network, it doesn't require any configuration
 10. you will need to change findandfriend\app\src\main\java\com\example\findandfriend
-   --LoginActivity.java line 179 and line 237 with your local ip address
-   --SearchFriendActivity line 52 with your Ip address
+    --string value IP to your IP address
