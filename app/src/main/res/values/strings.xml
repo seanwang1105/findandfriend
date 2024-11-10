@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">findandfriend</string>
-    <string name="google_maps_key">your key</string>
+    <string name="google_maps_key">[INSERT KEY HERE]</string>
+    <string name ="IP">[INSERT IP/WEB HERE]</string>
 </resources>

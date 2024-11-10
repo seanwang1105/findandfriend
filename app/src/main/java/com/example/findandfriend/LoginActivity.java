@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verifyWithServer(String email, String password, OnLoginResultCallback callback) {
-        String serverUrl = "http://192.168.68.74:5000/login";
+        String serverUrl = getString(R.string.IP) + "/login";
         JSONObject loginData = new JSONObject();
         try {
             loginData.put("email", email);
@@ -234,7 +234,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
 
-                URL url = new URL("http://192.168.68.74:5000/register");
+                URL url = new URL(getString(R.string.IP) + "/register");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 conn.setRequestMethod("POST");

@@ -14,9 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageView profileImage;
@@ -115,22 +123,56 @@ public class ProfileActivity extends AppCompatActivity {
 
     // load user data
     private void loadUserData() {
-        profileName.setText("John Doe");  // 示例数据
-        profileEmail.setText("john.doe@example.com");
+        String url = getString(R.string.IP) + "/get_data";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
+            try {
+                profileName.setText(response.getString("name"));
+                profileEmail.setText(response.getString("email"));
+                String avatarUrl = response.getString("avatar");
+                if (!avatarUrl.isEmpty()) {
+                    imageUri = Uri.parse(avatarUrl);
+                    profileImage.setImageURI(imageUri);
+                }
+                // Handle friends and favorite places if needed
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> Toast.makeText(ProfileActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show());
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+
 
     // use ActivityResultLauncher instead of startActivityForResult to get edit result
     private final ActivityResultLauncher<Intent> editProfileLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    // update UI
-                    Intent data = result.getData();
-                    profileName.setText(data.getStringExtra("name"));
-                    profileEmail.setText(data.getStringExtra("email"));
-                    imageUri = data.getParcelableExtra("imageUri");
-                    if (imageUri != null) {
-                        profileImage.setImageURI(imageUri);
-                    }
-                }
-            });
+        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+            Intent data = result.getData();
+            String name = data.getStringExtra("name");
+            String email = data.getStringExtra("email");
+            imageUri = data.getParcelableExtra("imageUri");
+
+            profileName.setText(name);
+            profileEmail.setText(email);
+            if (imageUri != null) {
+                profileImage.setImageURI(imageUri);
+            }
+
+            // Send updated data to server
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", email);
+                jsonObject.put("name", name);
+                jsonObject.put("avatar", imageUri.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            String url = getString(R.string.IP) + "/update_data";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, response -> Toast.makeText(ProfileActivity.this, "Data updated successfully", Toast.LENGTH_SHORT).show(), error -> Toast.makeText(ProfileActivity.this, "Failed to update data", Toast.LENGTH_SHORT).show());
+
+            Volley.newRequestQueue(this).add(jsonObjectRequest);
+        }
+    });
 }

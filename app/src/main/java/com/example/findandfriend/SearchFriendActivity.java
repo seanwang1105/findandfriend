@@ -1,36 +1,29 @@
 // SearchFriendActivity.java
 package com.example.findandfriend;
 
-import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.EditText;
+
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
+
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +42,7 @@ public class SearchFriendActivity extends AppCompatActivity {
     private FriendSearchAdapter friendSearchAdapter;
     private List<Friend> searchResults;
     private static final String TAG = "SearchFriendActivity";
-    private static final String SERVER_URL = "http://192.168.68.74:5000/search_friends";  // Replace with your server's IP and port
+    private final String SERVER_URL = getString(R.string.IP) + "/search_friends";  // Replace with your server's IP and port
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
