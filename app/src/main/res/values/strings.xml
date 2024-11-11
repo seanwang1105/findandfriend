@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">findandfriend</string>
     <string name="google_maps_key">[your api key]</string>
-    <string name ="IP">35.226.41.204:5000</string>
+    <string name ="IP">http://34.170.115.42:5000</string>
 </resources>

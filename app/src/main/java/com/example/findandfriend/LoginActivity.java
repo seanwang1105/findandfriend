@@ -183,7 +183,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verifyWithServer(String email, String password, OnLoginResultCallback callback) {
-        String serverUrl = getString(R.string.IP) + "/login";
+        String serverUrl = getString(R.string.IP) +"/login";
+        System.out.println("serverurl is "+ serverUrl);
         JSONObject loginData = new JSONObject();
         try {
             loginData.put("email", email);
@@ -229,7 +230,7 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000, // Initial timeout in ms (e.g., 10 seconds)
+                20000, // Initial timeout in ms (e.g., 10 seconds)
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Retry count
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

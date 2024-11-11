@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,14 +43,18 @@ public class SearchFriendActivity extends AppCompatActivity {
     private List<Friend> searchResults;
     private List<FriendRequest> friendRequests;
     private static final String TAG = "SearchFriendActivity";
-    private final String SERVER_URL = getString(R.string.IP) + "/search_friends";  // Replace with your server's IP and port
-    private final String FRIEND_REQUESTS_URL = getString(R.string.IP) + "/get_friend_requests";  // Replace with your server's IP and port
+    private String SERVER_URL;  // Replace with your server's IP and port
+    private String FRIEND_REQUESTS_URL;  // Replace with your server's IP and port
+    private static final String FILE_NAME = "user_credentials.txt";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_friend);
+
+        SERVER_URL = getString(R.string.IP) + "/search_friends";
+        FRIEND_REQUESTS_URL = getString(R.string.IP) + "/get_friend_requests";
 
         searchView = findViewById(R.id.search_view);
         searchButton = findViewById(R.id.button_return);
@@ -166,9 +172,14 @@ public class SearchFriendActivity extends AppCompatActivity {
     private void downloadFriendRequests() {
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        String[] savedCredentials = loadCredentials();
+        String email = "";
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
-        String email = "mike@example.com";  // replace with user email address
+         // replace with user email address
 
         if (token == null || email == null) {
             Toast.makeText(SearchFriendActivity.this, "Missing token, please login again", Toast.LENGTH_SHORT).show();
@@ -197,32 +208,61 @@ public class SearchFriendActivity extends AppCompatActivity {
     }
 
     private void parseFriendRequests(String response) {
-        System.out.println("response from server is:"+response);
+        System.out.println("response from server is:" + response);
         if (friendRequests == null) {
             friendRequests = new ArrayList<>();
         }
 
         try {
             friendRequests.clear();
-            JSONObject fr_reponse = new JSONObject(response);
+            JSONObject fr_response = new JSONObject(response);
             System.out.println("get response");
-            JSONArray requestsArray = fr_reponse.getJSONArray("friend_requests");
+            JSONArray requestsArray = fr_response.getJSONArray("friend_requests");
 
-            for (int i = 0; i < requestsArray.length(); i++) {
-                JSONObject requestObj = requestsArray.getJSONObject(i);
-                int requestId=requestObj.getInt("request_id");
-                String fromEmail = requestObj.getString("from_email");
-                String fromName = requestObj.getString("from_name"); //
-                FriendRequest request = new FriendRequest(requestId,fromEmail, fromName);
-                friendRequests.add(request);
-                Toast.makeText(this, fromName + " (" + fromEmail + ") friend request", Toast.LENGTH_LONG).show();
+            if (requestsArray.length() == 0) {
+                // No friend requests found
+                Toast.makeText(this, "No friend requests available.", Toast.LENGTH_SHORT).show();
+            } else {
+                // Populate friend requests if any exist
+                for (int i = 0; i < requestsArray.length(); i++) {
+                    JSONObject requestObj = requestsArray.getJSONObject(i);
+                    int requestId = requestObj.getInt("request_id");
+                    String fromEmail = requestObj.getString("from_email");
+                    String fromName = requestObj.getString("from_name");
+
+                    FriendRequest request = new FriendRequest(requestId, fromEmail, fromName);
+                    friendRequests.add(request);
+                    Toast.makeText(this, fromName + " (" + fromEmail + ") friend request", Toast.LENGTH_LONG).show();
+                }
             }
 
-               friendRequestAdapter.notifyDataSetChanged();
+            friendRequestAdapter.notifyDataSetChanged();
 
         } catch (JSONException e) {
             Log.e(TAG, "Error parsing friend requests: ", e);
             Toast.makeText(this, "Failed to load friend requests.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

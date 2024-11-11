@@ -4,6 +4,6 @@
         <domain includeSubdomains="true">192.168.68.74</domain>
     </domain-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">35.226.41.204</domain> <!-- Replace with your server's public IP -->
+        <domain includeSubdomains="true">34.170.115.42</domain> <!-- Replace with your server's public IP -->
     </domain-config>
 </network-security-config>
