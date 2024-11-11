@@ -1,7 +1,6 @@
 // SearchFriendActivity.java
 package com.example.findandfriend;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,17 +9,14 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.AuthFailureError;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -39,10 +35,15 @@ public class SearchFriendActivity extends AppCompatActivity {
     private SearchView searchView;
     private Button searchButton;
     private RecyclerView searchResultsRecyclerView;
+    private RecyclerView friendRequestsRecyclerView;
     private FriendSearchAdapter friendSearchAdapter;
+    private FriendRequestAdapter friendRequestAdapter;
     private List<Friend> searchResults;
+    private List<FriendRequest> friendRequests;
     private static final String TAG = "SearchFriendActivity";
     private final String SERVER_URL = getString(R.string.IP) + "/search_friends";  // Replace with your server's IP and port
+    private final String FRIEND_REQUESTS_URL = getString(R.string.IP) + "/get_friend_requests";  // Replace with your server's IP and port
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +53,19 @@ public class SearchFriendActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_view);
         searchButton = findViewById(R.id.button_return);
         searchResultsRecyclerView = findViewById(R.id.recycler_view_search_results);
+        friendRequestsRecyclerView = findViewById(R.id.recycler_view_friend_requests);
         //BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_search);
 
         searchResults = new ArrayList<>();
+        friendRequests = new ArrayList<>();
         friendSearchAdapter = new FriendSearchAdapter(this, searchResults);
+        friendRequestAdapter = new FriendRequestAdapter(this, friendRequests);
+
         searchResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchResultsRecyclerView.setAdapter(friendSearchAdapter);
+
+        friendRequestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        friendRequestsRecyclerView.setAdapter(friendRequestAdapter);
 
         setupSearchView();
 
@@ -66,6 +74,8 @@ public class SearchFriendActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchFriendActivity.this, FriendsActivityFeedActivity.class);
                 startActivity(intent);
            });
+        // Query for friend request
+        downloadFriendRequests();
 
     }
 
@@ -146,10 +156,73 @@ public class SearchFriendActivity extends AppCompatActivity {
             }
 
             friendSearchAdapter.notifyDataSetChanged();
+
         } catch (JSONException e) {
             Log.e(TAG, "Error parsing search results: ", e);
             Toast.makeText(this, "Failed to load search results.", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void downloadFriendRequests() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        String email = "mike@example.com";  // replace with user email address
+
+        if (token == null || email == null) {
+            Toast.makeText(SearchFriendActivity.this, "Missing token, please login again", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String url = FRIEND_REQUESTS_URL + "?email=" + email;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    parseFriendRequests(response);
+                },
+                error -> {
+                    Log.e(TAG, "Error downloading friend requests: " + error.getMessage());
+                    Toast.makeText(SearchFriendActivity.this, "Error occurred while downloading friend requests.", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // add token to request head
+                return headers;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    private void parseFriendRequests(String response) {
+        System.out.println("response from server is:"+response);
+        if (friendRequests == null) {
+            friendRequests = new ArrayList<>();
+        }
+
+        try {
+            friendRequests.clear();
+            JSONObject fr_reponse = new JSONObject(response);
+            System.out.println("get response");
+            JSONArray requestsArray = fr_reponse.getJSONArray("friend_requests");
+
+            for (int i = 0; i < requestsArray.length(); i++) {
+                JSONObject requestObj = requestsArray.getJSONObject(i);
+                int requestId=requestObj.getInt("request_id");
+                String fromEmail = requestObj.getString("from_email");
+                String fromName = requestObj.getString("from_name"); //
+                FriendRequest request = new FriendRequest(requestId,fromEmail, fromName);
+                friendRequests.add(request);
+                Toast.makeText(this, fromName + " (" + fromEmail + ") friend request", Toast.LENGTH_LONG).show();
+            }
+
+               friendRequestAdapter.notifyDataSetChanged();
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing friend requests: ", e);
+            Toast.makeText(this, "Failed to load friend requests.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

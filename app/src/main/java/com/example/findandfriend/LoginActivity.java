@@ -13,7 +13,14 @@ import android.os.AsyncTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -116,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (savedCredentials != null) {
                     String savedEmail = savedCredentials[0];
                     String savedPassword = savedCredentials[1];
-                    new RegisterTask().execute(email, password);
+                    //new RegisterTask().execute(email, password);
                     // local username and password verificaiton
                     if (email.equals(savedEmail) && password.equals(savedPassword)) {
                         Toast.makeText(this, "Logged in with locally saved credentials", Toast.LENGTH_SHORT).show();
@@ -203,11 +210,28 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 },
                 error -> {
-                    Toast.makeText(this, "Server connection failed.", Toast.LENGTH_SHORT).show();
+                    if (error instanceof TimeoutError) {
+                        Toast.makeText(this, "Server timed out. Try again.", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof NoConnectionError) {
+                        Toast.makeText(this, "No connection to server.", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof AuthFailureError) {
+                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ServerError) {
+                        Toast.makeText(this, "Server error.", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof NetworkError) {
+                        Toast.makeText(this, "Network error.", Toast.LENGTH_SHORT).show();
+                    } else if (error instanceof ParseError) {
+                        Toast.makeText(this, "Error parsing response.", Toast.LENGTH_SHORT).show();
+                    }
                     error.printStackTrace();
                     callback.onResult(false);
                 }
         );
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000, // Initial timeout in ms (e.g., 10 seconds)
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Retry count
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // add to request quene
         Volley.newRequestQueue(this).add(jsonObjectRequest);
@@ -232,48 +256,47 @@ public class LoginActivity extends AppCompatActivity {
             String email = params[0];
             String password = params[1];
 
+            HttpURLConnection conn = null;
+            InputStream inputStream = null;
+            BufferedReader in = null;
+
             try {
-
                 URL url = new URL(getString(R.string.IP) + "/register");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpURLConnection) url.openConnection();
 
+                // Set timeouts and method
+                conn.setConnectTimeout(30000); // Connection timeout
+                conn.setReadTimeout(30000);    // Read timeout
                 conn.setRequestMethod("POST");
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("Content-Type", "application/json; utf-8");
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setDoOutput(true);
 
-                // create json request
+                // Create JSON request
                 JSONObject jsonParam = new JSONObject();
                 jsonParam.put("email", email);
                 jsonParam.put("password", password);
 
-                // send request
+                // Send request
                 try (OutputStream os = conn.getOutputStream()) {
                     byte[] input = jsonParam.toString().getBytes("utf-8");
                     os.write(input, 0, input.length);
                 }
 
+                // Get response code and read response
                 int responseCode = conn.getResponseCode();
-                InputStream inputStream;
+                inputStream = (responseCode >= 200 && responseCode < 300) ? conn.getInputStream() : conn.getErrorStream();
+                in = new BufferedReader(new InputStreamReader(inputStream));
 
-                if (responseCode >= 200 && responseCode < 300) {
-                    inputStream = conn.getInputStream();
-                } else {
-                    inputStream = conn.getErrorStream();
-                }
-
-                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
                 StringBuilder response = new StringBuilder();
-
+                String line;
                 while ((line = in.readLine()) != null) {
                     response.append(line);
                 }
 
-                in.close();
-
+                // Check response
                 JSONObject responseJson = new JSONObject(response.toString());
-
                 if (responseCode == HttpURLConnection.HTTP_CREATED) {
                     return "Registration successful";
                 } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {

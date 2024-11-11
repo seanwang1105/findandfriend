@@ -25,13 +25,20 @@
         android:iconifiedByDefault="false"
         android:layout_marginTop="8dp" />
 
-     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_friend_requests"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:background="@android:color/white"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp" />
+        android:fillViewport="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_friend_requests"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@android:color/white"
+            android:layout_marginTop="8dp"/>
+
+    </androidx.core.widget.NestedScrollView>
 
 
     <androidx.recyclerview.widget.RecyclerView

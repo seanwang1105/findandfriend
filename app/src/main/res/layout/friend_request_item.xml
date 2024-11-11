@@ -1,12 +1,16 @@
 <!-- res/layout/item_friend_request.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white">
 
-    <!-- requestor avatar -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/text_friend_name"
         android:layout_width="0dp"
@@ -16,7 +20,16 @@
         android:textColor="@android:color/black"
         android:layout_weight="1" />
 
+    <TextView
+        android:id="@+id/text_friend_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Friend email"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_weight="2" />
     <!-- accept button -->
+
     <Button
         android:id="@+id/button_accept"
         android:layout_width="wrap_content"
@@ -24,8 +37,7 @@
         android:text="Accept"
         android:background="@android:color/transparent"
         android:textColor="@android:color/black"
-        android:textAllCaps="false"
-  />
+        android:textAllCaps="false" />
 
     <!-- Reject button -->
     <Button
@@ -37,4 +49,13 @@
         android:background="@android:color/transparent"
         android:textColor="@android:color/black"
         android:layout_marginStart="8dp" />
+  </LinearLayout>
+
+<View
+android:layout_width="match_parent"
+android:layout_height="1dp"
+android:background="@android:color/darker_gray"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"/>
+
 </LinearLayout>

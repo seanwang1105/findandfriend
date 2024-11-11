@@ -8,6 +8,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 from mysql.connector import Error
+from mysql.connector.errors import IntegrityError
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'e7e1c1bd18770643305df571525897e77d0db5a18e70c084d03e9daa0fa4c6b9'
@@ -25,7 +26,7 @@ def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # 创建 users 表
+    # create users table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +39,7 @@ def init_db():
     )
     ''')
 
-    # 创建 friends 表
+    #create friends table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS friends (
         user_id INT,
@@ -48,7 +49,7 @@ def init_db():
     )
     ''')
 
-    # 创建 favorite_places 表
+    # create favorite_places table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS favorite_places (
         user_id INT,
@@ -58,12 +59,14 @@ def init_db():
     )
     ''')
 
-    # 创建 friend_requests 表
+    # create friend_requests table
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS friend_requests (
         id INT AUTO_INCREMENT PRIMARY KEY,
         from_user_id INT,
         to_user_id INT,
+        from_user_email VARCHAR(255),
+        to_user_email VARCHAR(255),
         status ENUM('Pending', 'Accepted', 'Declined') DEFAULT 'Pending',
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (from_user_id) REFERENCES users (id) ON DELETE CASCADE,
@@ -74,7 +77,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-# 初始化数据库
+# initialize database
 init_db()
 
 
@@ -118,14 +121,23 @@ def register():
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
     try:
         cursor.execute('INSERT INTO users (email, password) VALUES (%s, %s)', (email, hashed_password))
         conn.commit()
-    except sqlite3.IntegrityError:
-        return jsonify({"error": "User already exists"}), 400
+    except IntegrityError as e:
+        # Check if the error is a duplicate entry error for the 'email' field
+        if "Duplicate entry" in str(e):
+            print("user already exist")
+            return jsonify({"error": "User already exists"}), 400
+        else:
+            # Log and return a generic error message for other integrity errors
+            print("Database error:", e)
+            return jsonify({"error": "Database error occurred"}), 500
     finally:
         conn.close()
+
+        # Return success response if user registration is successful
     return jsonify({"status": "User registered successfully"}), 201
 
 @app.route('/login', methods=['POST'])
@@ -197,13 +209,13 @@ def update_data():
     avatar = data.get('avatar')
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     # Update avatar
-    cursor.execute('UPDATE users SET avatar = ? WHERE email = ?', (avatar, email))
+    cursor.execute('UPDATE users SET avatar = %s WHERE email = %s', (avatar, email))
 
     # user id
-    cursor.execute('SELECT id FROM users WHERE email = ?', (email,))
+    cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
     user = cursor.fetchone()
     if not user:
         conn.close()
@@ -211,19 +223,19 @@ def update_data():
     user_id = user['id']
 
     # update friend list
-    cursor.execute('DELETE FROM friends WHERE user_id = ?', (user_id,))
+    cursor.execute('DELETE FROM friends WHERE user_id = %s', (user_id,))
     for friend_email in friend_list:
         # get userid
-        cursor.execute('SELECT id FROM users WHERE email = ?', (friend_email,))
+        cursor.execute('SELECT id FROM users WHERE email = %s', (friend_email,))
         friend = cursor.fetchone()
         if friend:
             friend_id = friend['id']
-            cursor.execute('INSERT INTO friends (user_id, friend_id) VALUES (?, ?)', (user_id, friend_id))
+            cursor.execute('INSERT INTO friends (user_id, friend_id) VALUES (%s, %s)', (user_id, friend_id))
 
     # Clear and update favorite places
-    cursor.execute('DELETE FROM favorite_places WHERE user_id = ?', (user_id,))
+    cursor.execute('DELETE FROM favorite_places WHERE user_id = %s', (user_id,))
     for place in favorite_places:
-        cursor.execute('INSERT INTO favorite_places (user_id, place_name, place_address) VALUES (?, ?, ?)',
+        cursor.execute('INSERT INTO favorite_places (user_id, place_name, place_address) VALUES (%s, %s, %s)',
                        (user_id, place['name'], place['address']))
 
     conn.commit()
@@ -236,10 +248,10 @@ def get_data():
     email = request.args.get('email')
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     # Get user data
-    cursor.execute('SELECT id, last_visit_place, last_visit_rating, avatar FROM users WHERE email = ?', (email,))
+    cursor.execute('SELECT id, last_visit_place, last_visit_rating, avatar FROM users WHERE email = %s', (email,))
     user_data = cursor.fetchone()
     if not user_data:
         return jsonify({"error": "User not found"}), 404
@@ -251,12 +263,12 @@ def get_data():
     SELECT u.email, u.name
     FROM friends f
     JOIN users u ON f.friend_id = u.id
-    WHERE f.user_id = ?
+    WHERE f.user_id = %s
     ''', (user_id,))
     friends = [{"email": row["email"], "name": row["name"]} for row in cursor.fetchall()]
 
     # Get favorite places
-    cursor.execute('SELECT place_name, place_address FROM favorite_places WHERE user_id = ?', (user_id,))
+    cursor.execute('SELECT place_name, place_address FROM favorite_places WHERE user_id = %s', (user_id,))
     favorites = [{"name": row['place_name'], "address": row['place_address']} for row in cursor.fetchall()]
 
     conn.close()
@@ -279,12 +291,12 @@ def send_friend_request():
         return jsonify({"error": "Both from_email and to_email are required"}), 400
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
-    # 获取发送者和接收者的用户ID
-    cursor.execute('SELECT id FROM users WHERE email = ?', (from_email,))
+    # get requestor and receiver user ID
+    cursor.execute('SELECT id FROM users WHERE email = %s', (from_email,))
     from_user = cursor.fetchone()
-    cursor.execute('SELECT id FROM users WHERE email = ?', (to_email,))
+    cursor.execute('SELECT id FROM users WHERE email = %s', (to_email,))
     to_user = cursor.fetchone()
 
     if not from_user or not to_user:
@@ -295,9 +307,9 @@ def send_friend_request():
     to_user_id = to_user['id']
 
     # check repeated friend list
-    cursor.execute('SELECT * FROM friend_requests WHERE from_user_id = ? AND to_user_id = ? AND status = "Pending"', (from_user_id, to_user_id))
+    cursor.execute('SELECT * FROM friend_requests WHERE from_user_id = %s AND to_user_id = %s AND status = "Pending"', (from_user_id, to_user_id))
     existing_request = cursor.fetchone()
-    cursor.execute('SELECT * FROM friends WHERE user_id = ? AND friend_id = ?', (from_user_id, to_user_id))
+    cursor.execute('SELECT * FROM friends WHERE user_id = %s AND friend_id = %s', (from_user_id, to_user_id))
     existing_friend = cursor.fetchone()
 
     if existing_request:
@@ -308,7 +320,7 @@ def send_friend_request():
         return jsonify({"error": "You are already friends"}), 400
 
     # insrt new frined list
-    cursor.execute('INSERT INTO friend_requests (from_user_id, to_user_id, status) VALUES (?, ?, ?)', (from_user_id, to_user_id, 'Pending'))
+    cursor.execute('INSERT INTO friend_requests (from_user_id, to_user_id, status) VALUES (%s, %s, %s)', (from_user_id, to_user_id, 'Pending'))
     conn.commit()
     conn.close()
 
@@ -318,15 +330,15 @@ def send_friend_request():
 @app.route('/get_friend_requests', methods=['GET'])
 def get_friend_requests():
     email = request.args.get('email')
-
+    print(email)
     if not email:
         return jsonify({"error": "Email is required"}), 400
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     # get user id
-    cursor.execute('SELECT id FROM users WHERE email = ?', (email,))
+    cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
     user = cursor.fetchone()
 
     if not user:
@@ -340,7 +352,7 @@ def get_friend_requests():
     SELECT fr.id, u.email AS from_email, u.name AS from_name, fr.timestamp
     FROM friend_requests fr
     JOIN users u ON fr.from_user_id = u.id
-    WHERE fr.to_user_id = ? AND fr.status = "Pending"
+    WHERE fr.to_user_id = %s AND fr.status = "Pending"
     ''', (user_id,))
 
     requests = cursor.fetchall()
@@ -373,10 +385,10 @@ def respond_friend_request():
         return jsonify({"error": "Invalid action"}), 400
 
     conn = get_db_connection()
-    cursor = conn.cursor()
+    cursor = conn.cursor(dictionary=True)
 
     # get friend requesting
-    cursor.execute('SELECT * FROM friend_requests WHERE id = ? AND status = "Pending"', (request_id,))
+    cursor.execute('SELECT * FROM friend_requests WHERE id = %s AND status = "Pending"', (request_id,))
     friend_request = cursor.fetchone()
 
     if not friend_request:
@@ -387,12 +399,12 @@ def respond_friend_request():
     to_user_id = friend_request['to_user_id']
 
     # update friend request status
-    cursor.execute('UPDATE friend_requests SET status = ? WHERE id = ?', (action, request_id))
+    cursor.execute('UPDATE friend_requests SET status = %s WHERE id = %s', (action, request_id))
 
     if action == 'Accept':
         # add friend to friend list on two sides
-        cursor.execute('INSERT INTO friends (user_id, friend_id) VALUES (?, ?)', (from_user_id, to_user_id))
-        cursor.execute('INSERT INTO friends (user_id, friend_id) VALUES (?, ?)', (to_user_id, from_user_id))
+        cursor.execute('INSERT INTO friends (user_id, friend_id) VALUES (%s, %s)', (from_user_id, to_user_id))
+        cursor.execute('INSERT INTO friends (user_id, friend_id) VALUES (%s, %s)', (to_user_id, from_user_id))
 
     conn.commit()
     conn.close()
