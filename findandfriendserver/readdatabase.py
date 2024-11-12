@@ -10,8 +10,9 @@ from_email = 'john@example.com'
 to_email = 'mike@example.com'
 # connect to database
 conn = mysql.connector.connect(
-    host='localhost',
-    user='findandfriend',
+    host='34.170.115.42',
+    port=5000,
+    user = 'findandfriend',
     password='QWEqwe1234',
     database='user_data'
 )
