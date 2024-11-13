@@ -144,20 +144,21 @@ public class SearchFriendActivity extends AppCompatActivity {
     }
 
     private void parseSearchResults(String response) {
+        System.out.println("friend request response is:"+response);
         try {
             searchResults.clear();
             JSONObject jsonResponse = new JSONObject(response);
             JSONArray friendsArray = jsonResponse.getJSONArray("friends");
-
             for (int i = 0; i < friendsArray.length(); i++) {
                 JSONObject friendObj = friendsArray.getJSONObject(i);
+                String id=friendObj.optString("id","N/A");
                 String name = friendObj.getString("name");
                 String email = friendObj.getString("email");
                 double latitude = friendObj.optDouble("latitude", 0.0); // Assuming location data exists, default to 0.0
                 double longitude = friendObj.optDouble("longitude", 0.0);
                 String rating = friendObj.optString("rating", "N/A"); // Assuming rating exists, default to "N/A"
 
-                Friend friend = new Friend(email, name, latitude, longitude, rating, R.drawable.ic_friend_avatar1);
+                Friend friend = new Friend("", name,email, latitude, longitude, rating, R.drawable.ic_friend_avatar1);
                 searchResults.add(friend);
             }
 
@@ -190,7 +191,13 @@ public class SearchFriendActivity extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-                    parseFriendRequests(response);
+                    if (response.contains("No friend requests")) {
+                        // Handle the "No friend requests" response without parsing the data
+                        Toast.makeText(SearchFriendActivity.this, "No friend requests available.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Process other responses (friend requests) normally
+                        parseFriendRequests(response);
+                    }
                 },
                 error -> {
                     Log.e(TAG, "Error downloading friend requests: " + error.getMessage());

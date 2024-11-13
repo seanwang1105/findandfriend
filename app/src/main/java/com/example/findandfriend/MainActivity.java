@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Go click event
         btnGo.setOnClickListener(v -> {
             List<Friend> selectedFriends = friendAdapter.getSelectedFriends();
-            selectedFriends.add(new Friend("me","Me", currentlatitute, currentlogitute, "0 min", R.drawable.ic_friend_avatar1));
+            selectedFriends.add(new Friend("me","Me","me@google.com", currentlatitute, currentlogitute, "0 min", R.drawable.ic_friend_avatar1));
             if (!selectedFriends.isEmpty()) {
                 Intent intent = new Intent(MainActivity.this, MiddlePointActivity.class);
                 intent.putParcelableArrayListExtra("selected_friends", new ArrayList<>(selectedFriends));
@@ -449,6 +449,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 JSONObject friendObject = friendsArray.getJSONObject(i);
                 String id = friendObject.getString("id");
                 String name = friendObject.getString("name");
+                String email =  friendObject.getString("email");
                 double latitude = friendObject.getDouble("latitude");
                 double longitude = friendObject.getDouble("longitude");
                 String timeAtLocation = friendObject.getString("timeAtLocation");
@@ -456,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 System.out.println("myself position to calculate is:"+ mylatitute + mylogitute);
                 String disAtlocation = String.format("%.0f",haversine(latitude,longitude,mylatitute,mylogitute));
                 disAtlocation=disAtlocation+"miles";
-                Friend friend = new Friend(id, name, latitude, longitude, disAtlocation, avatarResourceId);
+                Friend friend = new Friend(id, name, email,latitude, longitude, disAtlocation, avatarResourceId);
                 friends.add(friend);
             }
         } catch (FileNotFoundException e) {

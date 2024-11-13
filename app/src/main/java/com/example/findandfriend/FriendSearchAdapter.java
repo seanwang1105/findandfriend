@@ -2,6 +2,7 @@
 package com.example.findandfriend;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -26,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +39,14 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
 
     private Context context;
     private List<Friend> friends;
+    private final String SERVER_URL;
+
+    private static final String FILE_NAME = "user_credentials.txt";
 
     public FriendSearchAdapter(Context context, List<Friend> friends) {
         this.context = context;
         this.friends = friends;
+        this.SERVER_URL = context.getString(R.string.IP) + "/send_friend_request";
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -62,7 +71,7 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
     public void onBindViewHolder(@NonNull FriendSearchAdapter.ViewHolder holder, int position) {
         Friend friend = friends.get(position);
         System.out.println("friendsearchadpter friend name is:"+friend.name);
-        holder.nameTextView.setText(friend.name);
+        holder.nameTextView.setText(friend.name + "->"+friend.email);
 
         holder.addButton.setOnClickListener(v -> {
             // Send friend request to server for confirmation
@@ -77,11 +86,28 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
 
     private void sendFriendRequest(Friend friend) {
         // Replace with your server's friend request API URL
-        String url = "https://yourserver.com/api/send_friend_request";
 
-        RequestQueue queue = Volley.newRequestQueue(context);
+        String[] savedCredentials = loadCredentials();
+        String email = "";
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
+        JSONObject FrData = new JSONObject();
+        try {
+            FrData.put("from_email",email);
+            FrData.put("to_email", friend.email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        SharedPreferences sharedPreferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        if (token == null) {
+            Toast.makeText(context, "Authorization token is missing. Please log in again.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, SERVER_URL,FrData,
                 response -> {
                     // Handle success
                     Toast.makeText(context, "Friend request sent to " + friend.name, Toast.LENGTH_SHORT).show();
@@ -95,16 +121,24 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
                     simulateFriendConfirmation(friend);
                     Toast.makeText(context, "Error sending friend request", Toast.LENGTH_SHORT).show();
                 }) {
+            // Load the token from SharedPreferences
             @Override
-            protected Map<String, String> getParams() {
-                // Send friend ID in the request body
-                Map<String, String> params = new HashMap<>();
-                params.put("friend_id", friend.id);
-                return params;
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add the token to headers
+                return headers;
             }
+
         };
 
-        queue.add(stringRequest);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                20000, // Initial timeout in ms (e.g., 10 seconds)
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Retry count
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // add to request quene
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void simulateFriendConfirmation(Friend friend) {
@@ -120,7 +154,27 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
             Toast.makeText(context, friend.name + " has accepted your friend request!", Toast.LENGTH_SHORT).show();
         }, 5000); // simulate 5 seconds delay
     }
-
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = context.openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     private void addFriendToLocal(Friend friend) throws JSONException {
         try {
             FileInputStream fis = context.openFileInput("friends.json");
@@ -144,6 +198,7 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
             JSONObject friendObject = new JSONObject();
             friendObject.put("id", friend.id);
             friendObject.put("name", friend.name);
+            friendObject.put("email",friend.email);
             friendObject.put("latitude", friend.latitude);
             friendObject.put("longitude", friend.longitude);
             friendObject.put("timeAtLocation", friend.timeAtLocation);

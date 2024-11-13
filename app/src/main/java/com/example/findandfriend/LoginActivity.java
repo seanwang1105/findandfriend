@@ -230,7 +230,7 @@ public class LoginActivity extends AppCompatActivity {
         );
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                20000, // Initial timeout in ms (e.g., 10 seconds)
+                200000, // Initial timeout in ms (e.g., 10 seconds)
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Retry count
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

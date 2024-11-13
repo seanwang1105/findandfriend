@@ -1,0 +1,2233 @@
+2024-11-12 17:28:05,872 INFO package: mysql.connector.plugins
+2024-11-12 17:28:05,873 INFO plugin_name: caching_sha2_password
+2024-11-12 17:28:05,873 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-12 17:28:05,882 INFO package: mysql.connector.plugins
+2024-11-12 17:28:05,882 INFO plugin_name: caching_sha2_password
+2024-11-12 17:28:05,883 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-12 17:28:05,930 INFO package: mysql.connector.plugins
+2024-11-12 17:28:05,930 INFO plugin_name: caching_sha2_password
+2024-11-12 17:28:05,931 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-12 17:28:05,961 INFO package: mysql.connector.plugins
+2024-11-12 17:28:05,961 INFO plugin_name: caching_sha2_password
+2024-11-12 17:28:05,961 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-12 17:29:59,827 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:29:59,827 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-12 17:29:59,827 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-12 17:30:00,199 INFO Sending Response: 200 OK
+2024-11-12 17:30:00,199 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-12 17:30:00,201 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1MTkwMDB9.885fl8P0SIOgThuYT5959BMDeME0wg6ccU__c573Zhc"}
+
+2024-11-12 17:30:34,753 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=mike@example.com
+2024-11-12 17:30:34,754 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1MTkwMDB9.885fl8P0SIOgThuYT5959BMDeME0wg6ccU__c573Zhc
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:30:34,754 INFO Body: b''
+2024-11-12 17:30:34,787 INFO Sending Response: 200 OK
+2024-11-12 17:30:34,787 INFO Headers: Content-Type: application/json
+Content-Length: 159
+
+
+2024-11-12 17:30:34,787 INFO Body: {"friend_requests":[{"from_email":"john@example.com","from_name":"John Clark","request_id":1,"timestamp":"Mon, 11 Nov 2024 21:25:54 GMT"}],"status":"Success"}
+
+2024-11-12 17:30:49,401 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=emily
+2024-11-12 17:30:49,402 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1MTkwMDB9.885fl8P0SIOgThuYT5959BMDeME0wg6ccU__c573Zhc
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:30:49,402 INFO Body: b''
+2024-11-12 17:30:49,415 INFO Sending Response: 200 OK
+2024-11-12 17:30:49,415 INFO Headers: Content-Type: application/json
+Content-Length: 84
+
+
+2024-11-12 17:30:49,415 INFO Body: {"friends":[{"email":"emily@example.com","name":"Emily Clark"}],"status":"Success"}
+
+2024-11-12 17:31:04,790 INFO Received Request: POST http://34.170.115.42:5000/send_friend_request
+2024-11-12 17:31:04,791 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1MTkwMDB9.885fl8P0SIOgThuYT5959BMDeME0wg6ccU__c573Zhc
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 64
+
+
+2024-11-12 17:31:04,791 INFO Body: b'{"from_email":"mike@example.com","to_email":"emily@example.com"}'
+2024-11-12 17:31:04,818 INFO Sending Response: 200 OK
+2024-11-12 17:31:04,818 INFO Headers: Content-Type: application/json
+Content-Length: 46
+
+
+2024-11-12 17:31:04,819 INFO Body: {"status":"Friend request sent successfully"}
+
+2024-11-12 17:36:30,892 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-12 17:36:30,893 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:36:30,893 INFO Body: b'{"email":"a@a.clm","password":"ok"}'
+2024-11-12 17:36:31,249 INFO Sending Response: 201 CREATED
+2024-11-12 17:36:31,250 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-12 17:36:31,250 INFO Body: {"status":"User registered successfully"}
+
+2024-11-12 17:38:07,402 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-12 17:38:07,402 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:38:07,403 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:38:07,759 INFO Sending Response: 201 CREATED
+2024-11-12 17:38:07,759 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-12 17:38:07,759 INFO Body: {"status":"User registered successfully"}
+
+2024-11-12 17:39:14,549 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-12 17:39:14,549 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:39:14,549 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:39:14,901 INFO Sending Response: 400 BAD REQUEST
+2024-11-12 17:39:14,901 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:39:14,901 INFO Body: {"error":"User already exists"}
+
+2024-11-12 17:39:19,093 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:39:19,093 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:39:19,094 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:39:19,439 INFO Sending Response: 200 OK
+2024-11-12 17:39:19,439 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:39:19,439 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk1NTl9.IHfIZftgEtHoYKllEG27NodYYS97FXb56-pt9Sv5gnM"}
+
+2024-11-12 17:39:26,834 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 17:39:26,835 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk1NTl9.IHfIZftgEtHoYKllEG27NodYYS97FXb56-pt9Sv5gnM
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:39:26,835 INFO Body: b''
+2024-11-12 17:39:26,845 INFO Sending Response: 200 OK
+2024-11-12 17:39:26,845 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:39:26,845 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 17:39:30,143 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-12 17:39:30,143 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:39:30,143 INFO Body: b''
+2024-11-12 17:39:30,153 INFO Sending Response: 404 NOT FOUND
+2024-11-12 17:39:30,154 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-12 17:39:30,154 INFO Body: {"error":"User not found"}
+
+2024-11-12 17:39:42,742 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-12 17:39:42,742 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:39:42,742 INFO Body: b'{"email":"k@k.com","password":"ok"}'
+2024-11-12 17:39:43,095 INFO Sending Response: 201 CREATED
+2024-11-12 17:39:43,095 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-12 17:39:43,095 INFO Body: {"status":"User registered successfully"}
+
+2024-11-12 17:39:47,846 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:39:47,846 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 14; LE2127 Build/UKQ1.230924.001)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:39:47,847 INFO Body: b'{"email":"k@k.com","password":"ok"}'
+2024-11-12 17:39:48,195 INFO Sending Response: 200 OK
+2024-11-12 17:39:48,195 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:39:48,195 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImtAay5jb20iLCJleHAiOjE3MzE1MTk1ODh9.uD1gKuHegT0YlMq5Kc0ogF4AqnMPnZ4-no1sqYmvE3M"}
+
+2024-11-12 17:42:27,558 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:42:27,558 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:42:27,559 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:42:27,908 INFO Sending Response: 200 OK
+2024-11-12 17:42:27,908 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:42:27,908 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk3NDd9.4OSnRYFM1IKDLki5lY6sTHlQHci_btAGrGQINpV57NI"}
+
+2024-11-12 17:43:27,587 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:43:27,587 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:43:27,587 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:43:27,932 INFO Sending Response: 200 OK
+2024-11-12 17:43:27,933 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:43:27,933 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MDd9.x5PziiFW_X0x5X8P__S0qndH_auOWxLzZcXzaaPLwxY"}
+
+2024-11-12 17:43:55,718 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:43:55,718 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:43:55,718 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:43:56,066 INFO Sending Response: 200 OK
+2024-11-12 17:43:56,066 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:43:56,066 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MzZ9.o6WATsvndI4Kheqbu-rEmWf_wIW4YN1wBJcTzUMWvL0"}
+
+2024-11-12 17:44:23,436 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-12 17:44:23,436 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:44:23,436 INFO Body: b''
+2024-11-12 17:44:23,445 INFO Sending Response: 404 NOT FOUND
+2024-11-12 17:44:23,445 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-12 17:44:23,446 INFO Body: {"error":"User not found"}
+
+2024-11-12 17:44:28,353 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-12 17:44:28,353 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:44:28,354 INFO Body: b''
+2024-11-12 17:44:28,363 INFO Sending Response: 404 NOT FOUND
+2024-11-12 17:44:28,364 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-12 17:44:28,364 INFO Body: {"error":"User not found"}
+
+2024-11-12 17:44:48,166 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 17:44:48,166 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MzZ9.o6WATsvndI4Kheqbu-rEmWf_wIW4YN1wBJcTzUMWvL0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:44:48,166 INFO Body: b''
+2024-11-12 17:44:48,178 INFO Sending Response: 200 OK
+2024-11-12 17:44:48,178 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:44:48,178 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 17:44:54,567 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 17:44:54,567 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MzZ9.o6WATsvndI4Kheqbu-rEmWf_wIW4YN1wBJcTzUMWvL0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:44:54,567 INFO Body: b''
+2024-11-12 17:44:54,580 INFO Sending Response: 200 OK
+2024-11-12 17:44:54,580 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:44:54,580 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 17:45:23,283 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 17:45:23,283 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MzZ9.o6WATsvndI4Kheqbu-rEmWf_wIW4YN1wBJcTzUMWvL0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:45:23,284 INFO Body: b''
+2024-11-12 17:45:23,295 INFO Sending Response: 200 OK
+2024-11-12 17:45:23,295 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:45:23,295 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 17:45:25,683 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 17:45:25,683 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MzZ9.o6WATsvndI4Kheqbu-rEmWf_wIW4YN1wBJcTzUMWvL0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:45:25,683 INFO Body: b''
+2024-11-12 17:45:25,693 INFO Sending Response: 200 OK
+2024-11-12 17:45:25,693 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:45:25,693 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 17:45:28,787 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 17:45:28,787 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk4MzZ9.o6WATsvndI4Kheqbu-rEmWf_wIW4YN1wBJcTzUMWvL0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:45:28,787 INFO Body: b''
+2024-11-12 17:45:28,798 INFO Sending Response: 200 OK
+2024-11-12 17:45:28,798 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:45:28,798 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 17:45:35,595 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-12 17:45:35,595 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 17:45:35,595 INFO Body: b''
+2024-11-12 17:45:35,606 INFO Sending Response: 404 NOT FOUND
+2024-11-12 17:45:35,606 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-12 17:45:35,606 INFO Body: {"error":"User not found"}
+
+2024-11-12 17:46:15,609 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:46:15,610 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:46:15,610 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:46:15,973 INFO Sending Response: 200 OK
+2024-11-12 17:46:15,973 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:46:15,973 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk5NzV9.pisFHPuZc6_GMCopNSBn0WKuAR6UFPvgB5rjygSTJYc"}
+
+2024-11-12 17:46:28,920 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-12 17:46:28,921 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:46:28,921 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:46:29,270 INFO Sending Response: 400 BAD REQUEST
+2024-11-12 17:46:29,270 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 17:46:29,270 INFO Body: {"error":"User already exists"}
+
+2024-11-12 17:46:33,361 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 17:46:33,362 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 17:46:33,362 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 17:46:33,709 INFO Sending Response: 200 OK
+2024-11-12 17:46:33,710 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 17:46:33,710 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MTk5OTN9.taygbRgFZWSSUMQ-FLsfYXJhnv8X4JzkgBKAHGgPhXA"}
+
+2024-11-12 18:36:35,742 INFO Received Request: GET http://34.170.115.42:5000/
+2024-11-12 18:36:35,742 INFO Headers: Host: 34.170.115.42:5000
+User-Agent: Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#39; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com
+Accept-Encoding: gzip
+
+
+2024-11-12 18:36:35,742 INFO Body: b''
+2024-11-12 18:36:35,743 INFO Sending Response: 200 OK
+2024-11-12 18:36:35,743 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 17
+
+
+2024-11-12 18:36:35,743 INFO Body: Hello from Flask!
+2024-11-12 19:19:45,653 INFO Received Request: GET http://34.170.115.42:5000/
+2024-11-12 19:19:45,655 INFO Headers: Host: 34.170.115.42:5000
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+
+
+2024-11-12 19:19:45,655 INFO Body: b''
+2024-11-12 19:19:45,655 INFO Sending Response: 200 OK
+2024-11-12 19:19:45,655 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 17
+
+
+2024-11-12 19:19:45,656 INFO Body: Hello from Flask!
+2024-11-12 19:19:45,973 INFO Received Request: GET http://34.170.115.42:5000/favicon.ico
+2024-11-12 19:19:45,973 INFO Headers: Host: 34.170.115.42:5000
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Referer: http://34.170.115.42:5000/
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+
+
+2024-11-12 19:19:45,973 INFO Body: b''
+2024-11-12 19:19:45,975 INFO Sending Response: 404 NOT FOUND
+2024-11-12 19:19:45,975 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 207
+
+
+2024-11-12 19:19:45,975 INFO Body: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-11-12 20:34:08,163 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 20:34:08,163 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 35
+
+
+2024-11-12 20:34:08,164 INFO Body: b'{"email":"a@a.com","password":"ok"}'
+2024-11-12 20:34:08,743 INFO Sending Response: 200 OK
+2024-11-12 20:34:08,743 INFO Headers: Content-Type: application/json
+Content-Length: 170
+
+
+2024-11-12 20:34:08,743 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MzAwNDh9.V11sDsWLIEx6MOcnA3Bo-4XO88AWz-Npo9Z_0oIBVv8"}
+
+2024-11-12 20:34:18,872 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=a@a.com
+2024-11-12 20:34:18,872 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJleHAiOjE3MzE1MzAwNDh9.V11sDsWLIEx6MOcnA3Bo-4XO88AWz-Npo9Z_0oIBVv8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 20:34:18,872 INFO Body: b''
+2024-11-12 20:34:18,888 INFO Sending Response: 200 OK
+2024-11-12 20:34:18,888 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 20:34:18,888 INFO Body: {"status":"No friend requests"}
+
+2024-11-12 20:34:36,162 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-12 20:34:36,162 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-12 20:34:36,163 INFO Body: b''
+2024-11-12 20:34:36,173 INFO Sending Response: 404 NOT FOUND
+2024-11-12 20:34:36,173 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-12 20:34:36,173 INFO Body: {"error":"User not found"}
+
+2024-11-12 21:14:04,237 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 21:14:04,237 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 37
+
+
+2024-11-12 21:14:04,237 INFO Body: b'{"email":"a@aol.com","password":"ok"}'
+2024-11-12 21:14:04,247 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-12 21:14:04,247 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 21:14:04,247 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-12 21:14:07,448 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 21:14:07,449 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 37
+
+
+2024-11-12 21:14:07,449 INFO Body: b'{"email":"a@aol.com","password":"ok"}'
+2024-11-12 21:14:07,459 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-12 21:14:07,459 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-12 21:14:07,459 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-12 21:14:09,756 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-12 21:14:09,757 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 37
+
+
+2024-11-12 21:14:09,757 INFO Body: b'{"email":"a@aol.com","password":"ok"}'
+2024-11-12 21:14:10,135 INFO Sending Response: 201 CREATED
+2024-11-12 21:14:10,135 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-12 21:14:10,135 INFO Body: {"status":"User registered successfully"}
+
+2024-11-12 21:14:57,699 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 21:14:57,700 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 37
+
+
+2024-11-12 21:14:57,700 INFO Body: b'{"email":"a@aol.com","password":"ok"}'
+2024-11-12 21:14:57,702 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 21:14:57,702 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 37
+
+
+2024-11-12 21:14:57,702 INFO Body: b'{"email":"a@aol.com","password":"ok"}'
+2024-11-12 21:14:58,075 INFO Sending Response: 200 OK
+2024-11-12 21:14:58,076 INFO Headers: Content-Type: application/json
+Content-Length: 173
+
+
+2024-11-12 21:14:58,076 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYW9sLmNvbSIsImV4cCI6MTczMTUzMjQ5OH0.ZssWcAtcXbbiZzXFFtqA9MiLJvAUheOpFQyTnyWcwe4"}
+
+2024-11-12 21:14:58,076 INFO Sending Response: 200 OK
+2024-11-12 21:14:58,077 INFO Headers: Content-Type: application/json
+Content-Length: 173
+
+
+2024-11-12 21:14:58,077 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYW9sLmNvbSIsImV4cCI6MTczMTUzMjQ5OH0.ZssWcAtcXbbiZzXFFtqA9MiLJvAUheOpFQyTnyWcwe4"}
+
+2024-11-12 21:14:58,686 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-12 21:14:58,686 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 37
+
+
+2024-11-12 21:14:58,687 INFO Body: b'{"email":"a@aol.com","password":"ok"}'
+2024-11-12 21:14:59,034 INFO Sending Response: 200 OK
+2024-11-12 21:14:59,035 INFO Headers: Content-Type: application/json
+Content-Length: 173
+
+
+2024-11-12 21:14:59,035 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYW9sLmNvbSIsImV4cCI6MTczMTUzMjQ5OX0.8xTN0PIO7E8KDO6-YrHbOkySM0G8FgV69kTGw6Dm_P8"}
+
+2024-11-13 00:59:55,391 INFO Received Request: GET http://34.170.115.42:5000/
+2024-11-13 00:59:55,395 INFO Headers: Host: 34.170.115.42:5000
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/110.0
+Accept: */*
+Accept-Encoding: gzip
+
+
+2024-11-13 00:59:55,395 INFO Body: b''
+2024-11-13 00:59:55,396 INFO Sending Response: 200 OK
+2024-11-13 00:59:55,396 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 17
+
+
+2024-11-13 00:59:55,396 INFO Body: Hello from Flask!
+2024-11-13 01:00:02,963 INFO Received Request: GET http://34.170.115.42:5000/favicon.ico
+2024-11-13 01:00:02,963 INFO Headers: Host: 34.170.115.42:5000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/120.0.6099.28 Safari/537.36
+Accept: */*
+Accept-Encoding: gzip
+
+
+2024-11-13 01:00:02,963 INFO Body: b''
+2024-11-13 01:00:02,965 INFO Sending Response: 404 NOT FOUND
+2024-11-13 01:00:02,965 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 207
+
+
+2024-11-13 01:00:02,965 INFO Body: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-11-13 01:33:20,171 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-13 01:33:20,172 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 01:33:20,172 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 01:33:20,584 INFO Sending Response: 201 CREATED
+2024-11-13 01:33:20,585 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 01:33:20,585 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 01:33:25,914 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:33:25,914 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 01:33:25,914 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 01:33:26,270 INFO Sending Response: 200 OK
+2024-11-13 01:33:26,270 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 01:33:26,270 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDgwMDZ9.P8Shdu3Rl9dtWJR_adZx6nu-zA7fQ-DkJLIQwxGOgcs"}
+
+2024-11-13 01:33:35,514 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 01:33:35,515 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 01:33:35,515 INFO Body: b''
+2024-11-13 01:33:35,524 INFO Sending Response: 404 NOT FOUND
+2024-11-13 01:33:35,524 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 01:33:35,525 INFO Body: {"error":"User not found"}
+
+2024-11-13 01:34:33,446 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:34:33,446 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 01:34:33,446 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 01:34:33,794 INFO Sending Response: 200 OK
+2024-11-13 01:34:33,794 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 01:34:33,795 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDgwNzN9.6v0s0EeDDIwVUTLnAxNjWZFOmWhGWF9bdjGpM0LuXUA"}
+
+2024-11-13 01:34:39,101 INFO Received Request: GET http://34.170.115.42:5000/get_dat
+2024-11-13 01:34:39,101 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 01:34:39,102 INFO Body: b''
+2024-11-13 01:34:39,102 INFO Sending Response: 404 NOT FOUND
+2024-11-13 01:34:39,102 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 207
+
+
+2024-11-13 01:34:39,102 INFO Body: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-11-13 01:44:17,317 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:44:17,318 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 01:44:17,318 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 01:44:17,665 INFO Sending Response: 200 OK
+2024-11-13 01:44:17,665 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 01:44:17,665 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDg2NTd9.8GVhHRFYP8uKnhFDraNgd2L3MSVwVTvdCmhZK4AX6eg"}
+
+2024-11-13 01:44:24,018 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 01:44:24,019 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 01:44:24,019 INFO Body: b''
+2024-11-13 01:44:24,027 INFO Sending Response: 404 NOT FOUND
+2024-11-13 01:44:24,028 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 01:44:24,028 INFO Body: {"error":"User not found"}
+
+2024-11-13 01:44:47,566 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:44:47,566 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 01:44:47,566 INFO Body: b'{"email":"testing123876@test.com","password":"testing"}'
+2024-11-13 01:44:47,577 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 01:44:47,577 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 01:44:47,577 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 01:44:47,638 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:44:47,639 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 01:44:47,639 INFO Body: b'{"email":"testing123876@test.com","password":"testing"}'
+2024-11-13 01:44:47,649 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 01:44:47,649 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 01:44:47,649 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 01:45:14,689 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:45:14,689 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 01:45:14,689 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 01:45:15,045 INFO Sending Response: 200 OK
+2024-11-13 01:45:15,046 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 01:45:15,046 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDg3MTV9.mCwGY_tYV4K7uh9KwV8CBGquF8G-z2bJbIX_KSlo8Ys"}
+
+2024-11-13 01:45:37,098 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 01:45:37,099 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 01:45:37,099 INFO Body: b''
+2024-11-13 01:45:37,107 INFO Sending Response: 404 NOT FOUND
+2024-11-13 01:45:37,107 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 01:45:37,107 INFO Body: {"error":"User not found"}
+
+2024-11-13 01:52:21,453 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 01:52:21,453 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 01:52:21,453 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 01:52:21,800 INFO Sending Response: 200 OK
+2024-11-13 01:52:21,800 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 01:52:21,800 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDkxNDF9.Hb6cIOH5FEOfZxEEOyNuOX4VwAK3FwGerfLZqICGNuE"}
+
+2024-11-13 01:52:29,759 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 01:52:29,759 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 01:52:29,760 INFO Body: b''
+2024-11-13 01:52:29,770 INFO Sending Response: 404 NOT FOUND
+2024-11-13 01:52:29,770 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 01:52:29,770 INFO Body: {"error":"User not found"}
+
+2024-11-13 02:01:57,162 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:01:57,162 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:01:57,162 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:01:57,508 INFO Sending Response: 200 OK
+2024-11-13 02:01:57,508 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:01:57,509 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDk3MTd9.qUZzBcVbjfb4y9SIt1aw97QR3bj4aPNbeynnghfy7TA"}
+
+2024-11-13 02:02:06,243 INFO Received Request: POST http://34.170.115.42:5000/get_data
+2024-11-13 02:02:06,243 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 31
+
+
+2024-11-13 02:02:06,243 INFO Body: b'{"email":"test123876@test.com"}'
+2024-11-13 02:02:06,244 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:02:06,244 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: GET, HEAD, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:02:06,244 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:02:50,933 INFO Received Request: POST http://34.170.115.42:5000/get_data
+2024-11-13 02:02:50,933 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 31
+
+
+2024-11-13 02:02:50,933 INFO Body: b'{"email":"test123876@test.com"}'
+2024-11-13 02:02:50,934 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:02:50,934 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: GET, HEAD, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:02:50,934 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:05:49,131 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:05:49,132 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:05:49,132 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:05:49,478 INFO Sending Response: 200 OK
+2024-11-13 02:05:49,478 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:05:49,479 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NDk5NDl9.M6mcrqru3Q1K6P6QFauBt95LEUCmY4ztmFaC4f0dx-I"}
+
+2024-11-13 02:06:03,225 INFO Received Request: POST http://34.170.115.42:5000/get_data
+2024-11-13 02:06:03,226 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 31
+
+
+2024-11-13 02:06:03,226 INFO Body: b'{"email":"test123876@test.com"}'
+2024-11-13 02:06:03,226 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:06:03,226 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: GET, HEAD, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:06:03,226 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:06:05,793 INFO Received Request: POST http://34.170.115.42:5000/get_data
+2024-11-13 02:06:05,793 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 31
+
+
+2024-11-13 02:06:05,793 INFO Body: b'{"email":"test123876@test.com"}'
+2024-11-13 02:06:05,794 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:06:05,794 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: GET, HEAD, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:06:05,794 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:07:47,873 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:07:47,874 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:07:47,874 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:07:48,231 INFO Sending Response: 200 OK
+2024-11-13 02:07:48,232 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:07:48,232 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTAwNjh9.hc5_5ekZa5L5PX037PZubMuuhwTptnXDwZcYlPkYXVg"}
+
+2024-11-13 02:08:02,252 INFO Received Request: POST http://34.170.115.42:5000/get_data
+2024-11-13 02:08:02,252 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 31
+
+
+2024-11-13 02:08:02,252 INFO Body: b'{"email":"test123876@test.com"}'
+2024-11-13 02:08:02,253 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:08:02,253 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: GET, HEAD, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:08:02,253 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:09:32,249 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:09:32,249 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:09:32,249 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:09:32,600 INFO Sending Response: 200 OK
+2024-11-13 02:09:32,600 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:09:32,600 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTAxNzJ9.loz0_qwFexsaCLfV2Vh7c2jkdGz-bc0G5KzaZEF8n2Y"}
+
+2024-11-13 02:09:42,171 INFO Received Request: POST http://34.170.115.42:5000/get_data
+2024-11-13 02:09:42,172 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 31
+
+
+2024-11-13 02:09:42,172 INFO Body: b'{"email":"test123876@test.com"}'
+2024-11-13 02:09:42,172 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:09:42,172 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: GET, HEAD, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:09:42,172 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:12:20,455 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:12:20,456 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:12:20,456 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:12:20,802 INFO Sending Response: 200 OK
+2024-11-13 02:12:20,802 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:12:20,802 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTAzNDB9.nIhxpGwRdLyaQZIkBVN-PL2t8Ja1ckRfxl_Vh4ITDnc"}
+
+2024-11-13 02:12:30,478 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 02:12:30,479 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:12:30,479 INFO Body: b''
+2024-11-13 02:12:30,489 INFO Sending Response: 404 NOT FOUND
+2024-11-13 02:12:30,489 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 02:12:30,489 INFO Body: {"error":"User not found"}
+
+2024-11-13 02:17:14,402 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:17:14,402 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:17:14,402 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:17:14,751 INFO Sending Response: 200 OK
+2024-11-13 02:17:14,752 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:17:14,752 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTA2MzR9.h5WhEp9XrgFi64pOueWA-z6wSomgSQzObWBblc_A9M4"}
+
+2024-11-13 02:17:22,009 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:17:22,009 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:17:22,009 INFO Body: b''
+2024-11-13 02:17:22,019 INFO Sending Response: 200 OK
+2024-11-13 02:17:22,019 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:17:22,019 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:30:02,397 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:30:02,399 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:30:02,399 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:30:02,882 INFO Sending Response: 200 OK
+2024-11-13 02:30:02,883 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:30:02,883 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTE0MDJ9.2ZesPqDWpnFSqkhBzglFot7YRU4H7NoQ9Dv-uneJkFY"}
+
+2024-11-13 02:30:07,555 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:30:07,555 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:30:07,555 INFO Body: b''
+2024-11-13 02:30:07,580 INFO Sending Response: 200 OK
+2024-11-13 02:30:07,580 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:30:07,580 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:30:27,531 INFO Received Request: GET http://34.170.115.42:5000/update_data
+2024-11-13 02:30:27,531 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:30:27,531 INFO Body: b''
+2024-11-13 02:30:27,534 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:30:27,534 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: POST, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:30:27,534 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:31:23,544 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:31:23,545 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 56
+
+
+2024-11-13 02:31:23,545 INFO Body: b'{"email":"test123876@test.com","password":"testing.com"}'
+2024-11-13 02:31:23,890 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 02:31:23,890 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 02:31:23,890 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 02:31:24,004 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:31:24,004 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 56
+
+
+2024-11-13 02:31:24,004 INFO Body: b'{"email":"test123876@test.com","password":"testing.com"}'
+2024-11-13 02:31:24,348 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 02:31:24,348 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 02:31:24,348 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 02:32:02,666 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:32:02,666 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:32:02,666 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:32:03,009 INFO Sending Response: 200 OK
+2024-11-13 02:32:03,010 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:32:03,010 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTE1MjN9.4QQ8S_S8tt_QZEbepbTMtuSbiynj8hRKlZSvvEtSbug"}
+
+2024-11-13 02:32:08,728 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:32:08,729 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:32:08,729 INFO Body: b''
+2024-11-13 02:32:08,739 INFO Sending Response: 200 OK
+2024-11-13 02:32:08,739 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:32:08,739 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:41:51,289 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:41:51,289 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:41:51,290 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:41:51,640 INFO Sending Response: 200 OK
+2024-11-13 02:41:51,640 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:41:51,640 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTIxMTF9.9Ahg07mvjYHfnrocGd9cGdCSDOZZ99KF-5dbopk01yY"}
+
+2024-11-13 02:42:05,185 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:42:05,185 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:42:05,185 INFO Body: b''
+2024-11-13 02:42:05,199 INFO Sending Response: 200 OK
+2024-11-13 02:42:05,199 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:42:05,199 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:45:59,635 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:45:59,635 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 02:45:59,635 INFO Body: b'{"email":"testing123876@test.com","password":"testing"}'
+2024-11-13 02:45:59,647 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 02:45:59,647 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 02:45:59,648 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 02:45:59,723 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:45:59,723 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 02:45:59,723 INFO Body: b'{"email":"testing123876@test.com","password":"testing"}'
+2024-11-13 02:45:59,733 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 02:45:59,733 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 02:45:59,733 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 02:46:27,008 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:46:27,009 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 02:46:27,009 INFO Body: b'{"email":"testing123876@test.com","password":"testing"}'
+2024-11-13 02:46:27,019 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 02:46:27,020 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 02:46:27,020 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 02:46:27,070 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:46:27,071 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 02:46:27,071 INFO Body: b'{"email":"testing123876@test.com","password":"testing"}'
+2024-11-13 02:46:27,081 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-13 02:46:27,081 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 02:46:27,081 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-13 02:46:36,108 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:46:36,109 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:46:36,109 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:46:36,456 INFO Sending Response: 200 OK
+2024-11-13 02:46:36,457 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:46:36,457 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTIzOTZ9.eADaLgTJiaoIq1MoB8DDIfOLDt-Yqrn-zh_Q_-PQBaM"}
+
+2024-11-13 02:46:46,303 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:46:46,303 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:46:46,303 INFO Body: b''
+2024-11-13 02:46:46,314 INFO Sending Response: 200 OK
+2024-11-13 02:46:46,315 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:46:46,315 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:46:57,311 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:46:57,311 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:46:57,311 INFO Body: b''
+2024-11-13 02:46:57,323 INFO Sending Response: 200 OK
+2024-11-13 02:46:57,323 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:46:57,323 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:47:53,360 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:47:53,361 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:47:53,361 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:47:53,707 INFO Sending Response: 200 OK
+2024-11-13 02:47:53,707 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:47:53,708 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTI0NzN9.rAGdgH-sGGr5ZoAnAq15vbShZeBYeQ4nnWyxLq0s4BM"}
+
+2024-11-13 02:48:46,264 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:48:46,264 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:48:46,264 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:48:46,610 INFO Sending Response: 200 OK
+2024-11-13 02:48:46,611 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:48:46,611 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTI1MjZ9.OldX1qTEPPcpIUlaWZhdfgUNtEjZ_2nzjAyWuwxWjb8"}
+
+2024-11-13 02:48:55,452 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:48:55,453 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:48:55,453 INFO Body: b''
+2024-11-13 02:48:55,463 INFO Sending Response: 200 OK
+2024-11-13 02:48:55,463 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:48:55,463 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:49:01,919 INFO Received Request: GET http://34.170.115.42:5000/update_data
+2024-11-13 02:49:01,919 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:49:01,919 INFO Body: b''
+2024-11-13 02:49:01,919 INFO Sending Response: 405 METHOD NOT ALLOWED
+2024-11-13 02:49:01,920 INFO Headers: Content-Type: text/html; charset=utf-8
+Allow: POST, OPTIONS
+Content-Length: 153
+
+
+2024-11-13 02:49:01,920 INFO Body: <!doctype html>
+<html lang=en>
+<title>405 Method Not Allowed</title>
+<h1>Method Not Allowed</h1>
+<p>The method is not allowed for the requested URL.</p>
+
+2024-11-13 02:50:50,209 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:50:50,209 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 52
+
+
+2024-11-13 02:50:50,209 INFO Body: b'{"email":"test123876@test.com","password":"testing"}'
+2024-11-13 02:50:50,555 INFO Sending Response: 200 OK
+2024-11-13 02:50:50,555 INFO Headers: Content-Type: application/json
+Content-Length: 186
+
+
+2024-11-13 02:50:50,555 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3QxMjM4NzZAdGVzdC5jb20iLCJleHAiOjE3MzE1NTI2NTB9.MMqun6UytisvvMVD0Ront4VBQY2K2fEt67LgUPKcXYM"}
+
+2024-11-13 02:50:58,094 INFO Received Request: GET http://34.170.115.42:5000/get_data?email=test123876@test.com
+2024-11-13 02:50:58,094 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:50:58,095 INFO Body: b''
+2024-11-13 02:50:58,105 INFO Sending Response: 200 OK
+2024-11-13 02:50:58,105 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 02:50:58,105 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null}
+
+2024-11-13 02:51:03,271 INFO Received Request: POST http://34.170.115.42:5000/update_data
+2024-11-13 02:51:03,271 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 66
+
+
+2024-11-13 02:51:03,272 INFO Body: b'{"email":"test123876@test.com","name":"TEMP Name","avatar":"null"}'
+2024-11-13 02:51:03,335 INFO Sending Response: 200 OK
+2024-11-13 02:51:03,335 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 02:51:03,335 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 02:51:54,578 INFO Received Request: POST http://34.170.115.42:5000/update_data
+2024-11-13 02:51:54,578 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 61
+
+
+2024-11-13 02:51:54,578 INFO Body: b'{"email":"test123876@test.com","name":"TEMP","avatar":"null"}'
+2024-11-13 02:51:54,589 INFO Sending Response: 200 OK
+2024-11-13 02:51:54,589 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 02:51:54,589 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 02:52:29,846 INFO Received Request: POST http://34.170.115.42:5000/update_data
+2024-11-13 02:52:29,847 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 67
+
+
+2024-11-13 02:52:29,847 INFO Body: b'{"email":"test123876@test.com","name":"ConnerTest","avatar":"null"}'
+2024-11-13 02:52:29,860 INFO Sending Response: 200 OK
+2024-11-13 02:52:29,860 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 02:52:29,860 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 02:54:06,899 INFO package: mysql.connector.plugins
+2024-11-13 02:54:06,899 INFO plugin_name: caching_sha2_password
+2024-11-13 02:54:06,899 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 02:54:06,901 INFO package: mysql.connector.plugins
+2024-11-13 02:54:06,902 INFO plugin_name: caching_sha2_password
+2024-11-13 02:54:06,902 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 02:54:06,902 INFO package: mysql.connector.plugins
+2024-11-13 02:54:06,902 INFO plugin_name: caching_sha2_password
+2024-11-13 02:54:06,903 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 02:54:06,907 INFO package: mysql.connector.plugins
+2024-11-13 02:54:06,907 INFO plugin_name: caching_sha2_password
+2024-11-13 02:54:06,908 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 02:57:16,651 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=mike@example.com
+2024-11-13 02:57:16,651 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTI4ODZ9.dLmZHU87bv6UKH0n8SihmQS7c5Zurq46OnwqgnxanmQ
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:57:16,651 INFO Body: b''
+2024-11-13 02:57:16,664 INFO Sending Response: 200 OK
+2024-11-13 02:57:16,665 INFO Headers: Content-Type: application/json
+Content-Length: 159
+
+
+2024-11-13 02:57:16,665 INFO Body: {"friend_requests":[{"from_email":"john@example.com","from_name":"John Clark","request_id":1,"timestamp":"Mon, 11 Nov 2024 21:25:54 GMT"}],"status":"Success"}
+
+2024-11-13 02:58:08,654 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 02:58:08,654 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-13 02:58:08,654 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-13 02:58:09,008 INFO Sending Response: 200 OK
+2024-11-13 02:58:09,008 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-13 02:58:09,008 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag"}
+
+2024-11-13 02:58:25,323 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=mike@example.com
+2024-11-13 02:58:25,323 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:58:25,324 INFO Body: b''
+2024-11-13 02:58:25,333 INFO Sending Response: 200 OK
+2024-11-13 02:58:25,333 INFO Headers: Content-Type: application/json
+Content-Length: 159
+
+
+2024-11-13 02:58:25,333 INFO Body: {"friend_requests":[{"from_email":"john@example.com","from_name":"John Clark","request_id":1,"timestamp":"Mon, 11 Nov 2024 21:25:54 GMT"}],"status":"Success"}
+
+2024-11-13 02:58:41,996 INFO Received Request: POST http://34.170.115.42:5000/respond_friend_request
+2024-11-13 02:58:41,996 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 36
+
+
+2024-11-13 02:58:41,996 INFO Body: b'{"request_id":1,"action":"Accepted"}'
+2024-11-13 02:58:42,022 INFO Sending Response: 200 OK
+2024-11-13 02:58:42,022 INFO Headers: Content-Type: application/json
+Content-Length: 52
+
+
+2024-11-13 02:58:42,022 INFO Body: {"status":"Friend request accepteded successfully"}
+
+2024-11-13 02:59:20,759 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=mike
+2024-11-13 02:59:20,760 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:59:20,760 INFO Body: b''
+2024-11-13 02:59:20,769 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=mike
+2024-11-13 02:59:20,770 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:59:20,770 INFO Body: b''
+2024-11-13 02:59:20,772 INFO Sending Response: 200 OK
+2024-11-13 02:59:20,772 INFO Headers: Content-Type: application/json
+Content-Length: 74
+
+
+2024-11-13 02:59:20,772 INFO Body: {"friends":[{"email":"mike@example.com","name":null}],"status":"Success"}
+
+2024-11-13 02:59:20,780 INFO Sending Response: 200 OK
+2024-11-13 02:59:20,780 INFO Headers: Content-Type: application/json
+Content-Length: 74
+
+
+2024-11-13 02:59:20,780 INFO Body: {"friends":[{"email":"mike@example.com","name":null}],"status":"Success"}
+
+2024-11-13 02:59:36,431 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=emily
+2024-11-13 02:59:36,432 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:59:36,432 INFO Body: b''
+2024-11-13 02:59:36,436 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=emily
+2024-11-13 02:59:36,436 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMwODl9.8qYFaj8g8hlrhR_Rv456iyEs_FqUN3G5Qkc-MvmIZag
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 02:59:36,436 INFO Body: b''
+2024-11-13 02:59:36,448 INFO Sending Response: 200 OK
+2024-11-13 02:59:36,448 INFO Headers: Content-Type: application/json
+Content-Length: 84
+
+
+2024-11-13 02:59:36,448 INFO Body: {"friends":[{"email":"emily@example.com","name":"Emily Clark"}],"status":"Success"}
+
+2024-11-13 02:59:36,452 INFO Sending Response: 200 OK
+2024-11-13 02:59:36,452 INFO Headers: Content-Type: application/json
+Content-Length: 84
+
+
+2024-11-13 02:59:36,452 INFO Body: {"friends":[{"email":"emily@example.com","name":"Emily Clark"}],"status":"Success"}
+
+2024-11-13 03:00:01,345 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 03:00:01,345 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:00:01,345 INFO Body: b''
+2024-11-13 03:00:01,354 INFO Sending Response: 404 NOT FOUND
+2024-11-13 03:00:01,354 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 03:00:01,354 INFO Body: {"error":"User not found"}
+
+2024-11-13 03:00:27,484 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-13 03:00:27,484 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 44
+
+
+2024-11-13 03:00:27,484 INFO Body: b'{"email":"emily@test.com","password":"1234"}'
+2024-11-13 03:00:27,835 INFO Sending Response: 201 CREATED
+2024-11-13 03:00:27,836 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 03:00:27,836 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 03:00:51,942 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 03:00:51,942 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 44
+
+
+2024-11-13 03:00:51,942 INFO Body: b'{"email":"emily@test.com","password":"1234"}'
+2024-11-13 03:00:52,286 INFO Sending Response: 200 OK
+2024-11-13 03:00:52,286 INFO Headers: Content-Type: application/json
+Content-Length: 180
+
+
+2024-11-13 03:00:52,286 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTUzMjUyfQ.pzw7Za8GyDe1dp9s3Lf5XV-HBnrXa4yQvDh-X788Bdg"}
+
+2024-11-13 03:01:14,308 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=emily@test.com
+2024-11-13 03:01:14,309 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTUzMjUyfQ.pzw7Za8GyDe1dp9s3Lf5XV-HBnrXa4yQvDh-X788Bdg
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:01:14,309 INFO Body: b''
+2024-11-13 03:01:14,318 INFO Sending Response: 200 OK
+2024-11-13 03:01:14,318 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 03:01:14,318 INFO Body: {"status":"No friend requests"}
+
+2024-11-13 03:01:21,542 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=mike
+2024-11-13 03:01:21,542 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTUzMjUyfQ.pzw7Za8GyDe1dp9s3Lf5XV-HBnrXa4yQvDh-X788Bdg
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:01:21,542 INFO Body: b''
+2024-11-13 03:01:21,553 INFO Sending Response: 200 OK
+2024-11-13 03:01:21,554 INFO Headers: Content-Type: application/json
+Content-Length: 74
+
+
+2024-11-13 03:01:21,554 INFO Body: {"friends":[{"email":"mike@example.com","name":null}],"status":"Success"}
+
+2024-11-13 03:01:21,600 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=mike
+2024-11-13 03:01:21,601 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTUzMjUyfQ.pzw7Za8GyDe1dp9s3Lf5XV-HBnrXa4yQvDh-X788Bdg
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:01:21,601 INFO Body: b''
+2024-11-13 03:01:21,612 INFO Sending Response: 200 OK
+2024-11-13 03:01:21,613 INFO Headers: Content-Type: application/json
+Content-Length: 74
+
+
+2024-11-13 03:01:21,613 INFO Body: {"friends":[{"email":"mike@example.com","name":null}],"status":"Success"}
+
+2024-11-13 03:01:25,619 INFO Received Request: POST http://34.170.115.42:5000/send_friend_request
+2024-11-13 03:01:25,619 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTUzMjUyfQ.pzw7Za8GyDe1dp9s3Lf5XV-HBnrXa4yQvDh-X788Bdg
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 63
+
+
+2024-11-13 03:01:25,619 INFO Body: b'{"from_email":"mike@example.com","to_email":"mike@example.com"}'
+2024-11-13 03:01:25,641 INFO Sending Response: 200 OK
+2024-11-13 03:01:25,641 INFO Headers: Content-Type: application/json
+Content-Length: 46
+
+
+2024-11-13 03:01:25,641 INFO Body: {"status":"Friend request sent successfully"}
+
+2024-11-13 03:01:43,715 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 03:01:43,715 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:01:43,715 INFO Body: b''
+2024-11-13 03:01:43,725 INFO Sending Response: 404 NOT FOUND
+2024-11-13 03:01:43,725 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 03:01:43,725 INFO Body: {"error":"User not found"}
+
+2024-11-13 03:02:00,040 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 03:02:00,041 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-13 03:02:00,041 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-13 03:02:00,394 INFO Sending Response: 200 OK
+2024-11-13 03:02:00,394 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-13 03:02:00,394 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMzMjB9.Zl-tXXeONOC057bLHduCwIZjWP_oO2-VkXrSzucWucg"}
+
+2024-11-13 03:02:06,781 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=mike@example.com
+2024-11-13 03:02:06,781 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE1NTMzMjB9.Zl-tXXeONOC057bLHduCwIZjWP_oO2-VkXrSzucWucg
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:02:06,781 INFO Body: b''
+2024-11-13 03:02:06,796 INFO Sending Response: 200 OK
+2024-11-13 03:02:06,797 INFO Headers: Content-Type: application/json
+Content-Length: 151
+
+
+2024-11-13 03:02:06,797 INFO Body: {"friend_requests":[{"from_email":"mike@example.com","from_name":null,"request_id":3,"timestamp":"Wed, 13 Nov 2024 03:01:25 GMT"}],"status":"Success"}
+
+2024-11-13 03:21:45,934 INFO Received Request: GET http://34.170.115.42:5000/
+2024-11-13 03:21:45,934 INFO Headers: Host: 34.170.115.42:5000
+User-Agent: Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#39; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com
+Accept-Encoding: gzip
+
+
+2024-11-13 03:21:45,935 INFO Body: b''
+2024-11-13 03:21:45,935 INFO Sending Response: 200 OK
+2024-11-13 03:21:45,935 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 17
+
+
+2024-11-13 03:21:45,935 INFO Body: Hello from Flask!
+2024-11-13 03:23:40,620 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-13 03:23:40,620 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 43
+
+
+2024-11-13 03:23:40,621 INFO Body: b'{"email":"john@test.com","password":"1234"}'
+2024-11-13 03:23:40,976 INFO Sending Response: 201 CREATED
+2024-11-13 03:23:40,976 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 03:23:40,976 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 03:23:49,236 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 03:23:49,236 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 43
+
+
+2024-11-13 03:23:49,236 INFO Body: b'{"email":"john@test.com","password":"1234"}'
+2024-11-13 03:23:49,581 INFO Sending Response: 200 OK
+2024-11-13 03:23:49,581 INFO Headers: Content-Type: application/json
+Content-Length: 178
+
+
+2024-11-13 03:23:49,581 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvaG5AdGVzdC5jb20iLCJleHAiOjE3MzE1NTQ2Mjl9.Cz2Blpsuvp0jpSN7lCc-1LwHBRL7peU1gdUSGFwFGjQ"}
+
+2024-11-13 03:24:03,496 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=john@test.com
+2024-11-13 03:24:03,497 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvaG5AdGVzdC5jb20iLCJleHAiOjE3MzE1NTQ2Mjl9.Cz2Blpsuvp0jpSN7lCc-1LwHBRL7peU1gdUSGFwFGjQ
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:24:03,497 INFO Body: b''
+2024-11-13 03:24:03,507 INFO Sending Response: 200 OK
+2024-11-13 03:24:03,507 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 03:24:03,507 INFO Body: {"status":"No friend requests"}
+
+2024-11-13 03:24:10,518 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=emily
+2024-11-13 03:24:10,518 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvaG5AdGVzdC5jb20iLCJleHAiOjE3MzE1NTQ2Mjl9.Cz2Blpsuvp0jpSN7lCc-1LwHBRL7peU1gdUSGFwFGjQ
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:24:10,518 INFO Body: b''
+2024-11-13 03:24:10,528 INFO Sending Response: 200 OK
+2024-11-13 03:24:10,529 INFO Headers: Content-Type: application/json
+Content-Length: 123
+
+
+2024-11-13 03:24:10,529 INFO Body: {"friends":[{"email":"emily@example.com","name":"Emily Clark"},{"email":"emily@test.com","name":null}],"status":"Success"}
+
+2024-11-13 03:24:10,576 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=emily
+2024-11-13 03:24:10,576 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvaG5AdGVzdC5jb20iLCJleHAiOjE3MzE1NTQ2Mjl9.Cz2Blpsuvp0jpSN7lCc-1LwHBRL7peU1gdUSGFwFGjQ
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:24:10,577 INFO Body: b''
+2024-11-13 03:24:10,586 INFO Sending Response: 200 OK
+2024-11-13 03:24:10,587 INFO Headers: Content-Type: application/json
+Content-Length: 123
+
+
+2024-11-13 03:24:10,587 INFO Body: {"friends":[{"email":"emily@example.com","name":"Emily Clark"},{"email":"emily@test.com","name":null}],"status":"Success"}
+
+2024-11-13 03:24:18,127 INFO Received Request: POST http://34.170.115.42:5000/send_friend_request
+2024-11-13 03:24:18,128 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvaG5AdGVzdC5jb20iLCJleHAiOjE3MzE1NTQ2Mjl9.Cz2Blpsuvp0jpSN7lCc-1LwHBRL7peU1gdUSGFwFGjQ
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 58
+
+
+2024-11-13 03:24:18,128 INFO Body: b'{"from_email":"john@test.com","to_email":"emily@test.com"}'
+2024-11-13 03:24:18,146 INFO Sending Response: 200 OK
+2024-11-13 03:24:18,146 INFO Headers: Content-Type: application/json
+Content-Length: 46
+
+
+2024-11-13 03:24:18,146 INFO Body: {"status":"Friend request sent successfully"}
+
+2024-11-13 03:24:32,654 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 03:24:32,655 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:24:32,655 INFO Body: b''
+2024-11-13 03:24:32,664 INFO Sending Response: 404 NOT FOUND
+2024-11-13 03:24:32,664 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 03:24:32,664 INFO Body: {"error":"User not found"}
+
+2024-11-13 03:24:53,572 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 03:24:53,572 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 44
+
+
+2024-11-13 03:24:53,572 INFO Body: b'{"email":"emily@test.com","password":"1234"}'
+2024-11-13 03:24:53,916 INFO Sending Response: 200 OK
+2024-11-13 03:24:53,917 INFO Headers: Content-Type: application/json
+Content-Length: 180
+
+
+2024-11-13 03:24:53,917 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTU0NjkzfQ.DGuLy_UZJCvMdJ-36aTRshL7pMXgENXJDkHDL-4-K_4"}
+
+2024-11-13 03:24:59,329 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=emily@test.com
+2024-11-13 03:24:59,329 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTU0NjkzfQ.DGuLy_UZJCvMdJ-36aTRshL7pMXgENXJDkHDL-4-K_4
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:24:59,329 INFO Body: b''
+2024-11-13 03:24:59,340 INFO Sending Response: 200 OK
+2024-11-13 03:24:59,341 INFO Headers: Content-Type: application/json
+Content-Length: 148
+
+
+2024-11-13 03:24:59,341 INFO Body: {"friend_requests":[{"from_email":"john@test.com","from_name":null,"request_id":4,"timestamp":"Wed, 13 Nov 2024 03:24:18 GMT"}],"status":"Success"}
+
+2024-11-13 03:25:09,137 INFO Received Request: POST http://34.170.115.42:5000/respond_friend_request
+2024-11-13 03:25:09,138 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImVtaWx5QHRlc3QuY29tIiwiZXhwIjoxNzMxNTU0NjkzfQ.DGuLy_UZJCvMdJ-36aTRshL7pMXgENXJDkHDL-4-K_4
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 36
+
+
+2024-11-13 03:25:09,138 INFO Body: b'{"request_id":4,"action":"Accepted"}'
+2024-11-13 03:25:09,158 INFO Sending Response: 200 OK
+2024-11-13 03:25:09,159 INFO Headers: Content-Type: application/json
+Content-Length: 52
+
+
+2024-11-13 03:25:09,159 INFO Body: {"status":"Friend request accepteded successfully"}
+
+2024-11-13 03:39:27,806 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-13 03:39:27,806 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 42
+
+
+2024-11-13 03:39:27,806 INFO Body: b'{"email":"joe@test.com","password":"1234"}'
+2024-11-13 03:39:28,164 INFO Sending Response: 201 CREATED
+2024-11-13 03:39:28,164 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 03:39:28,164 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 03:39:49,462 INFO Received Request: POST http://34.170.115.42:5000/register
+2024-11-13 03:39:49,462 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Accept-Encoding: gzip
+Content-Length: 42
+
+
+2024-11-13 03:39:49,462 INFO Body: b'{"email":"bob@test.com","password":"1234"}'
+2024-11-13 03:39:49,814 INFO Sending Response: 201 CREATED
+2024-11-13 03:39:49,814 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 03:39:49,814 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 03:39:58,404 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 03:39:58,405 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 42
+
+
+2024-11-13 03:39:58,405 INFO Body: b'{"email":"bob@test.com","password":"1234"}'
+2024-11-13 03:39:58,752 INFO Sending Response: 200 OK
+2024-11-13 03:39:58,753 INFO Headers: Content-Type: application/json
+Content-Length: 177
+
+
+2024-11-13 03:39:58,753 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJvYkB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTU5OH0.CCQeFMT1eH4lAU1KPvVZBGTEyVmc4v-3R6begtesc8o"}
+
+2024-11-13 03:40:13,281 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=bob@test.com
+2024-11-13 03:40:13,282 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJvYkB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTU5OH0.CCQeFMT1eH4lAU1KPvVZBGTEyVmc4v-3R6begtesc8o
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:40:13,282 INFO Body: b''
+2024-11-13 03:40:13,292 INFO Sending Response: 200 OK
+2024-11-13 03:40:13,292 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 03:40:13,292 INFO Body: {"status":"No friend requests"}
+
+2024-11-13 03:40:20,257 INFO Received Request: GET http://34.170.115.42:5000/search_friends?query=joe
+2024-11-13 03:40:20,257 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJvYkB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTU5OH0.CCQeFMT1eH4lAU1KPvVZBGTEyVmc4v-3R6begtesc8o
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:40:20,257 INFO Body: b''
+2024-11-13 03:40:20,267 INFO Sending Response: 200 OK
+2024-11-13 03:40:20,267 INFO Headers: Content-Type: application/json
+Content-Length: 70
+
+
+2024-11-13 03:40:20,267 INFO Body: {"friends":[{"email":"joe@test.com","name":null}],"status":"Success"}
+
+2024-11-13 03:40:22,700 INFO Received Request: POST http://34.170.115.42:5000/send_friend_request
+2024-11-13 03:40:22,701 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImJvYkB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTU5OH0.CCQeFMT1eH4lAU1KPvVZBGTEyVmc4v-3R6begtesc8o
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 55
+
+
+2024-11-13 03:40:22,701 INFO Body: b'{"from_email":"bob@test.com","to_email":"joe@test.com"}'
+2024-11-13 03:40:22,719 INFO Sending Response: 200 OK
+2024-11-13 03:40:22,719 INFO Headers: Content-Type: application/json
+Content-Length: 46
+
+
+2024-11-13 03:40:22,719 INFO Body: {"status":"Friend request sent successfully"}
+
+2024-11-13 03:40:31,216 INFO Received Request: GET http://34.170.115.42:5000/get_data
+2024-11-13 03:40:31,216 INFO Headers: User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:40:31,216 INFO Body: b''
+2024-11-13 03:40:31,225 INFO Sending Response: 404 NOT FOUND
+2024-11-13 03:40:31,225 INFO Headers: Content-Type: application/json
+Content-Length: 27
+
+
+2024-11-13 03:40:31,225 INFO Body: {"error":"User not found"}
+
+2024-11-13 03:40:48,724 INFO Received Request: POST http://34.170.115.42:5000/login
+2024-11-13 03:40:48,724 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 42
+
+
+2024-11-13 03:40:48,724 INFO Body: b'{"email":"joe@test.com","password":"1234"}'
+2024-11-13 03:40:49,074 INFO Sending Response: 200 OK
+2024-11-13 03:40:49,075 INFO Headers: Content-Type: application/json
+Content-Length: 177
+
+
+2024-11-13 03:40:49,075 INFO Body: {"status":"Login successful","token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvZUB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTY0OX0.iXH4wNRv0CZa5fN4ywkbX9nadd9vfTglEJOHKxcNW8U"}
+
+2024-11-13 03:40:56,527 INFO Received Request: GET http://34.170.115.42:5000/get_friend_requests?email=joe@test.com
+2024-11-13 03:40:56,527 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvZUB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTY0OX0.iXH4wNRv0CZa5fN4ywkbX9nadd9vfTglEJOHKxcNW8U
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 03:40:56,527 INFO Body: b''
+2024-11-13 03:40:56,538 INFO Sending Response: 200 OK
+2024-11-13 03:40:56,538 INFO Headers: Content-Type: application/json
+Content-Length: 147
+
+
+2024-11-13 03:40:56,538 INFO Body: {"friend_requests":[{"from_email":"bob@test.com","from_name":null,"request_id":5,"timestamp":"Wed, 13 Nov 2024 03:40:22 GMT"}],"status":"Success"}
+
+2024-11-13 03:41:02,666 INFO Received Request: POST http://34.170.115.42:5000/respond_friend_request
+2024-11-13 03:41:02,666 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImpvZUB0ZXN0LmNvbSIsImV4cCI6MTczMTU1NTY0OX0.iXH4wNRv0CZa5fN4ywkbX9nadd9vfTglEJOHKxcNW8U
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 13; G53 Build/TP1A.220624.014)
+Host: 34.170.115.42:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 36
+
+
+2024-11-13 03:41:02,666 INFO Body: b'{"request_id":5,"action":"Accepted"}'
+2024-11-13 03:41:02,686 INFO Sending Response: 200 OK
+2024-11-13 03:41:02,687 INFO Headers: Content-Type: application/json
+Content-Length: 52
+
+
+2024-11-13 03:41:02,687 INFO Body: {"status":"Friend request accepteded successfully"}
+

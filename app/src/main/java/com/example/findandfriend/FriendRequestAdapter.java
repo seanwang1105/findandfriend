@@ -52,14 +52,14 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
         holder.friendEmail.setText(request.getFromEmail());
 
         holder.acceptButton.setOnClickListener(v -> {
-            respondToFriendRequest(request.getRequestId(), "Accept");
+            respondToFriendRequest(request.getRequestId(), "Accepted",position);
         });
 
         holder.declineButton.setOnClickListener(v -> {
-            respondToFriendRequest(request.getRequestId(), "Decline");
+            respondToFriendRequest(request.getRequestId(), "Declined",position);
         });
     }
-    private void respondToFriendRequest(int requestId, String action) {
+    private void respondToFriendRequest(int requestId, String action,int position) {
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Build the JSON payload
@@ -84,6 +84,9 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, SERVER_URL, jsonData,
                 response -> {
                     Toast.makeText(context, "Friend request " + action.toLowerCase() + "ed successfully", Toast.LENGTH_SHORT).show();
+                    friendRequests.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, friendRequests.size());
                 },
                 error -> {
                     Log.e("FriendRequestAdapter", "Error: " + error.getMessage());

@@ -6,15 +6,17 @@ import android.os.Parcelable;
 public class Friend implements Parcelable {
     public String id;
     String name;
+    String email;
     double latitude;
     double longitude;
     String timeAtLocation;
     int avatarResourceId;
 
     // constructor, initial all variables
-    public Friend(String id, String name, double latitude, double longitude, String timeAtLocation, int avatarResourceId) {
+    public Friend(String id, String name, String email,double latitude, double longitude, String timeAtLocation, int avatarResourceId) {
         this.id = id;
         this.name = name;
+        this.email=email;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timeAtLocation = timeAtLocation;
@@ -25,6 +27,7 @@ public class Friend implements Parcelable {
     protected Friend(Parcel in) {
         id = in.readString();
         name = in.readString();
+        email = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
         timeAtLocation = in.readString(); // read timeAtLocation
@@ -53,6 +56,9 @@ public class Friend implements Parcelable {
     public String getName() {
         return name;
     }
+    public String getEmail() {
+        return email;
+    }
 
     public double getLatitude() {
         return latitude;
@@ -75,6 +81,7 @@ public class Friend implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(name);
+        dest.writeString(email);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeString(timeAtLocation); // write timeAtLocation

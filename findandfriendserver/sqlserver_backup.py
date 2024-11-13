@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
+import logging
 import sqlite3
 import bcrypt
 import jwt
 import datetime
-import logging
 from functools import wraps
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -36,7 +36,6 @@ def log_response_info(response):
     logging.info(f"Body: {response.get_data(as_text=True)}")
     return response
 
-#setup Database connector
 def get_db_connection():
     conn = mysql.connector.connect(
         host='localhost',
@@ -46,7 +45,6 @@ def get_db_connection():
     )
     return conn
 
-#initialize database
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -132,13 +130,11 @@ def token_required(f):
 
     return decorated
 
-#home route
 @app.route('/')
 def home():
     print("Received a request from", request.remote_addr)
     return "Hello from Flask!"
 
-#register function
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -167,7 +163,6 @@ def register():
         # Return success response if user registration is successful
     return jsonify({"status": "User registered successfully"}), 201
 
-#login function
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -192,8 +187,8 @@ def login():
             }, app.config['SECRET_KEY'], algorithm="HS256")
             print("login successful")
 
-            if isinstance(token,bytes):
-                token=token.decode('utf-8')
+            if isinstance(token, bytes):
+                token = token.decode('utf-8')
 
             return jsonify({
                 "status": "Login successful",
@@ -208,7 +203,6 @@ def login():
     finally:
         cursor.close()
         conn.close()
-
 # Friend search endpoint
 @app.route('/search_friends', methods=['GET'])
 @token_required
@@ -319,7 +313,7 @@ def send_friend_request():
     data = request.json
     from_email = data.get('from_email')
     to_email = data.get('to_email')
-
+    print("friend request",from_email,to_email)
     if not from_email or not to_email:
         return jsonify({"error": "Both from_email and to_email are required"}), 400
 
@@ -402,7 +396,7 @@ def get_friend_requests():
             })
         return jsonify({"status": "Success", "friend_requests": friend_requests}), 200
     else:
-        return jsonify({"status": "No friend requests"}), 200
+        return jsonify({"status": "No friend requests"}), 201
 
 # accept or reject friend request
 @app.route('/respond_friend_request', methods=['POST'])
@@ -411,11 +405,12 @@ def respond_friend_request():
     request_id = data.get('request_id')
     action = data.get('action')  # Accept or Decline
 
+    print("response to friend request", request_id,action)
     if not request_id or not action:
         return jsonify({"error": "Both request_id and action are required"}), 400
 
     if action not in ['Accepted', 'Declined']:
-        return jsonify({"error": "Invalid action"}), 400
+        return jsonify({"error": "Invalid action"}), 401
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
