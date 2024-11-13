@@ -31,7 +31,7 @@ public class EditProfileActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.edit_profile_email);
         Button saveButton = findViewById(R.id.btn_save_profile);
 
-        // get ProfileActivity current data
+        // Get ProfileActivity current data
         Intent intent = getIntent();
         nameEditText.setText(intent.getStringExtra("name"));
         emailEditText.setText(intent.getStringExtra("email"));
@@ -40,11 +40,11 @@ public class EditProfileActivity extends AppCompatActivity {
             profileImageView.setImageURI(imageUri);
         }
 
-        // choose img
+        // Choose an image
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // load photos
+                // Load local photos
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_IMAGE);
             }
@@ -57,9 +57,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("name", nameEditText.getText().toString());
                 returnIntent.putExtra("email", emailEditText.getText().toString());
-                returnIntent.putExtra("imageUri", imageUri); // 传递选中的图片URI
+                returnIntent.putExtra("imageUri", imageUri); // Pass the selected image URI
                 setResult(RESULT_OK, returnIntent);
-                finish(); // 结束 EditProfileActivity，返回 ProfileActivity
+                finish(); // End EditProfileActivity，return ProfileActivity
             }
         });
     }
@@ -68,7 +68,6 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
-            // get img URI
             imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);

@@ -86,6 +86,10 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
 
     private void sendFriendRequest(Friend friend) {
         // Replace with your server's friend request API URL
+<<<<<<< HEAD
+=======
+        String url = context.getString(R.string.IP)  + "/send_friend_request";
+>>>>>>> b9aee5775f8170ec6926ffe8074d78c51a09567a
 
         String[] savedCredentials = loadCredentials();
         String email = "";
