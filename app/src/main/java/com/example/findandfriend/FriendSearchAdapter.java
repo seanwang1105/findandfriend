@@ -77,7 +77,7 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
 
     private void sendFriendRequest(Friend friend) {
         // Replace with your server's friend request API URL
-        String url = "https://yourserver.com/api/send_friend_request";
+        String url = context.getString(R.string.IP)  + "/send_friend_request";
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
