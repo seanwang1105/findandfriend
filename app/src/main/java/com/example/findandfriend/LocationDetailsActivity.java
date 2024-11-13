@@ -35,6 +35,7 @@ import org.json.JSONException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,10 +106,10 @@ public class LocationDetailsActivity extends AppCompatActivity {
         //Save for later
         btnSaveForLater.setOnClickListener(view -> {
                     String name = locationName.getText().toString();
-                    String description = address_d;
-                   savePlaceForLater(name, description);
+                    String location_description = address_d;
+                   savePlaceForLater(name, location_description);
                 });
-        //Navgation
+        // Navigation
         btnNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,32 +165,33 @@ public class LocationDetailsActivity extends AppCompatActivity {
         JSONArray savedPlacesArray;
 
         try {
-            // 读取现有的 saved_places.json 文件
+            // Read the existing saved_places.json
             FileInputStream fis = openFileInput(filename);
             int size = fis.available();
             byte[] buffer = new byte[size];
             fis.read(buffer);
             fis.close();
 
-            String jsonString = new String(buffer, "UTF-8");
+            String jsonString = new String(buffer, StandardCharsets.UTF_8);
             savedPlacesArray = new JSONArray(jsonString);
             Log.d(TAG, "read place: " + savedPlacesArray.toString());
         } catch (IOException | JSONException e) {
-            // 如果文件不存在或读取失败，创建一个新的 JSONArray
+            // If the file does not exist of the read fails
+            // create a new JSONArray for savedPlaces
             System.out.println("read file not exist");
             savedPlacesArray = new JSONArray();
         }
 
         try {
-            // 创建一个新的地点对象
+            // Create a new location object
             JSONObject newPlace = new JSONObject();
             newPlace.put("name", name);
             newPlace.put("address", address_d);
 
-            // 将新地点添加到数组中
+            // Add new locations to the savedPlacesArray
             savedPlacesArray.put(newPlace);
 
-            // 将更新后的数组写回到 saved_places.json 文件中
+            // Write the updated array to the saved_places.json
             FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(savedPlacesArray.toString().getBytes());
             fos.close();
@@ -225,26 +227,25 @@ public class LocationDetailsActivity extends AppCompatActivity {
         }
     }
 
-    //navigation function
+    // navigation function
     private void navigateToLocation(double lat, double lng) {
-        // 使用Google地图的URI schema，"google.navigation:q=latitude,longitude"
+        // Use Google Maps URI Schema
+        // "google.navigation:q=latitude,longitude"
         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lng);
 
-        // 创建Intent，启动Google地图
+        // Create an intent to launch Google Maps
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
 
-        // 确认用户的设备是否有Google地图应用
+        // Confirm user has the google maps app
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(mapIntent);
         } else {
-            // 提示用户安装Google地图
             System.out.println("Google Maps is not installed.");
         }
     }
 
     private void fetchPlaceAndPhoto(String placeId) {
-        //
         List<Place.Field> placeFields = Arrays.asList(Place.Field.CURRENT_SECONDARY_OPENING_HOURS,Place.Field.PHOTO_METADATAS);
         FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
         System.out.println("in fetch function1"+placeId);
@@ -253,11 +254,11 @@ public class LocationDetailsActivity extends AppCompatActivity {
             List<PhotoMetadata> photoMetadataList = place.getPhotoMetadatas();
             System.out.println("in fetch function2");
             if (photoMetadataList != null && !photoMetadataList.isEmpty()) {
-                // 创建字节数组列表来存储所有图片
+                // Create a list of byte arrays to store all images
                 for (PhotoMetadata photoMetadata : photoMetadataList) {
                     System.out.println("collecting photos....");
                     FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
-                            .setMaxWidth(500) // 可根据需求调整
+                            .setMaxWidth(500) // Adjustable on request
                             .setMaxHeight(500)
                             .build();
 
@@ -267,10 +268,9 @@ public class LocationDetailsActivity extends AppCompatActivity {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                         byte[] byteArray = stream.toByteArray();
 
-                        // 将字节数组添加到列表
                         imagesByteArrayList.add(byteArray);
 
-                        // 检查所有图片是否都已添加
+                        // Check that all images have been added
                         if(imagesByteArrayList.size() == photoMetadataList.size()) {
                             ImageSliderAdapter adapter = new ImageSliderAdapter(imagesByteArrayList);
                             viewPager2.setAdapter(adapter);

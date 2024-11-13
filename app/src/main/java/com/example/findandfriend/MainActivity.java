@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         updateflag=false;
 
-        // initialize MapView
+        // Initialize MapView
         mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         LatLng currentLatLng = new LatLng(currentlatitute, currentlogitute);
                         runOnUiThread(() -> {
                             if (myselfMarker == null) {
-                                // creat new marker
+                                // create new marker
                                 MarkerOptions markerOptions = new MarkerOptions()
                                         .position(currentLatLng)
                                         .title("My Location")
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         });
                     }
                     List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
-                    if (updateflag== false&&!friends.isEmpty()) {
+                    if (!updateflag && !friends.isEmpty()) {
                         friendAdapter.updateFriendDistances(friends);;
                         friendAdapter.notifyDataSetChanged();
                         //updateflag=true;
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnZoomOut = findViewById(R.id.btn_zoom_out);
 
 
-        // set zoon in and out event
+        // set zoom in and out event
         btnZoomIn.setOnClickListener(v -> {
             if (googleMap != null) {
                 googleMap.animateCamera(CameraUpdateFactory.zoomIn());
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 googleMap.animateCamera(CameraUpdateFactory.zoomOut());
             }
         });
-        // inirialize friend list
+        // initialize friend list
         List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
         friendAdapter = new FriendAdapter(this, friends);
 
@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
          // default to Home layout
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        // handle BottomNavigationView menuclick event
+        // handle BottomNavigationView menu click event
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return friends;
     }
 
-    //calcualte distance between user and friend
+    // Calculate distance between user and friend
     private double haversine(double lat1, double lon1, double lat2, double lon2) {
             // Convert latitude and longitude from degrees to radians
             lat1 = Math.toRadians(lat1);

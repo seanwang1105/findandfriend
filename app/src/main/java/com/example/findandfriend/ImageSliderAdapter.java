@@ -17,13 +17,13 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         this.images = images;
     }
 
-    // 创建 ViewHolder，持有每个图片视图的引用
+    // Create a ViewHolder that holds a reference to each image view
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
         public ImageViewHolder(View view) {
             super(view);
-            imageView = view.findViewById(R.id.slider_image); // 指定图片的 ImageView ID
+            imageView = view.findViewById(R.id.slider_image); // Specify the ImageViewID of the image
         }
     }
 
@@ -37,11 +37,11 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        // 获取字节数组并将其转换为 Bitmap
+        // Get a byte array and convert it into a bitmap
         byte[] imageData = images.get(position);
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
 
-        // 将 Bitmap 设置为 ImageView
+        // Set Bitmap for imageView being held
         holder.imageView.setImageBitmap(bitmap);
     }
 

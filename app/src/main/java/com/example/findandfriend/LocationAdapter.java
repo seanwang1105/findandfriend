@@ -34,7 +34,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
         return new LocationViewHolder(view);
     }
 
-    // boundle data to ViewHolder
+    // bind data to ViewHolder
     @Override
     public void onBindViewHolder(@NonNull LocationViewHolder holder, int position) {
         Location location = locationList.get(position);
@@ -50,7 +50,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
     public static class LocationViewHolder extends RecyclerView.ViewHolder {
         private TextView locationName;
         private TextView locationDescription;
-        //private TextView locationid;
+        // private TextView locationid;
 
         public LocationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,9 +59,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
             locationDescription = itemView.findViewById(R.id.location_description);
         }
 
-        // boundle data to view and set click event
+        // bind data to view and set click event
         public void bind(final Location location, final OnLocationClickListener listener) {
-            //locationid.setText(location.getId());
+            // locationid.setText(location.getId());
             locationName.setText(location.getName());
             locationDescription.setText(location.getDescription());
             itemView.setOnClickListener(v -> listener.onLocationClick(location));

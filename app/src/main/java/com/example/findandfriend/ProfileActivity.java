@@ -48,16 +48,16 @@ public class ProfileActivity extends AppCompatActivity {
         // load data
         loadUserData();
 
-        // Edit buttion click event
+        // Edit button click event
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             intent.putExtra("name", profileName.getText().toString());
             intent.putExtra("email", profileEmail.getText().toString());
-            intent.putExtra("imageUri", imageUri);  // 传递当前图片URI
-            editProfileLauncher.launch(intent);  // 启动编辑页面并接收结果
+            intent.putExtra("imageUri", imageUri);  // Pass current image URI
+            editProfileLauncher.launch(intent);  // Launch the edit page
         });
 
-        // collection buttion event
+        // collection button event
         btnViewFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
