@@ -1,10 +1,8 @@
 package com.example.findandfriend;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -50,16 +48,16 @@ public class ProfileActivity extends AppCompatActivity {
         // load data
         loadUserData();
 
-        // Edit button click event
+        // Edit buttion click event
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             intent.putExtra("name", profileName.getText().toString());
             intent.putExtra("email", profileEmail.getText().toString());
-            intent.putExtra("imageUri", imageUri);  // Pass current image URI
-            editProfileLauncher.launch(intent);  // Launch the edit page
+            intent.putExtra("imageUri", imageUri);  // 传递当前图片URI
+            editProfileLauncher.launch(intent);  // 启动编辑页面并接收结果
         });
 
-        // collection button event
+        // collection buttion event
         btnViewFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,50 +123,25 @@ public class ProfileActivity extends AppCompatActivity {
 
     // load user data
     private void loadUserData() {
-        String email = getEmailFromPreferences();
-        Log.d("TEST", "Email: " + email);
-        if (email == null) {
-            Toast.makeText(this, "No email found. Please log in.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String url = getString(R.string.IP) + "/get_data?email=" + email;
+        String url = getString(R.string.IP) + "/get_data";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
             try {
-                // Get values from the response
-                String name = response.optString("name", "TEMP Name");
+                profileName.setText(response.getString("name"));
+                profileEmail.setText(response.getString("email"));
                 String avatarUrl = response.getString("avatar");
-                // Update UI elements accordingly
-                profileName.setText(name);
-                profileEmail.setText(email);
                 if (!avatarUrl.isEmpty()) {
                     imageUri = Uri.parse(avatarUrl);
                     profileImage.setImageURI(imageUri);
                 }
-
-            } catch (Exception e) {
-                Log.e("ProfileActivity", "JSON parsing error", e);
-                Toast.makeText(ProfileActivity.this, "Failed to parse data", Toast.LENGTH_SHORT).show();
+                // Handle friends and favorite places if needed
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, error -> {
-            Log.e("ProfileActivity", "Data loading error: " + error.getMessage());
-            if (error.networkResponse != null) {
-                Log.e("ProfileActivity", "Status code: " + error.networkResponse.statusCode);
-                Log.e("ProfileActivity", "Response data: " + new String(error.networkResponse.data));
-                if (error.networkResponse.statusCode == 404) {
-                    Toast.makeText(ProfileActivity.this, "User not found. Please check your details and try again.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileActivity.this, "Failed to load data. Please try again later.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(ProfileActivity.this, "Failed to load data. Please check your network connection.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }, error -> Toast.makeText(ProfileActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show());
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
-
 
 
     // use ActivityResultLauncher instead of startActivityForResult to get edit result
@@ -197,17 +170,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             String url = getString(R.string.IP) + "/update_data";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, response ->
-                    Toast.makeText(ProfileActivity.this, "Data updated successfully", Toast.LENGTH_SHORT).show(),
-                    error -> Toast.makeText(ProfileActivity.this, "Failed to update data", Toast.LENGTH_SHORT).show());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, response -> Toast.makeText(ProfileActivity.this, "Data updated successfully", Toast.LENGTH_SHORT).show(), error -> Toast.makeText(ProfileActivity.this, "Failed to update data", Toast.LENGTH_SHORT).show());
 
             Volley.newRequestQueue(this).add(jsonObjectRequest);
         }
     });
-
-    private String getEmailFromPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        return sharedPreferences.getString("email", null);
-    }
-
 }
