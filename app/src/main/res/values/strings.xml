@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">findandfriend</string>
-    <string name="google_maps_key">AIzaSyD4UhofCqcnCoDMh-DAwwf-ffvvNGvFsEU</string>
+    <string name="google_maps_key">[insert key]</string>
     <string name ="IP">http://34.170.115.42:5000</string>
 </resources>
