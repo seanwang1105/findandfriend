@@ -60,7 +60,9 @@ def init_db():
         name VARCHAR(255),
         last_visit_place VARCHAR(255),
         last_visit_rating FLOAT,
-        avatar BLOB
+        last_longitude FLOAT,
+        last_latitude FLOAT,
+        avatar VARCHAR(255)
     )
     ''')
 
@@ -234,19 +236,27 @@ def search_friends(current_user_email):
 
 # Update user data
 @app.route('/update_data', methods=['POST'])
-def update_data():
+@token_required
+def update_data(current_user_email):
     data = request.json
+    print("update request email is:",data)
     email = data.get('email')
-    friend_list = data.get('friend_list', [])
-    favorite_places = data.get('favorite_places', [])
+    name = data.get('name')
     avatar = data.get('avatar')
+
+    print("update request email is:", email)
+    print("update request name is:", name)
+    print("update request avatar is:", avatar)
+
+    if isinstance(avatar, bytes):
+        avatar = avatar.decode('utf-8')
 
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     # Update avatar
-    cursor.execute('UPDATE users SET avatar = %s WHERE email = %s', (avatar, email))
-
+    cursor.execute('UPDATE users SET name = %s,avatar = %s WHERE email = %s', (name,avatar,email))
+    '''
     # user id
     cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
     user = cursor.fetchone()
@@ -270,21 +280,22 @@ def update_data():
     for place in favorite_places:
         cursor.execute('INSERT INTO favorite_places (user_id, place_name, place_address) VALUES (%s, %s, %s)',
                        (user_id, place['name'], place['address']))
-
+    '''
     conn.commit()
     conn.close()
     return jsonify({"status": "Data updated successfully"}), 200
 
 # get user data include friend list
 @app.route('/get_data', methods=['GET'])
-def get_data():
+@token_required
+def get_data(current_user_email):
     email = request.args.get('email')
-
+    print("get data email reveived",email)
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     # Get user data
-    cursor.execute('SELECT id, last_visit_place, last_visit_rating, avatar FROM users WHERE email = %s', (email,))
+    cursor.execute('SELECT id,name,last_visit_place, last_visit_rating FROM users WHERE email = %s', (email,))
     user_data = cursor.fetchone()
     if not user_data:
         return jsonify({"error": "User not found"}), 404
@@ -306,9 +317,10 @@ def get_data():
 
     conn.close()
     return jsonify({
+        "name":user_data['name'],
         "last_visit_place": user_data['last_visit_place'],
         "last_visit_rating": user_data['last_visit_rating'],
-        "avatar": user_data['avatar'],
+        #"avatar": user_data['avatar'],
         "friend_list": friends,
         "favorite_places": favorites
     }), 200
@@ -444,6 +456,74 @@ def respond_friend_request():
 
     return jsonify({"status": f"Friend request {action.lower()}ed successfully"}), 200
 
+#get friend list from server
+@app.route('/get_friend_list', methods=['GET'])
+@token_required
+def get_friend_list(current_user_email):
+    print(" I am in friend list request now")
+    email = request.args.get('email')  # Get email from request parameters
+    print("email for getting friend list is:",email)
+    if not email:
+        return jsonify({"error": "Email parameter is missing"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    # Retrieve the user ID based on the provided email
+    cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
+    user = cursor.fetchone()
+    if not user:
+        conn.close()
+        return jsonify({"error": "User not found"}), 404
+
+    user_id = user['id']
+
+    # Fetch friends for the specified user
+    cursor.execute('''
+    SELECT u.id, u.name, u.email, u.last_latitude AS latitude, u.last_longitude AS longitude
+    FROM friends f
+    JOIN users u ON f.friend_id = u.id
+    WHERE f.user_id = %s
+    ''', (user_id,))
+
+    friends = [{"id": row["id"], "name": row["name"], "email": row["email"], "latitude": row["latitude"],
+                "longitude": row["longitude"]} for row in cursor.fetchall()]
+
+    print("friend list is:",friends)
+    conn.close()
+    return jsonify({"status": "success", "friends": friends}), 200
+
+@app.route('/update_location', methods=['POST'])
+@token_required
+def update_location(current_user_email):
+    data = request.get_json()
+    email = data.get('email')
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+
+    print("location update received:",email,latitude,longitude)
+    if latitude is None or longitude is None:
+        return jsonify({"error": "Latitude and longitude are required"}), 400
+    # Update last_latitude and last_longitude in the database
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute('''
+            UPDATE users
+            SET last_latitude = %s, last_longitude = %s
+            WHERE email = %s
+        ''', (latitude, longitude, current_user_email))
+        conn.commit()
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        return jsonify({"error": "Database update failed"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"status": "Location updated successfully"}), 200
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 

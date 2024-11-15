@@ -114,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
             if (success) {
                 // login to server and save to local
                 saveCredentials(email, password);
-                saveEmailToPreferences(email);  // Save email to SharedPreferences
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -124,11 +123,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (savedCredentials != null) {
                     String savedEmail = savedCredentials[0];
                     String savedPassword = savedCredentials[1];
-
-                    // local username and password verification
+                    //new RegisterTask().execute(email, password);
+                    // local username and password verificaiton
                     if (email.equals(savedEmail) && password.equals(savedPassword)) {
                         Toast.makeText(this, "Logged in with locally saved credentials", Toast.LENGTH_SHORT).show();
-                        saveEmailToPreferences(email);  // Save email to SharedPreferences
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -140,7 +138,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     // Save credentials to local file
@@ -320,11 +317,4 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
         }
     }
-    private void saveEmailToPreferences(String email) {
-        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("email", email);
-        editor.apply();
-    }
-
 }

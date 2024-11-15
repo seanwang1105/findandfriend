@@ -1,6 +1,7 @@
 package com.example.findandfriend;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.content.Intent;
@@ -27,6 +28,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -48,12 +54,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -79,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Marker myselfMarker;
     private int invalidLocationCount = 0;
     private boolean updateflag;
+    private String email;
+    private static final String FILE_NAME = "user_credentials.txt";
 
     private static final double EARTH_RADIUS = 3959.0;
 
@@ -88,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
         updateflag=false;
 
-        // Initialize MapView
+        // initialize MapView
         mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
@@ -124,6 +137,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         }
         */
+        //Download friend list
+        String[] savedCredentials = loadCredentials();
+
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
+
+        downloadAndSaveFriendList();
 
         // Define location callback
         locationCallback = new LocationCallback() {
@@ -160,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         LatLng currentLatLng = new LatLng(currentlatitute, currentlogitute);
                         runOnUiThread(() -> {
                             if (myselfMarker == null) {
-                                // create new marker
+                                // creat new marker
                                 MarkerOptions markerOptions = new MarkerOptions()
                                         .position(currentLatLng)
                                         .title("My Location")
@@ -174,8 +195,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             }
                         });
                     }
+
+                    updateLocationOnServer(currentlatitute, currentlogitute);
+
                     List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
-                    if (!updateflag && !friends.isEmpty()) {
+                    if (updateflag== false&&!friends.isEmpty()) {
                         friendAdapter.updateFriendDistances(friends);;
                         friendAdapter.notifyDataSetChanged();
                         //updateflag=true;
@@ -217,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnZoomOut = findViewById(R.id.btn_zoom_out);
 
 
-        // set zoom in and out event
+        // set zoon in and out event
         btnZoomIn.setOnClickListener(v -> {
             if (googleMap != null) {
                 googleMap.animateCamera(CameraUpdateFactory.zoomIn());
@@ -229,17 +253,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 googleMap.animateCamera(CameraUpdateFactory.zoomOut());
             }
         });
-        // initialize friend list
-        List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
-        friendAdapter = new FriendAdapter(this, friends);
 
-        // set RecyclerView
+        friendListView = findViewById(R.id.friend_list);
         friendListView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize the adapter with an empty list
+        friendAdapter = new FriendAdapter(this, new ArrayList<>());
         friendListView.setAdapter(friendAdapter);
+
+        // Load data from local JSON file
+        getSampleFriends(currentlatitute,currentlogitute);
 
          // default to Home layout
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
-        // handle BottomNavigationView menu click event
+        // handle BottomNavigationView menuclick event
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -431,10 +458,118 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    private void downloadAndSaveFriendList() {
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+
+        if (token == null) {
+            Toast.makeText(this, "Missing token, please login again", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String url = getString(R.string.IP) + "/get_friend_list" + "?email=" + email;
+        System.out.println("in friend querry now");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONArray friendsArray = response.getJSONArray("friends");
+                        saveFriendsToFile(friendsArray);
+                        Toast.makeText(this, "Friend list downloaded and saved", Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Failed to parse friend data", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(this, "Error occurred while downloading friend data", Toast.LENGTH_SHORT).show()) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token);
+                return headers;
+            }
+        };
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+    //Get user name
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    // Function to save JSONArray to a file named friends.json
+    private void saveFriendsToFile(JSONArray friendsArray) {
+        try {
+            FileOutputStream fos = openFileOutput("friends.json", MODE_PRIVATE);
+            fos.write(friendsArray.toString().getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error saving friend data", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void updateLocationOnServer(double latitude, double longitude) {
+        // Get the user's token from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+
+        if (token == null) {
+            Log.e(TAG, "Missing token, cannot update location on server");
+            return;
+        }
+
+        String url = getString(R.string.IP) + "/update_location"; // Update with your server URL
+
+        // Create the JSON payload with latitude and longitude
+        JSONObject locationData = new JSONObject();
+        try {
+            locationData.put("latitude", latitude);
+            locationData.put("longitude", longitude);
+            locationData.put("email", email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Make the POST request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, locationData,
+                response -> {
+                    // Successfully updated location
+                    Log.i(TAG, "Location updated successfully on server");
+                },
+                error -> {
+                    // Handle error
+                    Log.e(TAG, "Failed to update location on server: " + error.getMessage());
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add the token in the header for authentication
+                return headers;
+            }
+        };
+
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
     private List<Friend> getSampleFriends(double mylatitute,double mylogitute) {
         List<Friend> friends = new ArrayList<>();
-
-        try {
+              try {
             FileInputStream fis = openFileInput("friends.json");
             StringBuilder sb = new StringBuilder();
             int ch;
@@ -452,7 +587,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String email =  friendObject.getString("email");
                 double latitude = friendObject.getDouble("latitude");
                 double longitude = friendObject.getDouble("longitude");
-                String timeAtLocation = friendObject.getString("timeAtLocation");
+             //   String timeAtLocation = friendObject.optString("timeAtLocation","N/A");
                 int avatarResourceId = R.drawable.ic_friend_avatar1; // default avatar
                 System.out.println("myself position to calculate is:"+ mylatitute + mylogitute);
                 String disAtlocation = String.format("%.0f",haversine(latitude,longitude,mylatitute,mylogitute));
@@ -466,11 +601,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // Update the RecyclerView adapter with the loaded friends
+        friendAdapter.updateFriends(friends); // Assuming updateFriendList is defined in FriendAdapter
+        friendAdapter.notifyDataSetChanged();
 
         return friends;
     }
 
-    // Calculate distance between user and friend
+    //calcualte distance between user and friend
     private double haversine(double lat1, double lon1, double lat2, double lon2) {
             // Convert latitude and longitude from degrees to radians
             lat1 = Math.toRadians(lat1);

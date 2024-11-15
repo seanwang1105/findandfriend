@@ -16,16 +16,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -33,6 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView profileName, profileEmail;
     private Button btnEditProfile, btnViewFavorites, btnLogout;
     private Uri imageUri;
+    private static final String FILE_NAME = "user_credentials.txt";
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +62,16 @@ public class ProfileActivity extends AppCompatActivity {
         // load data
         loadUserData();
 
-        // Edit button click event
+        // Edit buttion click event
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             intent.putExtra("name", profileName.getText().toString());
             intent.putExtra("email", profileEmail.getText().toString());
-            intent.putExtra("imageUri", imageUri);  // Pass current image URI
-            editProfileLauncher.launch(intent);  // Launch the edit page
+            intent.putExtra("imageUri", imageUri);
+            editProfileLauncher.launch(intent);
         });
 
-        // collection button event
+        // collection buttion event
         btnViewFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,50 +137,90 @@ public class ProfileActivity extends AppCompatActivity {
 
     // load user data
     private void loadUserData() {
-        String email = getEmailFromPreferences();
-        Log.d("TEST", "Email: " + email);
-        if (email == null) {
-            Toast.makeText(this, "No email found. Please log in.", Toast.LENGTH_SHORT).show();
+        // Initialize the request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String[] savedCredentials = loadCredentials();
+
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+
+        if (token == null || email.isEmpty()) {
+            Toast.makeText(ProfileActivity.this, "Missing token, please login again", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String url = getString(R.string.IP) + "/get_data?email=" + email;
+        // Define the URL with the email parameter
+        String url = getString(R.string.IP) + "/get_data" + "?email=" + email;
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, response -> {
-            try {
-                // Get values from the response
-                String name = response.optString("name", "TEMP Name");
-                String avatarUrl = response.getString("avatar");
-                // Update UI elements accordingly
-                profileName.setText(name);
-                profileEmail.setText(email);
-                if (!avatarUrl.isEmpty()) {
-                    imageUri = Uri.parse(avatarUrl);
-                    profileImage.setImageURI(imageUri);
-                }
+        // Create a StringRequest
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
 
-            } catch (Exception e) {
-                Log.e("ProfileActivity", "JSON parsing error", e);
-                Toast.makeText(ProfileActivity.this, "Failed to parse data", Toast.LENGTH_SHORT).show();
+                        if (jsonResponse.has("error")) {
+                            Toast.makeText(ProfileActivity.this, "No user data available.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Extract user data
+                            String name = jsonResponse.getString("name");
+                            String lastVisitPlace = jsonResponse.optString("last_visit_place", "N/A");
+                            String lastVisitRating = jsonResponse.optString("last_visit_rating", "N/A");
+                            //String avatarUrl = jsonResponse.optString("avatar", "");
+
+                            // Update UI elements with user data
+                            profileName.setText(name);
+                            profileEmail.setText(email);
+                            //lastVisitPlaceTextView.setText(lastVisitPlace);
+                           // lastVisitRatingTextView.setText(lastVisitRating);
+
+                            // Load avatar image
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(ProfileActivity.this, "Failed to parse user data.", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Toast.makeText(ProfileActivity.this, "Error occurred while downloading user data.", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
             }
-        }, error -> {
-            Log.e("ProfileActivity", "Data loading error: " + error.getMessage());
-            if (error.networkResponse != null) {
-                Log.e("ProfileActivity", "Status code: " + error.networkResponse.statusCode);
-                Log.e("ProfileActivity", "Response data: " + new String(error.networkResponse.data));
-                if (error.networkResponse.statusCode == 404) {
-                    Toast.makeText(ProfileActivity.this, "User not found. Please check your details and try again.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileActivity.this, "Failed to load data. Please try again later.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(ProfileActivity.this, "Failed to load data. Please check your network connection.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        };
 
-        Volley.newRequestQueue(this).add(jsonObjectRequest);
+        // Add the request to the request queue
+        queue.add(stringRequest);
     }
-
+    //parse user data
+   //Load credentials to get email
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 
     // use ActivityResultLauncher instead of startActivityForResult to get edit result
@@ -177,7 +229,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
             Intent data = result.getData();
             String name = data.getStringExtra("name");
-            String email = data.getStringExtra("email");
+            String avatar="no";
             imageUri = data.getParcelableExtra("imageUri");
 
             profileName.setText(name);
@@ -185,29 +237,41 @@ public class ProfileActivity extends AppCompatActivity {
             if (imageUri != null) {
                 profileImage.setImageURI(imageUri);
             }
-
+            //get token
+            SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", null);
             // Send updated data to server
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("email", email);
                 jsonObject.put("name", name);
-                jsonObject.put("avatar", imageUri.toString());
+                jsonObject.put("avatar",avatar);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             String url = getString(R.string.IP) + "/update_data";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, response ->
-                    Toast.makeText(ProfileActivity.this, "Data updated successfully", Toast.LENGTH_SHORT).show(),
-                    error -> Toast.makeText(ProfileActivity.this, "Failed to update data", Toast.LENGTH_SHORT).show());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                    response -> {
+                           if (response.optString("status").equals("Data updated successfully")) {
+                                Toast.makeText(ProfileActivity.this, "Data updated successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ProfileActivity.this, "Data updated error", Toast.LENGTH_SHORT).show();
+                            }
+                    },
+                    error -> {
+                        Toast.makeText(ProfileActivity.this, "Error occurred while updating user data.", Toast.LENGTH_SHORT).show();
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("x-access-token", token); // Add token to request header
+                    return headers;
+                }
+            };
 
+            // Add the request to the request queue
             Volley.newRequestQueue(this).add(jsonObjectRequest);
         }
     });
-
-    private String getEmailFromPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        return sharedPreferences.getString("email", null);
-    }
-
 }

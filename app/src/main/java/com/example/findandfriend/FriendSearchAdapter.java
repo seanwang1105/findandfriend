@@ -86,10 +86,6 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
 
     private void sendFriendRequest(Friend friend) {
         // Replace with your server's friend request API URL
-<<<<<<< HEAD
-=======
-        String url = context.getString(R.string.IP)  + "/send_friend_request";
->>>>>>> b9aee5775f8170ec6926ffe8074d78c51a09567a
 
         String[] savedCredentials = loadCredentials();
         String email = "";
@@ -117,12 +113,12 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<FriendSearchAdapte
                     Toast.makeText(context, "Friend request sent to " + friend.name, Toast.LENGTH_SHORT).show();
 
                     // Simulate confirmation for the purpose of this example
-                    simulateFriendConfirmation(friend);
+                    //simulateFriendConfirmation(friend);
 
                 },
                 error -> {
                     // Handle error
-                    simulateFriendConfirmation(friend);
+                    //simulateFriendConfirmation(friend);
                     Toast.makeText(context, "Error sending friend request", Toast.LENGTH_SHORT).show();
                 }) {
             // Load the token from SharedPreferences

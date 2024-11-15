@@ -18,7 +18,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
 
     private ImageView profileImageView;
-    private EditText nameEditText, emailEditText;
+    private EditText nameEditText;
     private Uri imageUri;
 
     @Override
@@ -28,23 +28,21 @@ public class EditProfileActivity extends AppCompatActivity {
 
         profileImageView = findViewById(R.id.edit_profile_image);
         nameEditText = findViewById(R.id.edit_profile_name);
-        emailEditText = findViewById(R.id.edit_profile_email);
         Button saveButton = findViewById(R.id.btn_save_profile);
 
-        // Get ProfileActivity current data
+        // get ProfileActivity current data
         Intent intent = getIntent();
         nameEditText.setText(intent.getStringExtra("name"));
-        emailEditText.setText(intent.getStringExtra("email"));
         imageUri = intent.getParcelableExtra("imageUri");
         if (imageUri != null) {
             profileImageView.setImageURI(imageUri);
         }
 
-        // Choose an image
+        // choose img
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Load local photos
+                // load photos
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, PICK_IMAGE);
             }
@@ -56,10 +54,9 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("name", nameEditText.getText().toString());
-                returnIntent.putExtra("email", emailEditText.getText().toString());
-                returnIntent.putExtra("imageUri", imageUri); // Pass the selected image URI
+                returnIntent.putExtra("imageUri", imageUri); // 传递选中的图片URI
                 setResult(RESULT_OK, returnIntent);
-                finish(); // End EditProfileActivity，return ProfileActivity
+                finish(); //
             }
         });
     }
@@ -68,6 +65,7 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            // get img URI
             imageUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);

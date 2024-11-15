@@ -2231,3 +2231,1448 @@ Content-Length: 52
 
 2024-11-13 03:41:02,687 INFO Body: {"status":"Friend request accepteded successfully"}
 
+2024-11-13 13:53:27,549 INFO package: mysql.connector.plugins
+2024-11-13 13:53:27,550 INFO plugin_name: caching_sha2_password
+2024-11-13 13:53:27,550 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 13:53:27,580 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.24.52:5000
+2024-11-13 13:53:27,580 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 20:36:16,037 INFO package: mysql.connector.plugins
+2024-11-13 20:36:16,037 INFO plugin_name: caching_sha2_password
+2024-11-13 20:36:16,038 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 20:36:16,076 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-13 20:36:16,076 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 20:36:32,152 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 20:36:32,152 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2MTIzODN9.MbZYE8xj5xq2OtHlfKv-9Kva2myF_ThPIQ8lVVcs1fg
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 20:36:32,153 INFO Body: b''
+2024-11-13 20:36:32,153 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 20:36:32,156 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 20:36:32,156 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 20:36:32,156 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 20:36:32,156 INFO 192.168.68.74 - - [13/Nov/2024 20:36:32] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 20:40:08,075 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 20:40:08,075 INFO Headers: X-Access-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2MTIzODN9.MbZYE8xj5xq2OtHlfKv-9Kva2myF_ThPIQ8lVVcs1fg
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 20:40:08,075 INFO Body: b''
+2024-11-13 20:40:08,075 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 20:40:08,077 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 20:40:08,077 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 20:40:08,077 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 20:40:08,078 INFO 192.168.68.74 - - [13/Nov/2024 20:40:08] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 20:46:49,882 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-13 20:46:49,882 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-13 20:46:49,883 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-13 20:46:50,130 INFO Sending Response: 200 OK
+2024-11-13 20:46:50,130 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-13 20:46:50,130 INFO Body: {"status":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8"}
+
+2024-11-13 20:46:50,130 INFO 192.168.68.74 - - [13/Nov/2024 20:46:50] "POST /login HTTP/1.1" 200 -
+2024-11-13 20:47:10,932 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 20:47:10,932 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 20:47:10,932 INFO Body: b''
+2024-11-13 20:47:10,932 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 20:47:10,933 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 20:47:10,933 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 20:47:10,933 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 20:47:10,933 INFO 192.168.68.74 - - [13/Nov/2024 20:47:10] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 20:47:44,852 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 20:47:44,852 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 20:47:44,852 INFO Body: b''
+2024-11-13 20:47:44,853 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 20:47:44,853 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 20:47:44,853 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 20:47:44,853 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 20:47:44,853 INFO 192.168.68.74 - - [13/Nov/2024 20:47:44] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 20:54:27,736 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 20:54:27,736 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 20:54:27,737 INFO Body: b''
+2024-11-13 20:54:27,737 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 20:54:27,737 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 20:54:27,737 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 20:54:27,737 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 20:54:27,738 INFO 192.168.68.74 - - [13/Nov/2024 20:54:27] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 21:01:25,316 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:01:25,316 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:01:25,316 INFO Body: b''
+2024-11-13 21:01:25,316 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 21:01:25,317 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:01:25,317 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:01:25,317 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:01:25,317 INFO 192.168.68.74 - - [13/Nov/2024 21:01:25] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 21:03:26,306 INFO Received Request: GET http://192.168.68.74:5000/get_friend_requests?email=mike@example.com
+2024-11-13 21:03:26,306 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:03:26,306 INFO Body: b''
+2024-11-13 21:03:26,358 INFO Sending Response: 200 OK
+2024-11-13 21:03:26,358 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-13 21:03:26,358 INFO Body: {"status":"No friend requests"}
+
+2024-11-13 21:03:26,358 INFO 192.168.68.74 - - [13/Nov/2024 21:03:26] "GET /get_friend_requests?email=mike@example.com HTTP/1.1" 200 -
+2024-11-13 21:08:10,872 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:08:10,872 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:08:10,872 INFO Body: b''
+2024-11-13 21:08:10,873 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+TypeError: get_data() takes 0 positional arguments but 1 was given
+2024-11-13 21:08:10,874 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:08:10,875 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:08:10,875 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:08:10,875 INFO 192.168.68.74 - - [13/Nov/2024 21:08:10] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 21:08:27,133 INFO package: mysql.connector.plugins
+2024-11-13 21:08:27,133 INFO plugin_name: caching_sha2_password
+2024-11-13 21:08:27,133 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 21:08:27,159 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-13 21:08:27,160 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 21:08:34,593 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:08:34,593 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:08:34,593 INFO Body: b''
+2024-11-13 21:08:34,643 INFO Sending Response: 200 OK
+2024-11-13 21:08:34,644 INFO Headers: Content-Type: application/json
+Content-Length: 165
+
+
+2024-11-13 21:08:34,644 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[{"email":"alice@example.com","name":"Alice Clark"}],"last_visit_place":null,"last_visit_rating":null,"name":null}
+
+2024-11-13 21:08:34,644 INFO 192.168.68.74 - - [13/Nov/2024 21:08:34] "GET /get_data?email=mike@example.com HTTP/1.1" 200 -
+2024-11-13 21:09:06,192 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:09:06,192 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:09:06,192 INFO Body: b''
+2024-11-13 21:09:06,238 INFO Sending Response: 200 OK
+2024-11-13 21:09:06,239 INFO Headers: Content-Type: application/json
+Content-Length: 165
+
+
+2024-11-13 21:09:06,239 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[{"email":"alice@example.com","name":"Alice Clark"}],"last_visit_place":null,"last_visit_rating":null,"name":null}
+
+2024-11-13 21:09:06,239 INFO 192.168.68.74 - - [13/Nov/2024 21:09:06] "GET /get_data?email=mike@example.com HTTP/1.1" 200 -
+2024-11-13 21:29:25,997 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:29:25,998 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:29:25,998 INFO Body: b''
+2024-11-13 21:29:26,041 INFO Sending Response: 200 OK
+2024-11-13 21:29:26,041 INFO Headers: Content-Type: application/json
+Content-Length: 165
+
+
+2024-11-13 21:29:26,042 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[{"email":"alice@example.com","name":"Alice Clark"}],"last_visit_place":null,"last_visit_rating":null,"name":null}
+
+2024-11-13 21:29:26,042 INFO 192.168.68.74 - - [13/Nov/2024 21:29:26] "GET /get_data?email=mike@example.com HTTP/1.1" 200 -
+2024-11-13 21:31:26,837 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:31:26,837 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:31:26,837 INFO Body: b''
+2024-11-13 21:31:26,881 INFO Sending Response: 200 OK
+2024-11-13 21:31:26,881 INFO Headers: Content-Type: application/json
+Content-Length: 165
+
+
+2024-11-13 21:31:26,881 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[{"email":"alice@example.com","name":"Alice Clark"}],"last_visit_place":null,"last_visit_rating":null,"name":null}
+
+2024-11-13 21:31:26,882 INFO 192.168.68.74 - - [13/Nov/2024 21:31:26] "GET /get_data?email=mike@example.com HTTP/1.1" 200 -
+2024-11-13 21:31:40,085 INFO Received Request: POST http://192.168.68.74:5000/update_data
+2024-11-13 21:31:40,085 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 56
+
+
+2024-11-13 21:31:40,085 INFO Body: b'{"email":"mike@example.com","name":"mike","avatar":"na"}'
+2024-11-13 21:31:40,128 ERROR Exception on /update_data [POST]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 250, in update_data
+    cursor.execute('UPDATE users SET name = %s,avatar = %s WHERE email = %s', (name,avatar, email))
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\mysql\connector\cursor.py", line 520, in execute
+    stmt = RE_PY_PARAM.sub(psub, stmt)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\mysql\connector\cursor.py", line 199, in __call__
+    raise ProgrammingError(
+mysql.connector.errors.ProgrammingError: Not enough parameters for the SQL statement
+2024-11-13 21:31:40,132 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:31:40,132 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:31:40,132 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:31:40,132 INFO 192.168.68.74 - - [13/Nov/2024 21:31:40] "[35m[1mPOST /update_data HTTP/1.1[0m" 500 -
+2024-11-13 21:38:59,536 INFO package: mysql.connector.plugins
+2024-11-13 21:38:59,537 INFO plugin_name: caching_sha2_password
+2024-11-13 21:38:59,537 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 21:38:59,566 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-13 21:38:59,566 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 21:39:11,628 INFO Received Request: POST http://192.168.68.74:5000/update_data
+2024-11-13 21:39:11,628 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2Mzg4MTB9.QLNitdHla4B2Dz1HCUIM-vMXmAtHuHaVrGAWycmfJZ8
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 56
+
+
+2024-11-13 21:39:11,628 INFO Body: b'{"email":"mike@example.com","name":"mike","avatar":"na"}'
+2024-11-13 21:39:11,681 INFO Sending Response: 200 OK
+2024-11-13 21:39:11,681 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 21:39:11,681 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 21:39:11,681 INFO 192.168.68.74 - - [13/Nov/2024 21:39:11] "POST /update_data HTTP/1.1" 200 -
+2024-11-13 21:39:57,092 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-13 21:39:57,092 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-13 21:39:57,092 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-13 21:39:57,348 INFO Sending Response: 200 OK
+2024-11-13 21:39:57,348 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-13 21:39:57,348 INFO Body: {"status":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2NDE5OTd9.6GX8lplhsU2zdm5BIsRmYXsxmHI1rA5XSXg9_KsAXSw"}
+
+2024-11-13 21:39:57,348 INFO 192.168.68.74 - - [13/Nov/2024 21:39:57] "POST /login HTTP/1.1" 200 -
+2024-11-13 21:40:05,092 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:40:05,092 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2NDE5OTd9.6GX8lplhsU2zdm5BIsRmYXsxmHI1rA5XSXg9_KsAXSw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:40:05,092 INFO Body: b''
+2024-11-13 21:40:05,143 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 316, in get_data
+    return jsonify({
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\__init__.py", line 234, in dumps
+    return cls(
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type bytes is not JSON serializable
+2024-11-13 21:40:05,152 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:40:05,152 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:40:05,152 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:40:05,152 INFO 192.168.68.74 - - [13/Nov/2024 21:40:05] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 21:43:52,147 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:43:52,147 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2NDE5OTd9.6GX8lplhsU2zdm5BIsRmYXsxmHI1rA5XSXg9_KsAXSw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:43:52,147 INFO Body: b''
+2024-11-13 21:43:52,192 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 316, in get_data
+    return jsonify({
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\__init__.py", line 234, in dumps
+    return cls(
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type bytes is not JSON serializable
+2024-11-13 21:43:52,193 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:43:52,193 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:43:52,193 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:43:52,194 INFO 192.168.68.74 - - [13/Nov/2024 21:43:52] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 21:49:12,022 INFO package: mysql.connector.plugins
+2024-11-13 21:49:12,023 INFO plugin_name: caching_sha2_password
+2024-11-13 21:49:12,023 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 21:49:12,064 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-13 21:49:12,064 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 21:49:29,634 INFO Received Request: POST http://192.168.68.74:5000/update_data
+2024-11-13 21:49:29,634 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2NDE5OTd9.6GX8lplhsU2zdm5BIsRmYXsxmHI1rA5XSXg9_KsAXSw
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 56
+
+
+2024-11-13 21:49:29,634 INFO Body: b'{"email":"mike@example.com","name":"mike","avatar":"na"}'
+2024-11-13 21:49:29,678 INFO Sending Response: 200 OK
+2024-11-13 21:49:29,678 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 21:49:29,678 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 21:49:29,678 INFO 192.168.68.74 - - [13/Nov/2024 21:49:29] "POST /update_data HTTP/1.1" 200 -
+2024-11-13 21:50:29,579 INFO package: mysql.connector.plugins
+2024-11-13 21:50:29,579 INFO plugin_name: caching_sha2_password
+2024-11-13 21:50:29,580 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 21:50:29,615 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-13 21:50:29,615 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 21:50:38,571 INFO Received Request: POST http://192.168.68.74:5000/update_data
+2024-11-13 21:50:38,571 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2NDE5OTd9.6GX8lplhsU2zdm5BIsRmYXsxmHI1rA5XSXg9_KsAXSw
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 56
+
+
+2024-11-13 21:50:38,571 INFO Body: b'{"email":"mike@example.com","name":"mike","avatar":"na"}'
+2024-11-13 21:50:38,615 INFO Sending Response: 200 OK
+2024-11-13 21:50:38,615 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 21:50:38,615 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 21:50:38,616 INFO 192.168.68.74 - - [13/Nov/2024 21:50:38] "POST /update_data HTTP/1.1" 200 -
+2024-11-13 21:50:58,995 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@example.com
+2024-11-13 21:50:58,995 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE2NDE5OTd9.6GX8lplhsU2zdm5BIsRmYXsxmHI1rA5XSXg9_KsAXSw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:50:58,995 INFO Body: b''
+2024-11-13 21:50:59,036 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 319, in get_data
+    return jsonify({
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\__init__.py", line 234, in dumps
+    return cls(
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type bytes is not JSON serializable
+2024-11-13 21:50:59,042 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:50:59,042 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:50:59,042 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:50:59,042 INFO 192.168.68.74 - - [13/Nov/2024 21:50:59] "[35m[1mGET /get_data?email=mike@example.com HTTP/1.1[0m" 500 -
+2024-11-13 21:53:05,815 INFO Received Request: POST http://192.168.68.74:5000/register
+2024-11-13 21:53:05,815 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Accept-Encoding: gzip
+Content-Length: 43
+
+
+2024-11-13 21:53:05,815 INFO Body: b'{"email":"mike@test.com","password":"1234"}'
+2024-11-13 21:53:06,072 INFO Sending Response: 201 CREATED
+2024-11-13 21:53:06,072 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 21:53:06,072 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 21:53:06,072 INFO 192.168.68.74 - - [13/Nov/2024 21:53:06] "[35m[1mPOST /register HTTP/1.1[0m" 201 -
+2024-11-13 21:53:18,756 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-13 21:53:18,756 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 43
+
+
+2024-11-13 21:53:18,756 INFO Body: b'{"email":"mike@test.com","password":"1234"}'
+2024-11-13 21:53:19,009 INFO Sending Response: 200 OK
+2024-11-13 21:53:19,009 INFO Headers: Content-Type: application/json
+Content-Length: 178
+
+
+2024-11-13 21:53:19,009 INFO Body: {"status":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAdGVzdC5jb20iLCJleHAiOjE3MzE2NDI3OTl9.GRGYUq_N_Ni3I9JKlAgX4RbQh8WbDF4u884t0n7Mwh8"}
+
+2024-11-13 21:53:19,009 INFO 192.168.68.74 - - [13/Nov/2024 21:53:19] "POST /login HTTP/1.1" 200 -
+2024-11-13 21:53:23,337 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@test.com
+2024-11-13 21:53:23,337 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAdGVzdC5jb20iLCJleHAiOjE3MzE2NDI3OTl9.GRGYUq_N_Ni3I9JKlAgX4RbQh8WbDF4u884t0n7Mwh8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:53:23,337 INFO Body: b''
+2024-11-13 21:53:23,378 INFO Sending Response: 200 OK
+2024-11-13 21:53:23,378 INFO Headers: Content-Type: application/json
+Content-Length: 115
+
+
+2024-11-13 21:53:23,378 INFO Body: {"avatar":null,"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null,"name":null}
+
+2024-11-13 21:53:23,379 INFO 192.168.68.74 - - [13/Nov/2024 21:53:23] "GET /get_data?email=mike@test.com HTTP/1.1" 200 -
+2024-11-13 21:53:36,747 INFO Received Request: POST http://192.168.68.74:5000/update_data
+2024-11-13 21:53:36,747 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAdGVzdC5jb20iLCJleHAiOjE3MzE2NDI3OTl9.GRGYUq_N_Ni3I9JKlAgX4RbQh8WbDF4u884t0n7Mwh8
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 53
+
+
+2024-11-13 21:53:36,747 INFO Body: b'{"email":"mike@test.com","name":"mike","avatar":"na"}'
+2024-11-13 21:53:36,797 INFO Sending Response: 200 OK
+2024-11-13 21:53:36,798 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 21:53:36,798 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 21:53:36,798 INFO 192.168.68.74 - - [13/Nov/2024 21:53:36] "POST /update_data HTTP/1.1" 200 -
+2024-11-13 21:53:57,025 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@test.com
+2024-11-13 21:53:57,025 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAdGVzdC5jb20iLCJleHAiOjE3MzE2NDI3OTl9.GRGYUq_N_Ni3I9JKlAgX4RbQh8WbDF4u884t0n7Mwh8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 21:53:57,025 INFO Body: b''
+2024-11-13 21:53:57,070 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 319, in get_data
+    return jsonify({
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\__init__.py", line 234, in dumps
+    return cls(
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type bytes is not JSON serializable
+2024-11-13 21:53:57,071 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 21:53:57,072 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 21:53:57,072 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 21:53:57,072 INFO 192.168.68.74 - - [13/Nov/2024 21:53:57] "[35m[1mGET /get_data?email=mike@test.com HTTP/1.1[0m" 500 -
+2024-11-13 22:01:24,777 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@test.com
+2024-11-13 22:01:24,777 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAdGVzdC5jb20iLCJleHAiOjE3MzE2NDI3OTl9.GRGYUq_N_Ni3I9JKlAgX4RbQh8WbDF4u884t0n7Mwh8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 22:01:24,777 INFO Body: b''
+2024-11-13 22:01:24,818 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 319, in get_data
+    return jsonify({
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\__init__.py", line 234, in dumps
+    return cls(
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type bytes is not JSON serializable
+2024-11-13 22:01:24,820 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 22:01:24,820 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 22:01:24,820 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 22:01:24,820 INFO 192.168.68.74 - - [13/Nov/2024 22:01:24] "[35m[1mGET /get_data?email=mike@test.com HTTP/1.1[0m" 500 -
+2024-11-13 22:01:48,201 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=mike@test.com
+2024-11-13 22:01:48,202 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAdGVzdC5jb20iLCJleHAiOjE3MzE2NDI3OTl9.GRGYUq_N_Ni3I9JKlAgX4RbQh8WbDF4u884t0n7Mwh8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 22:01:48,202 INFO Body: b''
+2024-11-13 22:01:48,246 ERROR Exception on /get_data [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 319, in get_data
+    return jsonify({
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\__init__.py", line 234, in dumps
+    return cls(
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\json\encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type bytes is not JSON serializable
+2024-11-13 22:01:48,247 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-13 22:01:48,247 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-13 22:01:48,247 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-13 22:01:48,247 INFO 192.168.68.74 - - [13/Nov/2024 22:01:48] "[35m[1mGET /get_data?email=mike@test.com HTTP/1.1[0m" 500 -
+2024-11-13 22:02:09,121 INFO Received Request: POST http://192.168.68.74:5000/register
+2024-11-13 22:02:09,121 INFO Headers: Connection: keep-alive
+Content-Type: application/json; utf-8
+Accept: application/json
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Accept-Encoding: gzip
+Content-Length: 43
+
+
+2024-11-13 22:02:09,121 INFO Body: b'{"email":"test@test.com","password":"1234"}'
+2024-11-13 22:02:09,393 INFO Sending Response: 201 CREATED
+2024-11-13 22:02:09,393 INFO Headers: Content-Type: application/json
+Content-Length: 42
+
+
+2024-11-13 22:02:09,393 INFO Body: {"status":"User registered successfully"}
+
+2024-11-13 22:02:09,393 INFO 192.168.68.74 - - [13/Nov/2024 22:02:09] "[35m[1mPOST /register HTTP/1.1[0m" 201 -
+2024-11-13 22:02:21,000 INFO package: mysql.connector.plugins
+2024-11-13 22:02:21,001 INFO plugin_name: caching_sha2_password
+2024-11-13 22:02:21,001 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-13 22:02:21,034 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-13 22:02:21,034 INFO [33mPress CTRL+C to quit[0m
+2024-11-13 22:02:24,200 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-13 22:02:24,200 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 43
+
+
+2024-11-13 22:02:24,200 INFO Body: b'{"email":"test@test.com","password":"1234"}'
+2024-11-13 22:02:24,480 INFO Sending Response: 200 OK
+2024-11-13 22:02:24,480 INFO Headers: Content-Type: application/json
+Content-Length: 178
+
+
+2024-11-13 22:02:24,480 INFO Body: {"status":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw"}
+
+2024-11-13 22:02:24,481 INFO 192.168.68.74 - - [13/Nov/2024 22:02:24] "POST /login HTTP/1.1" 200 -
+2024-11-13 22:02:27,938 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=test@test.com
+2024-11-13 22:02:27,938 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 22:02:27,938 INFO Body: b''
+2024-11-13 22:02:27,985 INFO Sending Response: 200 OK
+2024-11-13 22:02:27,985 INFO Headers: Content-Type: application/json
+Content-Length: 101
+
+
+2024-11-13 22:02:27,985 INFO Body: {"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null,"name":null}
+
+2024-11-13 22:02:27,986 INFO 192.168.68.74 - - [13/Nov/2024 22:02:27] "GET /get_data?email=test@test.com HTTP/1.1" 200 -
+2024-11-13 22:02:38,760 INFO Received Request: POST http://192.168.68.74:5000/update_data
+2024-11-13 22:02:38,761 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 53
+
+
+2024-11-13 22:02:38,761 INFO Body: b'{"email":"test@test.com","name":"test","avatar":"no"}'
+2024-11-13 22:02:38,810 INFO Sending Response: 200 OK
+2024-11-13 22:02:38,810 INFO Headers: Content-Type: application/json
+Content-Length: 39
+
+
+2024-11-13 22:02:38,810 INFO Body: {"status":"Data updated successfully"}
+
+2024-11-13 22:02:38,810 INFO 192.168.68.74 - - [13/Nov/2024 22:02:38] "POST /update_data HTTP/1.1" 200 -
+2024-11-13 22:02:48,138 INFO Received Request: GET http://192.168.68.74:5000/get_data?email=test@test.com
+2024-11-13 22:02:48,139 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-13 22:02:48,139 INFO Body: b''
+2024-11-13 22:02:48,181 INFO Sending Response: 200 OK
+2024-11-13 22:02:48,181 INFO Headers: Content-Type: application/json
+Content-Length: 103
+
+
+2024-11-13 22:02:48,181 INFO Body: {"favorite_places":[],"friend_list":[],"last_visit_place":null,"last_visit_rating":null,"name":"test"}
+
+2024-11-13 22:02:48,181 INFO 192.168.68.74 - - [13/Nov/2024 22:02:48] "GET /get_data?email=test@test.com HTTP/1.1" 200 -
+2024-11-14 14:14:23,350 INFO package: mysql.connector.plugins
+2024-11-14 14:14:23,350 INFO plugin_name: caching_sha2_password
+2024-11-14 14:14:23,350 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-14 14:14:23,387 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-14 14:14:23,388 INFO [33mPress CTRL+C to quit[0m
+2024-11-14 14:18:19,221 INFO Received Request: GET http://192.168.68.74:5000/get_friend_listtest@test.com
+2024-11-14 14:18:19,221 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:18:19,221 INFO Body: b''
+2024-11-14 14:18:19,221 INFO Sending Response: 404 NOT FOUND
+2024-11-14 14:18:19,222 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 207
+
+
+2024-11-14 14:18:19,222 INFO Body: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2024-11-14 14:18:19,222 INFO 192.168.68.74 - - [14/Nov/2024 14:18:19] "[33mGET /get_friend_listtest@test.com HTTP/1.1[0m" 404 -
+2024-11-14 14:19:54,023 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=test@test.com
+2024-11-14 14:19:54,023 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:19:54,023 INFO Body: b''
+2024-11-14 14:19:54,067 ERROR Exception on /get_friend_list [GET]
+Traceback (most recent call last):
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 133, in decorated
+    return f(current_user_email, *args, **kwargs)
+  File "C:/personal/msu courses/cse476/homework2/findandfriendserver/sqlserver.py", line 480, in get_friend_list
+    cursor.execute('''
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\mysql\connector\cursor.py", line 537, in execute
+    self._handle_result(self._connection.cmd_query(stmt))
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\mysql\connector\opentelemetry\context_propagation.py", line 97, in wrapper
+    return method(cnx, *args, **kwargs)
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\mysql\connector\connection.py", line 859, in cmd_query
+    result = self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+  File "C:\Users\305018452.HCAD\AppData\Local\Programs\Python\Python38-32\lib\site-packages\mysql\connector\connection.py", line 635, in _handle_result
+    raise get_exception(packet)
+mysql.connector.errors.ProgrammingError: 1054 (42S22): Unknown column 'u.last_latitude' in 'field list'
+2024-11-14 14:19:54,073 INFO Sending Response: 500 INTERNAL SERVER ERROR
+2024-11-14 14:19:54,073 INFO Headers: Content-Type: text/html; charset=utf-8
+Content-Length: 265
+
+
+2024-11-14 14:19:54,073 INFO Body: <!doctype html>
+<html lang=en>
+<title>500 Internal Server Error</title>
+<h1>Internal Server Error</h1>
+<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>
+
+2024-11-14 14:19:54,073 INFO 192.168.68.74 - - [14/Nov/2024 14:19:54] "[35m[1mGET /get_friend_list?email=test@test.com HTTP/1.1[0m" 500 -
+2024-11-14 14:34:28,765 INFO package: mysql.connector.plugins
+2024-11-14 14:34:28,765 INFO plugin_name: caching_sha2_password
+2024-11-14 14:34:28,765 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-14 14:34:28,804 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-14 14:34:28,804 INFO [33mPress CTRL+C to quit[0m
+2024-11-14 14:34:44,787 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=test@test.com
+2024-11-14 14:34:44,787 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:34:44,788 INFO Body: b''
+2024-11-14 14:34:44,833 INFO Sending Response: 200 OK
+2024-11-14 14:34:44,833 INFO Headers: Content-Type: application/json
+Content-Length: 34
+
+
+2024-11-14 14:34:44,833 INFO Body: {"friends":[],"status":"success"}
+
+2024-11-14 14:34:44,834 INFO 192.168.68.74 - - [14/Nov/2024 14:34:44] "GET /get_friend_list?email=test@test.com HTTP/1.1" 200 -
+2024-11-14 14:35:41,502 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=test@test.com
+2024-11-14 14:35:41,502 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:35:41,502 INFO Body: b''
+2024-11-14 14:35:41,552 INFO Sending Response: 200 OK
+2024-11-14 14:35:41,552 INFO Headers: Content-Type: application/json
+Content-Length: 34
+
+
+2024-11-14 14:35:41,552 INFO Body: {"friends":[],"status":"success"}
+
+2024-11-14 14:35:41,552 INFO 192.168.68.74 - - [14/Nov/2024 14:35:41] "GET /get_friend_list?email=test@test.com HTTP/1.1" 200 -
+2024-11-14 14:36:31,573 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=test@test.com
+2024-11-14 14:36:31,573 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzE2NDMzNDR9.bdZKx3gd3rOVjOqSRR7AzYUVJYiKY-jzOMRNIlLAXTw
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:36:31,573 INFO Body: b''
+2024-11-14 14:36:31,616 INFO Sending Response: 200 OK
+2024-11-14 14:36:31,616 INFO Headers: Content-Type: application/json
+Content-Length: 34
+
+
+2024-11-14 14:36:31,616 INFO Body: {"friends":[],"status":"success"}
+
+2024-11-14 14:36:31,616 INFO 192.168.68.74 - - [14/Nov/2024 14:36:31] "GET /get_friend_list?email=test@test.com HTTP/1.1" 200 -
+2024-11-14 14:42:51,874 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-14 14:42:51,875 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 47
+
+
+2024-11-14 14:42:51,875 INFO Body: b'{"email":"mike@example.copm","password":"1234"}'
+2024-11-14 14:42:51,920 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-14 14:42:51,920 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-14 14:42:51,920 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-14 14:42:51,920 INFO 192.168.68.74 - - [14/Nov/2024 14:42:51] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2024-11-14 14:42:51,955 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-14 14:42:51,955 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 47
+
+
+2024-11-14 14:42:51,955 INFO Body: b'{"email":"mike@example.copm","password":"1234"}'
+2024-11-14 14:42:51,997 INFO Sending Response: 401 UNAUTHORIZED
+2024-11-14 14:42:51,997 INFO Headers: Content-Type: application/json
+Content-Length: 32
+
+
+2024-11-14 14:42:51,997 INFO Body: {"error":"Invalid credentials"}
+
+2024-11-14 14:42:51,997 INFO 192.168.68.74 - - [14/Nov/2024 14:42:51] "[31m[1mPOST /login HTTP/1.1[0m" 401 -
+2024-11-14 14:43:04,411 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-14 14:43:04,412 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-14 14:43:04,412 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-14 14:43:04,670 INFO Sending Response: 200 OK
+2024-11-14 14:43:04,670 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-14 14:43:04,670 INFO Body: {"status":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDMzODR9.etH8agYLmmvR71RmixlrJQy8CKptaqXT8amZYsJfza0"}
+
+2024-11-14 14:43:04,670 INFO 192.168.68.74 - - [14/Nov/2024 14:43:04] "POST /login HTTP/1.1" 200 -
+2024-11-14 14:43:08,049 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 14:43:08,049 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDMzODR9.etH8agYLmmvR71RmixlrJQy8CKptaqXT8amZYsJfza0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:43:08,049 INFO Body: b''
+2024-11-14 14:43:08,095 INFO Sending Response: 200 OK
+2024-11-14 14:43:08,095 INFO Headers: Content-Type: application/json
+Content-Length: 124
+
+
+2024-11-14 14:43:08,095 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":null,"longitude":null,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 14:43:08,095 INFO 192.168.68.74 - - [14/Nov/2024 14:43:08] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 14:44:12,686 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 14:44:12,686 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDMzODR9.etH8agYLmmvR71RmixlrJQy8CKptaqXT8amZYsJfza0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:44:12,686 INFO Body: b''
+2024-11-14 14:44:12,733 INFO Sending Response: 200 OK
+2024-11-14 14:44:12,733 INFO Headers: Content-Type: application/json
+Content-Length: 124
+
+
+2024-11-14 14:44:12,733 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":null,"longitude":null,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 14:44:12,733 INFO 192.168.68.74 - - [14/Nov/2024 14:44:12] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 14:45:15,097 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 14:45:15,097 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDMzODR9.etH8agYLmmvR71RmixlrJQy8CKptaqXT8amZYsJfza0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:45:15,097 INFO Body: b''
+2024-11-14 14:45:15,143 INFO Sending Response: 200 OK
+2024-11-14 14:45:15,143 INFO Headers: Content-Type: application/json
+Content-Length: 124
+
+
+2024-11-14 14:45:15,143 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":null,"longitude":null,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 14:45:15,144 INFO 192.168.68.74 - - [14/Nov/2024 14:45:15] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 14:49:37,345 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 14:49:37,345 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDMzODR9.etH8agYLmmvR71RmixlrJQy8CKptaqXT8amZYsJfza0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 14:49:37,345 INFO Body: b''
+2024-11-14 14:49:37,390 INFO Sending Response: 200 OK
+2024-11-14 14:49:37,391 INFO Headers: Content-Type: application/json
+Content-Length: 124
+
+
+2024-11-14 14:49:37,391 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":null,"longitude":null,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 14:49:37,391 INFO 192.168.68.74 - - [14/Nov/2024 14:49:37] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 15:04:50,129 INFO package: mysql.connector.plugins
+2024-11-14 15:04:50,130 INFO plugin_name: caching_sha2_password
+2024-11-14 15:04:50,130 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-14 15:04:50,164 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.68.74:5000
+2024-11-14 15:04:50,164 INFO [33mPress CTRL+C to quit[0m
+2024-11-14 15:04:59,599 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 15:04:59,599 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDMzODR9.etH8agYLmmvR71RmixlrJQy8CKptaqXT8amZYsJfza0
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 15:04:59,600 INFO Body: b''
+2024-11-14 15:04:59,642 INFO Sending Response: 200 OK
+2024-11-14 15:04:59,642 INFO Headers: Content-Type: application/json
+Content-Length: 122
+
+
+2024-11-14 15:04:59,642 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":0.0,"longitude":0.0,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 15:04:59,642 INFO 192.168.68.74 - - [14/Nov/2024 15:04:59] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 15:10:36,343 INFO Received Request: POST http://192.168.68.74:5000/login
+2024-11-14 15:10:36,343 INFO Headers: Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 46
+
+
+2024-11-14 15:10:36,343 INFO Body: b'{"email":"mike@example.com","password":"1234"}'
+2024-11-14 15:10:36,597 INFO Sending Response: 200 OK
+2024-11-14 15:10:36,598 INFO Headers: Content-Type: application/json
+Content-Length: 182
+
+
+2024-11-14 15:10:36,598 INFO Body: {"status":"Login successful","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo"}
+
+2024-11-14 15:10:36,598 INFO 192.168.68.74 - - [14/Nov/2024 15:10:36] "POST /login HTTP/1.1" 200 -
+2024-11-14 15:10:38,839 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 15:10:38,839 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 15:10:38,839 INFO Body: b''
+2024-11-14 15:10:38,882 INFO Sending Response: 200 OK
+2024-11-14 15:10:38,882 INFO Headers: Content-Type: application/json
+Content-Length: 122
+
+
+2024-11-14 15:10:38,883 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":0.0,"longitude":0.0,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 15:10:38,883 INFO 192.168.68.74 - - [14/Nov/2024 15:10:38] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 15:10:58,964 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 15:10:58,964 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 15:10:58,964 INFO Body: b''
+2024-11-14 15:10:59,013 INFO Sending Response: 200 OK
+2024-11-14 15:10:59,013 INFO Headers: Content-Type: application/json
+Content-Length: 122
+
+
+2024-11-14 15:10:59,013 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":0.0,"longitude":0.0,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 15:10:59,013 INFO 192.168.68.74 - - [14/Nov/2024 15:10:59] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-14 15:44:19,197 INFO Received Request: GET http://192.168.68.74:5000/get_friend_list?email=mike@example.com
+2024-11-14 15:44:19,197 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 192.168.68.74:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-14 15:44:19,197 INFO Body: b''
+2024-11-14 15:44:19,254 INFO Sending Response: 200 OK
+2024-11-14 15:44:19,254 INFO Headers: Content-Type: application/json
+Content-Length: 122
+
+
+2024-11-14 15:44:19,254 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":0.0,"longitude":0.0,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-14 15:44:19,255 INFO 192.168.68.74 - - [14/Nov/2024 15:44:19] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-15 08:48:42,029 INFO package: mysql.connector.plugins
+2024-11-15 08:48:42,029 INFO plugin_name: caching_sha2_password
+2024-11-15 08:48:42,029 INFO AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2024-11-15 08:48:42,074 INFO [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.4.77:5000
+2024-11-15 08:48:42,074 INFO [33mPress CTRL+C to quit[0m
+2024-11-15 08:49:06,156 INFO Received Request: GET http://172.24.4.77:5000/get_friend_list?email=mike@example.com
+2024-11-15 08:49:06,156 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 172.24.4.77:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+
+
+2024-11-15 08:49:06,156 INFO Body: b''
+2024-11-15 08:49:06,206 INFO Sending Response: 200 OK
+2024-11-15 08:49:06,206 INFO Headers: Content-Type: application/json
+Content-Length: 122
+
+
+2024-11-15 08:49:06,206 INFO Body: {"friends":[{"email":"alice@example.com","id":1,"latitude":0.0,"longitude":0.0,"name":"Alice Clark"}],"status":"success"}
+
+2024-11-15 08:49:06,206 INFO 172.24.4.77 - - [15/Nov/2024 08:49:06] "GET /get_friend_list?email=mike@example.com HTTP/1.1" 200 -
+2024-11-15 08:49:17,060 INFO Received Request: POST http://172.24.4.77:5000/update_location
+2024-11-15 08:49:17,060 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 172.24.4.77:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 71
+
+
+2024-11-15 08:49:17,060 INFO Body: b'{"latitude":37.4219983,"longitude":-122.084,"email":"mike@example.com"}'
+2024-11-15 08:49:17,133 INFO Sending Response: 200 OK
+2024-11-15 08:49:17,134 INFO Headers: Content-Type: application/json
+Content-Length: 43
+
+
+2024-11-15 08:49:17,134 INFO Body: {"status":"Location updated successfully"}
+
+2024-11-15 08:49:17,134 INFO 172.24.4.77 - - [15/Nov/2024 08:49:17] "POST /update_location HTTP/1.1" 200 -
+2024-11-15 08:49:21,993 INFO Received Request: POST http://172.24.4.77:5000/update_location
+2024-11-15 08:49:21,994 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 172.24.4.77:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 71
+
+
+2024-11-15 08:49:21,994 INFO Body: b'{"latitude":37.4219983,"longitude":-122.084,"email":"mike@example.com"}'
+2024-11-15 08:49:22,046 INFO Sending Response: 200 OK
+2024-11-15 08:49:22,046 INFO Headers: Content-Type: application/json
+Content-Length: 43
+
+
+2024-11-15 08:49:22,046 INFO Body: {"status":"Location updated successfully"}
+
+2024-11-15 08:49:22,047 INFO 172.24.4.77 - - [15/Nov/2024 08:49:22] "POST /update_location HTTP/1.1" 200 -
+2024-11-15 08:49:26,987 INFO Received Request: POST http://172.24.4.77:5000/update_location
+2024-11-15 08:49:26,987 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 172.24.4.77:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 71
+
+
+2024-11-15 08:49:26,987 INFO Body: b'{"latitude":37.4219983,"longitude":-122.084,"email":"mike@example.com"}'
+2024-11-15 08:49:27,031 INFO Sending Response: 200 OK
+2024-11-15 08:49:27,031 INFO Headers: Content-Type: application/json
+Content-Length: 43
+
+
+2024-11-15 08:49:27,031 INFO Body: {"status":"Location updated successfully"}
+
+2024-11-15 08:49:27,031 INFO 172.24.4.77 - - [15/Nov/2024 08:49:27] "POST /update_location HTTP/1.1" 200 -
+2024-11-15 08:49:31,968 INFO Received Request: POST http://172.24.4.77:5000/update_location
+2024-11-15 08:49:31,968 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 172.24.4.77:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 71
+
+
+2024-11-15 08:49:31,968 INFO Body: b'{"latitude":37.4219983,"longitude":-122.084,"email":"mike@example.com"}'
+2024-11-15 08:49:32,012 INFO Sending Response: 200 OK
+2024-11-15 08:49:32,012 INFO Headers: Content-Type: application/json
+Content-Length: 43
+
+
+2024-11-15 08:49:32,012 INFO Body: {"status":"Location updated successfully"}
+
+2024-11-15 08:49:32,013 INFO 172.24.4.77 - - [15/Nov/2024 08:49:32] "POST /update_location HTTP/1.1" 200 -
+2024-11-15 08:49:36,974 INFO Received Request: POST http://172.24.4.77:5000/update_location
+2024-11-15 08:49:36,974 INFO Headers: X-Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAZXhhbXBsZS5jb20iLCJleHAiOjE3MzE3MDUwMzZ9.WJyBHUTmLRfxK2XDRZFWQBuge-TXoTev6jp94G0Hsyo
+Content-Type: application/json; charset=utf-8
+User-Agent: Dalvik/2.1.0 (Linux; U; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.005)
+Host: 172.24.4.77:5000
+Connection: Keep-Alive
+Accept-Encoding: gzip
+Content-Length: 71
+
+
+2024-11-15 08:49:36,974 INFO Body: b'{"latitude":37.4219983,"longitude":-122.084,"email":"mike@example.com"}'
+2024-11-15 08:49:37,021 INFO Sending Response: 200 OK
+2024-11-15 08:49:37,021 INFO Headers: Content-Type: application/json
+Content-Length: 43
+
+
+2024-11-15 08:49:37,021 INFO Body: {"status":"Location updated successfully"}
+
+2024-11-15 08:49:37,021 INFO 172.24.4.77 - - [15/Nov/2024 08:49:37] "POST /update_location HTTP/1.1" 200 -

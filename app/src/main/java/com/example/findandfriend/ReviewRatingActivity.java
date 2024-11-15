@@ -123,7 +123,7 @@ public class ReviewRatingActivity extends AppCompatActivity {
                             RequestBody.create(imageBytes, MediaType.parse("image/jpeg")))
                     .build();
             Request request = new Request.Builder()
-                    .url(getString(R.string.IP) + "/upload") // replace with your server URL
+                    .url("https://yourserver.com/upload") // replace with your server URL
                     .post(requestBody)
                     .build();
             new Thread(() -> {

@@ -35,7 +35,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
         return activityFeedList.size();
     }
 
-    // Define ViewHolder class
+    // define ViewHolder class
     public static class ActivityFeedViewHolder extends RecyclerView.ViewHolder {
 
         private TextView userName;
@@ -49,7 +49,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
             rating = itemView.findViewById(R.id.rating);
         }
 
-        // Bundle the data to view
+        // buddle the data to view
         public void bind(ActivityFeed activityFeed) {
             userName.setText(activityFeed.getUserName());
             activityDescription.setText(activityFeed.getActivityDescription());

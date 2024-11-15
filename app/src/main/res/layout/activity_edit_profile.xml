@@ -34,16 +34,6 @@
             android:layout_height="wrap_content"
             android:hint="Enter your name"
             android:layout_marginBottom="16dp" />
-
-        <!-- EDIT EMAIL -->
-        <EditText
-            android:id="@+id/edit_profile_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter your email"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="24dp" />
-
         <!-- SAVE -->
         <Button
             android:id="@+id/btn_save_profile"

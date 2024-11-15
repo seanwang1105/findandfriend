@@ -30,31 +30,31 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
-        // Create an action bar with a return arrow
+        // 设置带返回箭头的 ActionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);  // Enable return arrow
+            actionBar.setDisplayHomeAsUpEnabled(true);  // 启用返回箭头
             actionBar.setTitle("My Favorite Places");
         }
 
         listViewFavorites = findViewById(R.id.list_view_favorites);
 
-        // Load and display favorite merchant information
+        // 加载并显示收藏的商户信息
         List<String> favoritePlaces = loadFavoritePlaces();
         if (favoritePlaces.isEmpty()) {
             Toast.makeText(this, "No favorites saved.", Toast.LENGTH_SHORT).show();
         } else {
-            // Use ArrayAdapter to display favorite merchant information
+            // 使用 ArrayAdapter 将收藏的商户信息显示在 ListView 中
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, favoritePlaces);
             listViewFavorites.setAdapter(adapter);
         }
     }
 
-    // On return arrow click, load the ProfileActivity
+    // 返回箭头功能实现，点击返回箭头回到 ProfileActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // Return to the previous Activity（ProfileActivity）
+            // 返回上一个 Activity（ProfileActivity）
             Intent intent = new Intent(FavoritesActivity.this, ProfileActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -63,35 +63,35 @@ public class FavoritesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Load locally saved merchant information
+    // 加载本地保存的收藏商户信息
     private List<String> loadFavoritePlaces() {
         String filename = "saved_places.json";
         List<String> favoritePlaces = new ArrayList<>();
 
         try {
-            // Open Local file
+            // 打开本地文件
             FileInputStream fis = openFileInput(filename);
             int size = fis.available();
             byte[] buffer = new byte[size];
             fis.read(buffer);
             fis.close();
 
-            // Convert file buffer to strings
+            // 将文件内容转换为字符串
             String jsonString = new String(buffer, "UTF-8");
 
-            // Parse JSON Files
+            // 解析 JSON 文件
             JSONArray savedPlacesArray = new JSONArray(jsonString);
             System.out.println("read content in favorite");
             System.out.println(savedPlacesArray);
-            // JSONify all saved places and add to favorites
+            // 提取商户名称和地址
             for (int i = 0; i < savedPlacesArray.length(); i++) {
                 JSONObject place = savedPlacesArray.getJSONObject(i);
                 String name = place.getString("name");
                 String address = place.getString("address");
                 if (address == null){
-                    address="N/A";
+                    address="no address";
                 }
-                // Format merchant name and address and add it to FavoritePlaces
+                // 拼接商户名称和地址
                 String placeDetails = "Name: " + name + "\nAddress: " + address;
                 favoritePlaces.add(placeDetails);
             }

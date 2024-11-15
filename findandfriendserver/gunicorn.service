@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn instance to serve your app
+After=network.target
+
+[Service]
+User=seanwangwxy  
+Group=www-data
+WorkingDirectory=/home/seanwangwxy/findandfriend 
+ExecStart=/usr/local/bin/gunicorn -w 2 -k gevent -b 0.0.0.0:5000 sqlserver:app
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
