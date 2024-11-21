@@ -2,6 +2,7 @@ package com.example.findandfriend;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -116,7 +117,10 @@ public class ReviewRatingActivity extends AppCompatActivity {
     private void uploadImage(Uri imageUri) {
         OkHttpClient client = new OkHttpClient();
         try {
-            byte[] imageBytes = getContentResolver().openInputStream(imageUri).readAllBytes();
+            byte[] imageBytes = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                imageBytes = getContentResolver().openInputStream(imageUri).readAllBytes();
+            }
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("image", "photo.jpg",
