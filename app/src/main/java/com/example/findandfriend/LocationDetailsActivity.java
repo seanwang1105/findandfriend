@@ -1,6 +1,7 @@
 package com.example.findandfriend;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,6 +11,12 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 import android.widget.TextView;
@@ -37,8 +44,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.io.ByteArrayOutputStream;
+import java.util.Map;
 
 public class LocationDetailsActivity extends AppCompatActivity {
 
@@ -52,6 +61,8 @@ public class LocationDetailsActivity extends AppCompatActivity {
     private Button btnNav;
     private static final String TAG = "LocationDetailsActivity";
     private PlacesClient placesClient;
+    private static final String FILE_NAME = "user_credentials.txt";
+    private String email;
 
     ArrayList<byte[]> imagesByteArrayList = new ArrayList<>();
 
@@ -83,6 +94,7 @@ public class LocationDetailsActivity extends AppCompatActivity {
         double destinationLng  = getIntent().getDoubleExtra("placeLongitude", 0.0);
         String address_d = getIntent().getStringExtra("placeAddress");
 
+        List<Friend> selectedFriends = SelectedFriendShareData.getInstance().getSelectedFriends();
 
         if (locationId != null) {
             fetchPlaceAndPhoto(locationId);
@@ -95,11 +107,22 @@ public class LocationDetailsActivity extends AppCompatActivity {
         loadLocationDetails(locationId,locationname,locationRate,imagesByteArrayList );
         // Meet here button click
         btnMeetHere.setOnClickListener(view -> {
-            Toast.makeText(LocationDetailsActivity.this, "Meeting set at " + locationName.getText(), Toast.LENGTH_SHORT).show();
+            String[] savedCredentials = loadCredentials();
+
+            if (savedCredentials != null) {
+                email = savedCredentials[0];
+            }
+            String locationName = this.locationName.getText().toString();
+            double locationLatitude = destinationLat; // From intent
+            double locationLongitude = destinationLng; // From intent
+            // Call the standalone function
+            createMeeting(email, locationName, locationLatitude, locationLongitude, selectedFriends);
+            Toast.makeText(LocationDetailsActivity.this, "Meeting set at " + locationName, Toast.LENGTH_SHORT).show();
         });
         // Go click event
         btnR.setOnClickListener(view -> {
                         Intent intent = new Intent(LocationDetailsActivity.this, ReviewRatingActivity.class);
+                        intent.putExtra("placeName",locationname);
                         startActivity(intent);
                     });
         //Save for later
@@ -112,7 +135,6 @@ public class LocationDetailsActivity extends AppCompatActivity {
         btnNav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 创建导航Intent
                 navigateToLocation(destinationLat, destinationLng);
             }
         });
@@ -160,50 +182,76 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
     //
     private void savePlaceForLater(String name, String address_d) {
-        String filename = "saved_places.json";
-        JSONArray savedPlacesArray;
+        String url = getString(R.string.IP) +"/upload_favorite_place"; // Replace with your server's endpoint
+        String[] savedCredentials = loadCredentials();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
+        // Create a JSON object for the request payload
+        JSONObject placeData = new JSONObject();
         try {
-            // 读取现有的 saved_places.json 文件
-            FileInputStream fis = openFileInput(filename);
-            int size = fis.available();
-            byte[] buffer = new byte[size];
-            fis.read(buffer);
-            fis.close();
-
-            String jsonString = new String(buffer, "UTF-8");
-            savedPlacesArray = new JSONArray(jsonString);
-            Log.d(TAG, "read place: " + savedPlacesArray.toString());
-        } catch (IOException | JSONException e) {
-            // 如果文件不存在或读取失败，创建一个新的 JSONArray
-            System.out.println("read file not exist");
-            savedPlacesArray = new JSONArray();
+            placeData.put("email",email);
+            placeData.put("name", name);
+            placeData.put("address", address_d);
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to create JSON for upload: ", e);
+            return;
         }
 
-        try {
-            // 创建一个新的地点对象
-            JSONObject newPlace = new JSONObject();
-            newPlace.put("name", name);
-            newPlace.put("address", address_d);
+        // Use Volley or another HTTP library to send the request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                placeData,
+                response -> {
+                    // Handle success
+                    Toast.makeText(this, "Place uploaded to server!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Server response: " + response.toString());
+                },
+                error -> {
+                    // Handle error
+                    Toast.makeText(this, "Failed to upload place to server.", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Server error: ", error);
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
+            }
+        };
 
-            // 将新地点添加到数组中
-            savedPlacesArray.put(newPlace);
-
-            // 将更新后的数组写回到 saved_places.json 文件中
-            FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
-            fos.write(savedPlacesArray.toString().getBytes());
-            fos.close();
-
-            Toast.makeText(this, "Place saved for later!", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Saved place: " + newPlace.toString());
-
-        } catch (JSONException | IOException e) {
-            Toast.makeText(this, "Failed to save place.", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "Error saving place: ", e);
-        }
+        // Add the request to the Volley request queue
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
-    // Mock method to load location details based on location ID
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+       // Mock method to load location details based on location ID
     private void loadLocationDetails(String locationId,String locationname,double locationRate,ArrayList<byte[]> imagesByteArrayList) {
         if (locationId == "1") {
             // Set up the adapter with the image list
@@ -227,18 +275,14 @@ public class LocationDetailsActivity extends AppCompatActivity {
 
     //navigation function
     private void navigateToLocation(double lat, double lng) {
-        // 使用Google地图的URI schema，"google.navigation:q=latitude,longitude"
         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + lat + "," + lng);
 
-        // 创建Intent，启动Google地图
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
 
-        // 确认用户的设备是否有Google地图应用
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(mapIntent);
         } else {
-            // 提示用户安装Google地图
             System.out.println("Google Maps is not installed.");
         }
     }
@@ -253,8 +297,7 @@ public class LocationDetailsActivity extends AppCompatActivity {
             List<PhotoMetadata> photoMetadataList = place.getPhotoMetadatas();
             System.out.println("in fetch function2");
             if (photoMetadataList != null && !photoMetadataList.isEmpty()) {
-                // 创建字节数组列表来存储所有图片
-                for (PhotoMetadata photoMetadata : photoMetadataList) {
+                 for (PhotoMetadata photoMetadata : photoMetadataList) {
                     System.out.println("collecting photos....");
                     FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
                             .setMaxWidth(500) // 可根据需求调整
@@ -267,10 +310,9 @@ public class LocationDetailsActivity extends AppCompatActivity {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                         byte[] byteArray = stream.toByteArray();
 
-                        // 将字节数组添加到列表
                         imagesByteArrayList.add(byteArray);
 
-                        // 检查所有图片是否都已添加
+
                         if(imagesByteArrayList.size() == photoMetadataList.size()) {
                             ImageSliderAdapter adapter = new ImageSliderAdapter(imagesByteArrayList);
                             viewPager2.setAdapter(adapter);
@@ -287,4 +329,68 @@ public class LocationDetailsActivity extends AppCompatActivity {
             exception.printStackTrace();
         });
     }
+    private void createMeeting(String senderEmail, String locationName, double locationLatitude, double locationLongitude, List<Friend> selectedFriends) {
+        if (senderEmail == null || senderEmail.isEmpty() || selectedFriends == null || selectedFriends.isEmpty()) {
+            Toast.makeText(this, "Sender email and selected friends are required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        // Prepare the JSON payload
+        JSONArray friendsEmails = new JSONArray();
+        for (Friend friend : selectedFriends) {
+            if (friend.getId() !="me") {
+                friendsEmails.put(friend.getEmail());
+            }
+        }
+
+        JSONObject payload = new JSONObject();
+        try {
+            payload.put("sender_email", senderEmail);
+            payload.put("location_name", locationName);
+            payload.put("location_latitude", locationLatitude);
+            payload.put("location_longitude", locationLongitude);
+            payload.put("friends_emails", friendsEmails);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to prepare request", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Send POST request using Volley
+        String url = getString(R.string.IP)+"/create_meeting"; // Replace with your server URL
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
+                response -> {
+                    // Handle success
+                    try {
+                        String status = response.getString("status");
+                        if (status.equals("Meeting created successfully")) {
+                            int meetingId = response.getInt("meeting_id");
+                            Toast.makeText(this, "Meeting created! ID: " + meetingId, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Unexpected response", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Failed to parse response", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    // Handle error
+                    Toast.makeText(this, "Failed to create meeting: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
+            }
+        };
+
+        // Add the request to the Volley queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
 }

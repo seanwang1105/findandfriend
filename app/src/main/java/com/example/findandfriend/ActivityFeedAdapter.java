@@ -17,6 +17,12 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
         this.activityFeedList = activityFeedList;
     }
 
+    public void updateData(List<ActivityFeed> newData) {
+        this.activityFeedList.clear();
+        this.activityFeedList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ActivityFeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,12 +47,14 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
         private TextView userName;
         private TextView activityDescription;
         private TextView rating;
+        private TextView reviews;
 
         public ActivityFeedViewHolder(@NonNull View itemView) {
             super(itemView);
             userName = itemView.findViewById(R.id.user_name);
             activityDescription = itemView.findViewById(R.id.activity_description);
             rating = itemView.findViewById(R.id.rating);
+            reviews = itemView.findViewById(R.id.reviews);
         }
 
         // buddle the data to view
@@ -54,6 +62,8 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
             userName.setText(activityFeed.getUserName());
             activityDescription.setText(activityFeed.getActivityDescription());
             rating.setText(activityFeed.getRating());
+            reviews.setText(activityFeed.getReviews());
         }
+
     }
 }

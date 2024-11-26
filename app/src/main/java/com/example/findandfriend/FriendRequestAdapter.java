@@ -56,7 +56,7 @@ public class FriendRequestAdapter extends RecyclerView.Adapter<FriendRequestAdap
         });
 
         holder.declineButton.setOnClickListener(v -> {
-            respondToFriendRequest(request.getRequestId(), "Declined",position);
+            respondToFriendRequest(request.getRequestId(), "Rejected",position);
         });
     }
     private void respondToFriendRequest(int requestId, String action,int position) {

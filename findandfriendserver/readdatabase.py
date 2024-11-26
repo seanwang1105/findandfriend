@@ -23,8 +23,9 @@ cursor = conn.cursor()
 # Modify the ALTER TABLE command to set default values
 alter_table_sql = '''
 ALTER TABLE users
-ADD COLUMN last_longitude FLOAT DEFAULT 0.0,
-ADD COLUMN last_latitude FLOAT DEFAULT 0.0;
+ADD COLUMN last_visit_place_reviews VARCHAR(255),
+ADD COLUMN last_longitude FLOAT,
+ADD COLUMN last_latitude FLOAT
 '''
 
 try:
@@ -35,10 +36,14 @@ except mysql.connector.Error as err:
     print(f"Error: {err}")
 
 # Update existing records to have default values
+
 update_sql = '''
 UPDATE users
-SET last_longitude = 0.0, last_latitude = 0.0
-WHERE last_longitude IS NULL OR last_latitude IS NULL;
+SET last_visit_place = '',
+    last_visit_rating = 0.0,
+    last_visit_place_reviews = '',
+    last_longitude=0.0,
+    last_latitude=0.0
 '''
 try:
     cursor.execute(update_sql)
@@ -61,13 +66,13 @@ else:
     print("One or both users not found.")
 
 # Uncomment and modify these lines if you need to insert new users or friend requests
-# try:
-#     cursor.execute('INSERT INTO users (name, email, password) VALUES (%s, %s, %s)', ("Alice Clark", "alice@example.com", "password123"))
+#try:
+#      cursor.execute('INSERT INTO friends(user_id, friend_id) VALUES (%s, %s)', (5,4))
 #     cursor.execute('INSERT INTO users (name, email, password) VALUES (%s, %s, %s)', ("Mike Johnson", "mike@example.com", "password456"))
 #     cursor.execute('INSERT INTO friend_requests (from_user_id, to_user_id, status) VALUES (%s, %s, %s)', (from_user_id, to_user_id, 'Pending'))
-#     conn.commit()
-# except mysql.connector.IntegrityError as e:
-#     print("Error inserting data:", e)
+#      conn.commit()
+#except mysql.connector.IntegrityError as e:
+#      print("Error inserting data:", e)
 
 # Query and print user data
 print("User data:")
@@ -90,6 +95,23 @@ rows = cursor.fetchall()
 for row in rows:
     print(row)
 
+print("favorite place list:")
+cursor.execute('SELECT * FROM favorite_places')
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+
+print("meeting list:")
+cursor.execute('SELECT * FROM meetings')
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+
+print("meeting_participants list:")
+cursor.execute('SELECT * FROM meeting_participants')
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
 # Close database connection
 cursor.close()
 conn.close()

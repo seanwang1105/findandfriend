@@ -1,34 +1,57 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp">
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_user_profile"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="User Profile Image"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_gravity="center" />
-    <TextView
-        android:id="@+id/friend_name"
-        android:layout_width="0dp"
+    android:layout_height="wrap_content">
+
+    <!-- Content Container -->
+    <LinearLayout
+        android:id="@+id/item_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Friend Name"
-        android:textSize="18sp" />
-    <TextView
-        android:id="@+id/time_distance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Time"
-        android:textSize="18sp" />
-    <CheckBox
-        android:id="@+id/checkbox_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_user_profile"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="User Profile Image"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/friend_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Friend Name"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/time_distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Time"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Delete Button -->
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:text="Delete"
+        android:background="@color/bottom_nav_color"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.findandfriend;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -31,7 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,9 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ImageView profileImage;
     private TextView profileName, profileEmail;
-    private Button btnEditProfile, btnViewFavorites, btnLogout;
+    private Button btnEditProfile, btnViewFavorites, btnLogout,btnDeleteAcc;
     private Uri imageUri;
     private static final String FILE_NAME = "user_credentials.txt";
+    private static final String TAG = "ProfileActivity";
     private String email;
 
     @Override
@@ -58,10 +63,11 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditProfile = findViewById(R.id.btn_edit_profile);
         btnViewFavorites = findViewById(R.id.btn_view_favorites);
         btnLogout = findViewById(R.id.btn_logout);
+        btnDeleteAcc=findViewById(R.id.btn_DeleteAccount);
 
         // load data
         loadUserData();
-
+        downloadFavoritePlaces(email);
         // Edit buttion click event
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
@@ -89,9 +95,32 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);  // 清除任务栈，防止返回键回到ProfileActivity
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
 
+                finish();
+            }
+        });
+        btnDeleteAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // logout function
+                Toast.makeText(ProfileActivity.this, "Account will be deleted", Toast.LENGTH_SHORT).show();
+                // Delete the user credentials file
+                File file = new File(getFilesDir(), "user_credentials.txt");
+                if (file.exists()) {
+                    boolean deleted = file.delete();
+                    if (deleted) {
+                        Toast.makeText(ProfileActivity.this, "User credentials deleted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Failed to delete user credentials", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                //delete user data function
+                DeleteAccount_Func();
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 finish();
             }
         });
@@ -198,7 +227,67 @@ public class ProfileActivity extends AppCompatActivity {
         // Add the request to the request queue
         queue.add(stringRequest);
     }
-    //parse user data
+    //delete account from server:
+    private void DeleteAccount_Func(){
+        // Initialize the request queue
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String[] savedCredentials = loadCredentials();
+
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
+
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+
+        if (token == null || email.isEmpty()) {
+            Toast.makeText(ProfileActivity.this, "Missing token, please login again", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Define the URL with the email parameter
+        String serverUrl = getString(R.string.IP) + "/delete_account";
+
+        JSONObject loginData = new JSONObject();
+        try {
+            loginData.put("email", email);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Create a StringRequest
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, serverUrl, loginData,
+                response -> {
+                    try {
+
+                        if (response.has("error")) {
+                            String status=response.getString("error");
+                            Toast.makeText(ProfileActivity.this, status, Toast.LENGTH_SHORT).show();
+                        } else {
+                            String status=response.getString("status");
+                            Toast.makeText(ProfileActivity.this, "User data delete successfully.", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(ProfileActivity.this, "Failed to delete user data.", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Toast.makeText(ProfileActivity.this, "Error while delete user data.", Toast.LENGTH_SHORT).show();
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                200000, // Initial timeout in ms (e.g., 10 seconds)
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, // Retry count
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        // Add the request to the request queue
+        queue.add(jsonObjectRequest);
+    }
    //Load credentials to get email
     private String[] loadCredentials() {
         FileInputStream fis = null;
@@ -274,4 +363,70 @@ public class ProfileActivity extends AppCompatActivity {
             Volley.newRequestQueue(this).add(jsonObjectRequest);
         }
     });
+
+    private void downloadFavoritePlaces(String email) {
+        String url = getString(R.string.IP) +"/get_favorite_places"; // Replace with your server's endpoint
+
+        // Create a JSON object to send the email as a parameter
+        JSONObject requestParams = new JSONObject();
+        try {
+            requestParams.put("email", email);
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to create JSON for request: ", e);
+            return;
+        }
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        // Make the HTTP GET request using Volley or another library
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                requestParams,
+                response -> {
+                    try {
+                        // Parse the response to extract the favorite places
+                        JSONArray favoritePlaces = response.getJSONArray("favorite_places");
+
+                        // Save the favorite places to saved_places.json
+                        savePlacesToLocalFile(favoritePlaces);
+
+                        Toast.makeText(this, "Favorite places downloaded and saved!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Downloaded places: " + favoritePlaces.toString());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error parsing server response: ", e);
+                    }
+                },
+                error -> {
+                    // Handle errors
+                    Toast.makeText(this, "Failed to download favorite places.", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error fetching favorite places: ", error);
+                }
+
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
+            }
+        };
+
+        // Add the request to the Volley queue
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    private void savePlacesToLocalFile(JSONArray favoritePlaces) {
+        String filename = "saved_places.json";
+
+        try {
+            // Save the JSON array to the local file
+            FileOutputStream fos = openFileOutput(filename, Context.MODE_PRIVATE);
+            fos.write(favoritePlaces.toString().getBytes());
+            fos.close();
+
+            Log.d(TAG, "Saved places to local file: " + favoritePlaces.toString());
+        } catch (IOException e) {
+            Log.e(TAG, "Error saving favorite places to local file: ", e);
+        }
+    }
 }

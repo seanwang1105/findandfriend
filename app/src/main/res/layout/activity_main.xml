@@ -38,7 +38,8 @@
         android:layout_below="@id/map"
         android:layout_alignParentTop="false"
         android:padding="16dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:clickable="false"/>
 
     <!-- Go Button -->
     <Button

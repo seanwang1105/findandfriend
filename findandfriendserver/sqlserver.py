@@ -60,6 +60,7 @@ def init_db():
         name VARCHAR(255),
         last_visit_place VARCHAR(255),
         last_visit_rating FLOAT,
+        last_visit_place_reviews VARCHAR(255),
         last_longitude FLOAT,
         last_latitude FLOAT,
         avatar VARCHAR(255)
@@ -100,7 +101,29 @@ def init_db():
         FOREIGN KEY (to_user_id) REFERENCES users (id) ON DELETE CASCADE
     )
     ''')
+    # create meeting_requests table
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS meetings (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        sender_email VARCHAR(255) NOT NULL,
+        location_name VARCHAR(255),
+        location_latitude FLOAT,
+        location_longitude FLOAT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
 
+    # create meeting_participants table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS meeting_participants (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        meeting_id INT NOT NULL,
+        participant_email VARCHAR(255) NOT NULL,
+        status ENUM('Pending', 'Accepted', 'Rejected') DEFAULT 'Pending',
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (meeting_id) REFERENCES meetings (id) ON DELETE CASCADE
+    )
+    ''')
     conn.commit()
     conn.close()
 
@@ -514,7 +537,7 @@ def update_location(current_user_email):
             UPDATE users
             SET last_latitude = %s, last_longitude = %s
             WHERE email = %s
-        ''', (latitude, longitude, current_user_email))
+        ''', (latitude, longitude, email))
         conn.commit()
     except mysql.connector.Error as e:
         print("Database error:", e)
@@ -524,6 +547,464 @@ def update_location(current_user_email):
         conn.close()
 
     return jsonify({"status": "Location updated successfully"}), 200
+
+@app.route('/upload_favorite_place', methods=['POST'])
+@token_required
+def upload_favorite_place(current_user_email):
+    data = request.json
+    email=data.get('email')
+    print("update favorite places from email:",email)
+    place_name = data.get('name')
+    place_address = data.get('address')
+
+    if not place_name or not place_address:
+        return jsonify({"error": "Name and address are required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Get user ID based on email
+        cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        user_id = user['id']
+
+        # Insert the favorite place into the database
+        cursor.execute('INSERT INTO favorite_places (user_id, place_name, place_address) VALUES (%s, %s, %s)',
+                       (user_id, place_name, place_address))
+        conn.commit()
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        return jsonify({"error": "Database operation failed"}), 500
+    finally:
+        conn.close()
+
+    return jsonify({"status": "Favorite place uploaded successfully"}), 201
+
+@app.route('/get_favorite_places', methods=['POST'])
+@token_required
+def get_favorite_places(current_user_email):
+    data=request.json
+    email=data.get('email')
+    print("get favorite places from email:",email)
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Get user ID based on email
+        cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        user_id = user['id']
+
+        # Fetch favorite places from the database
+        cursor.execute('SELECT place_name AS name, place_address AS address FROM favorite_places WHERE user_id = %s', (user_id,))
+        favorite_places = cursor.fetchall()
+
+        return jsonify({"favorite_places": favorite_places}), 200
+
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        return jsonify({"error": "Failed to fetch favorite places"}), 500
+    finally:
+        conn.close()
+
+@app.route('/get_friend_details', methods=['POST'])
+@token_required
+def get_friend_details(current_user_email):
+    data = request.json
+    email = data.get('email')
+    print("get friend details request",email)
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Fetch the user ID
+        cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        user_id = user['id']
+
+        # Fetch friends' details
+        cursor.execute('''
+        SELECT u.email, u.name, u.last_visit_place, u.last_visit_rating, u.last_visit_place_reviews
+        FROM friends f
+        JOIN users u ON f.friend_id = u.id
+        WHERE f.user_id = %s
+        ''', (user_id,))
+
+        friends_activities = []
+        for row in cursor.fetchall():
+            friend_info = {
+                "email": row["email"],
+                "name": row["name"] if row["name"] else row["email"],  # Use email if name is NULL
+                "last_visit_place": row["last_visit_place"],
+                "last_visit_rating": row["last_visit_rating"],
+                "last_visit_place_reviews": row["last_visit_place_reviews"]
+            }
+            friends_activities.append(friend_info)
+
+        return jsonify({"friends": friends_activities}), 200
+
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        return jsonify({"error": "Failed to fetch friend details"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+@app.route('/update_last_visit', methods=['POST'])
+@token_required
+def update_last_visit(current_user_email):
+    data = request.json
+
+    email = data.get('email')
+    last_visit_place = data.get('last_visit_place')
+    last_visit_rating = data.get('last_visit_rating')
+    last_visit_place_reviews = data.get('last_visit_place_reviews')
+    print("update last visit request",email)
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Check if user exists
+        cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        # Update last visit details
+        cursor.execute('''
+            UPDATE users
+            SET last_visit_place = %s, last_visit_rating = %s, last_visit_place_reviews = %s
+            WHERE email = %s
+        ''', (last_visit_place, last_visit_rating, last_visit_place_reviews, email))
+        conn.commit()
+
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        return jsonify({"error": "Failed to update last visit details"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"status": "Last visit details updated successfully"}), 200
+
+@app.route('/create_meeting', methods=['POST'])
+@token_required
+def create_meeting(current_user_email):
+    data = request.json
+    sender_email = data.get('sender_email')
+    location_name = data.get('location_name')
+    location_latitude = data.get('location_latitude')
+    location_longitude = data.get('location_longitude')
+    friends_emails = data.get('friends_emails')
+
+    print("Meeting created by:", sender_email)
+
+    # Validate input
+    if not sender_email or not location_name or not location_latitude or not location_longitude or not friends_emails:
+        return jsonify({"error": "All fields are required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Insert meeting into meetings table
+        cursor.execute('''
+            INSERT INTO meetings (sender_email, location_name, location_latitude, location_longitude)
+            VALUES (%s, %s, %s, %s)
+        ''', (sender_email, location_name, location_latitude, location_longitude))
+        meeting_id = cursor.lastrowid
+
+        # Add sender as a participant with "accept" status
+        cursor.execute('''
+            INSERT INTO meeting_participants (meeting_id, participant_email, status)
+            VALUES (%s, %s, %s)
+        ''', (meeting_id, sender_email, 'Accepted'))
+
+        # Add other participants to meeting_participants table
+        for email in friends_emails:
+            cursor.execute('''
+                INSERT INTO meeting_participants (meeting_id, participant_email, status)
+                VALUES (%s, %s, %s)
+            ''', (meeting_id, email, 'pending'))
+
+        conn.commit()
+    except mysql.connector.Error as e:
+        conn.rollback()
+        print("Database error:", e)
+        return jsonify({"error": "Failed to create meeting"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"status": "Meeting created successfully", "meeting_id": meeting_id}), 201
+
+
+@app.route('/respond_meeting', methods=['POST'])
+@token_required
+def respond_meeting(current_user_email):
+    data = request.json
+    email=data.get("email")
+    meeting_id = data.get('request_id')
+    response = data.get('action')  # Accept or Reject
+    print("meeting respond by :",meeting_id)
+    if not meeting_id or response not in ['Accepted', 'Rejected']:
+        return jsonify({"error": "Invalid meeting ID or response"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Update response in meeting_participants table
+        cursor.execute('''
+            UPDATE meeting_participants
+            SET status = %s, updated_at = CURRENT_TIMESTAMP
+            WHERE meeting_id = %s AND participant_email = %s
+        ''', (response, meeting_id, email))
+
+        if cursor.rowcount == 0:
+            return jsonify({"error": "Meeting not found or unauthorized"}), 404
+
+        conn.commit()
+    except mysql.connector.Error as e:
+        conn.rollback()
+        print("Database error:", e)
+        return jsonify({"error": "Failed to respond to meeting"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+    return jsonify({"status": "Response recorded successfully"}), 200
+
+@app.route('/meeting_status', methods=['GET'])
+@token_required
+def meeting_status(current_user_email):
+    # Retrieve the email parameter from the request
+    email = request.args.get('email')
+    print("meeting staus queried by :",email)
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Fetch all meeting IDs where the given email is a participant
+        cursor.execute('''
+            SELECT DISTINCT meeting_id
+            FROM meeting_participants
+            WHERE participant_email = %s
+        ''', (email,))
+        meetings = cursor.fetchall()
+
+        if not meetings:
+            return jsonify({"error": "No meetings found for this email"}), 404
+
+        result = []
+
+        # For each meeting, fetch meeting details and participant status summary
+        for meeting in meetings:
+            meeting_id = meeting['meeting_id']
+
+            # Fetch meeting details
+            cursor.execute('''
+                SELECT sender_email, location_name, location_latitude, location_longitude
+                FROM meetings
+                WHERE id = %s
+            ''', (meeting_id,))
+            meeting_details = cursor.fetchone()
+
+            if not meeting_details:
+                continue
+
+            # Fetch participant statuses for the meeting
+            cursor.execute('''
+                SELECT status
+                FROM meeting_participants
+                WHERE meeting_id = %s
+            ''', (meeting_id,))
+            participants = cursor.fetchall()
+
+            # Calculate the status counts
+            accepted = sum(1 for p in participants if p['status'].lower() == 'accepted')
+            rejected = sum(1 for p in participants if p['status'].lower() == 'rejected')
+            pending = sum(1 for p in participants if p['status'].lower() == 'pending')
+
+            # Create a status summary string
+            status_summary = f"{accepted} accepted, {rejected} rejected, {pending} pending"
+            timestamp = meeting_details.get('timestamp')
+            # Add the meeting to the result
+            result.append({
+                "meeting_id": meeting_id,
+                "meeting_details": {
+                    "sender_email": meeting_details['sender_email'],
+                    "location_name": meeting_details['location_name'],
+                    "location_latitude": meeting_details['location_latitude'],
+                    "location_longitude": meeting_details['location_longitude']
+                },
+                 "status_summary": f"{status_summary} (Last updated: {timestamp})"
+            })
+
+        conn.close()
+        return jsonify(result), 200
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        return jsonify({"error": "Failed to fetch meeting status"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/delete_friend', methods=['POST'])
+@token_required
+def delete_friend(current_user_email):
+    """
+    Delete friendship between the sender and the friend.
+    """
+    data = request.json
+    sender_email = data.get('sender_email')
+    friend_email = data.get('friend_email')
+    print("friend deleted by :",sender_email,friend_email)
+    if not sender_email or not friend_email:
+        return jsonify({"error": "Both sender_email and friend_email are required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Get user IDs for sender and friend
+        cursor.execute('SELECT id FROM users WHERE email = %s', (sender_email,))
+        sender = cursor.fetchone()
+
+        cursor.execute('SELECT id FROM users WHERE email = %s', (friend_email,))
+        friend = cursor.fetchone()
+
+        if not sender or not friend:
+            return jsonify({"error": "One or both users not found"}), 404
+
+        sender_id = sender['id']
+        friend_id = friend['id']
+
+        # Delete friendship in both directions
+        cursor.execute('DELETE FROM friends WHERE user_id = %s AND friend_id = %s', (sender_id, friend_id))
+        cursor.execute('DELETE FROM friends WHERE user_id = %s AND friend_id = %s', (friend_id, sender_id))
+
+        conn.commit()
+        return jsonify({"status": "Friendship deleted successfully"}), 200
+
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        conn.rollback()
+        return jsonify({"error": "Failed to delete friendship"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/delete_meeting_participant', methods=['POST'])
+@token_required
+def delete_meeting_participant(current_user_email):
+    """
+    Delete a participant from a meeting.
+    """
+    data = request.json
+    email = data.get('email')
+    meeting_id = data.get('meeting_id')
+    print("meeting deleted by :",email,meeting_id)
+    if not email or not meeting_id:
+        return jsonify({"error": "Both email and meeting_id are required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Verify if the participant exists in the meeting
+        cursor.execute('''
+            SELECT * FROM meeting_participants
+            WHERE meeting_id = %s AND participant_email = %s
+        ''', (meeting_id, email))
+        participant = cursor.fetchone()
+
+        if not participant:
+            return jsonify({"error": "Participant not found in the specified meeting"}), 404
+
+        # Delete the participant from the meeting
+        cursor.execute('''
+            DELETE FROM meeting_participants
+            WHERE meeting_id = %s AND participant_email = %s
+        ''', (meeting_id, email))
+
+        conn.commit()
+        return jsonify({"status": "Participant deleted successfully"}), 200
+
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        conn.rollback()
+        return jsonify({"error": "Failed to delete participant"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.route('/delete_account', methods=['POST'])
+@token_required
+
+def delete_account(current_user_email):
+    """
+    Deletes the user account and all associated friendships from the database.
+    """
+    data = request.json
+    email = data.get('email')
+    print("account deleted by:",email)
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        # Get the user ID for the provided email
+        cursor.execute('SELECT id FROM users WHERE email = %s', (email,))
+        user = cursor.fetchone()
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        user_id = user['id']
+
+        # Delete all friendships involving the user
+        cursor.execute('DELETE FROM friends WHERE user_id = %s OR friend_id = %s', (user_id, user_id))
+
+        # Delete the user account
+        cursor.execute('DELETE FROM users WHERE id = %s', (user_id,))
+
+        conn.commit()
+        return jsonify({"status": "Account and associated data deleted successfully"}), 200
+
+    except mysql.connector.Error as e:
+        print("Database error:", e)
+        conn.rollback()
+        return jsonify({"error": "Failed to delete account"}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 

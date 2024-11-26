@@ -1,6 +1,7 @@
 package com.example.findandfriend;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -8,20 +9,29 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import java.io.IOException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 public class ReviewRatingActivity extends AppCompatActivity {
 
@@ -31,16 +41,25 @@ public class ReviewRatingActivity extends AppCompatActivity {
     private Button submitReviewButton;
     private Uri selectedImageUri;
     private Button addPhotoButton;
+    private static final String FILE_NAME = "user_credentials.txt";
+    private static final String TAG = "ReviewRatingActivity";
+    private String email="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.review_rating);
+        String[] savedCredentials = loadCredentials();
+
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
 
         ratingBar = findViewById(R.id.rating_bar);
         reviewText = findViewById(R.id.comment_box);
         submitReviewButton = findViewById(R.id.submit_review_button);
         addPhotoButton =findViewById(R.id.upload_photo_button);
+        String locationname = getIntent().getStringExtra("placeName");
         // Submit review button click
         addPhotoButton.setOnClickListener(view -> {
             //add photo handling
@@ -51,7 +70,7 @@ public class ReviewRatingActivity extends AppCompatActivity {
         submitReviewButton.setOnClickListener(view -> {
             float rating = ratingBar.getRating();
             String review = reviewText.getText().toString();
-            submitReview(rating, review);
+            submitReview(locationname,rating, review);
             if (selectedImageUri != null) {
                 uploadImage(selectedImageUri);
             } else {
@@ -99,6 +118,27 @@ public class ReviewRatingActivity extends AppCompatActivity {
         });
     }
 
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     // Mock method to handle the review submission
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -109,40 +149,65 @@ public class ReviewRatingActivity extends AppCompatActivity {
         }
     }
 
-    private void submitReview(float rating, String review) {
-        Toast.makeText(this, "Review Submitted!\nRating: " + rating + "\nReview: " + review, Toast.LENGTH_LONG).show();
+    private void submitReview(String locationName, float rating, String review) {
+        // Your backend endpoint URL
+        String url = getString(R.string.IP) +"/update_last_visit";
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        // Prepare JSON payload
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("email", email); // Replace with dynamic email
+            requestBody.put("last_visit_place", locationName);
+            requestBody.put("last_visit_rating", rating);
+            requestBody.put("last_visit_place_reviews", review);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error preparing data", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create a request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle successful response
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Review Submitted Successfully!",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error response
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Error submitting review: " + error.getMessage(),
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
+            }
+        };
+
+        // Add request to Volley request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjectRequest);
     }
 
     private void uploadImage(Uri imageUri) {
-        OkHttpClient client = new OkHttpClient();
-        try {
-            byte[] imageBytes = getContentResolver().openInputStream(imageUri).readAllBytes();
-            RequestBody requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("image", "photo.jpg",
-                            RequestBody.create(imageBytes, MediaType.parse("image/jpeg")))
-                    .build();
-            Request request = new Request.Builder()
-                    .url("https://yourserver.com/upload") // replace with your server URL
-                    .post(requestBody)
-                    .build();
-            new Thread(() -> {
-                try (Response response = client.newCall(request).execute()) {
-                    runOnUiThread(() -> {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(ReviewRatingActivity.this, "Photo uploaded successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(ReviewRatingActivity.this, "Photo upload failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    runOnUiThread(() -> Toast.makeText(ReviewRatingActivity.this, "Upload error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                }
-            }).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Image processing failed", Toast.LENGTH_SHORT).show();
-        }
-    }
+          }
 }

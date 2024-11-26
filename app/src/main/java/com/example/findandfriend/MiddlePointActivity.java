@@ -2,6 +2,7 @@ package com.example.findandfriend;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -13,6 +14,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,7 +30,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.SearchView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.findandfriend.Location;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,16 +62,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.findandfriend.Friend;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MiddlePointActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private MapView mapView;
     private GoogleMap googleMap;
     private FriendAdapter friendAdapter;
+    private Button mButton;
     private static final String TAG = "MapsActivity";
     private SearchView searchView;
     private RecyclerView searchResultsList;
@@ -76,9 +94,17 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
     private double averlatitute;
     private int fri_num;
     private double navlogitute;
+
     private double navlatitude;
+    private double meeting_request_longitude;
+    private double meeting_request_latitude;
     private Bitmap placeImage;
-    private boolean friendselected;
+    private boolean friend_meet_loaded =false;
+    private String friend_meet_location;
+
+    private int currentPage = 0;
+    private static final String FILE_NAME = "user_credentials.txt";
+    private String email="";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -87,6 +113,7 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
         setContentView(R.layout.middle_point_activity);
 
         btMeetFloat=findViewById(R.id.fab_meet_here);
+        mButton=findViewById(R.id.meet_button);
         // initial MapView
         mapView = findViewById(R.id.map_middle_point);
         mapView.onCreate(savedInstanceState);
@@ -97,7 +124,11 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
         params.height = screenHeight / 3;  // set to 1/3 of screen height
         mapView.setLayoutParams(params);
 
+        String[] savedCredentials = loadCredentials();
 
+        if (savedCredentials != null) {
+            email = savedCredentials[0];
+        }
 
         // Initialize Places API client
         if (!Places.isInitialized()) {
@@ -116,66 +147,161 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
         }
 
         setupSearchView();
-
+        List<Friend> selectedFriends = SelectedFriendShareData.getInstance().getSelectedFriends();
+        friendAdapter = new FriendAdapter(this, selectedFriends, position -> {
+            // Handle friend deletion
+            Friend deletedFriend = selectedFriends.get(position);
+            selectedFriends.remove(position); // Remove from the list
+            friendAdapter.notifyItemRemoved(position); // Notify the adapter
+            Toast.makeText(MiddlePointActivity.this, deletedFriend.name + " deleted", Toast.LENGTH_SHORT).show();
+        });
+        System.out.println("receive selected friend :"+selectedFriends);
         // Go click event
         btMeetFloat.setOnClickListener(v -> {
 
             Intent intent = new Intent(MiddlePointActivity.this, LocationDetailsActivity.class);
-            if (place != null) {
-                System.out.println("placeid from middle:" + place.getId());
-                intent.putExtra("placeID", place.getId());
-                intent.putExtra("placeName", place.getName());
-                intent.putExtra("placeRating", place.getRating());
-                intent.putExtra("placeLatitude", placeLatLng.latitude);
-                intent.putExtra("placeLongitude", placeLatLng.longitude);
-                intent.putExtra("placeAddress", place.getFormattedAddress());
-            }
-            else{
-                intent.putExtra("placeID","No id");
-                intent.putExtra("placeName","No name");
+
+                intent.putExtra("placeID","MID");
+                intent.putExtra("placeName","Meet in Middle");
                 intent.putExtra("placeRating","0.0");
                 intent.putExtra("placeLatitude",averlatitute);
                 intent.putExtra("placeLongitude",averlogitute);
-                intent.putExtra("placeAddress","No place");
-            }
+                intent.putExtra("placeAddress","Load as middle point");
             startActivity(intent);
         });
-        /*
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 2) {
-                    try {
-                        // Perform search
-                        performSearch(s.toString());
-                    } catch (Exception e) {
-                        // Log the error and show a message
-                        Log.e("MiddleActivity", "Error during search: " + e.getMessage());
-                        Toast.makeText(MiddlePointActivity.this, "Error occurred while searching.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-        */
         // get friends data from MainActivity
-        List<Friend> selectedFriends = getIntent().getParcelableArrayListExtra("selected_friends");
-        friendAdapter = new FriendAdapter(this,  selectedFriends);
+
 
         // Initialize RecyclerView
-        searchResultsList = findViewById(R.id.search_results_list);
-        searchResultsList.setLayoutManager(new LinearLayoutManager(this));
+        ViewPager2 viewPager = findViewById(R.id.view_pager);
+
+        //searchResultsList.setLayoutManager(new LinearLayoutManager(this));
         searchResultsAdapter = new SearchResultsAdapter(predictionList, prediction -> {
             // When an item is clicked, fetch more details about the place
             fetchPlaceDetails(prediction.getPlaceId());
         });
-        searchResultsList.setAdapter(searchResultsAdapter);
 
+        List<MeetingFriend>meetingFriends = new ArrayList<>();
+// Step 1: Fetch Meeting Statuses from Server
+        FriendMeetingAdapter friendMeetingAdapter = new FriendMeetingAdapter(this,meetingFriends, new FriendMeetingAdapter.OnItemClickListener() {
+            @Override
+                public void onItemClick(MeetingFriend friendMeet) {
+                    // Show friendMeet on the map
+                    friend_meet_loaded = true;
+                    friend_meet_location = friendMeet.getLocationName();
+                    meeting_request_longitude = friendMeet.getLongitude();
+                    meeting_request_latitude = friendMeet.getLatitude();
+                    LatLng friendLatLng = new LatLng(friendMeet.getLatitude(), friendMeet.getLongitude());
+
+                    googleMap.clear();  // Clear existing markers
+                    googleMap.addMarker(new MarkerOptions().position(friendLatLng).title(friendMeet.getSenderEmail()));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng, 12));
+                }
+
+                @Override
+                public void onAccept(MeetingFriend friendMeet) {
+                    Toast.makeText(MiddlePointActivity.this, "Accepted: " + friendMeet.getSenderEmail(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onReject(MeetingFriend friendMeet) {
+                    Toast.makeText(MiddlePointActivity.this, "Rejected: " + friendMeet.getSenderEmail(), Toast.LENGTH_SHORT).show();
+                }
+                @Override
+               public void onDelete(MeetingFriend friendMeet) {
+                    Toast.makeText(MiddlePointActivity.this, "Deleted: " + friendMeet.getSenderEmail(), Toast.LENGTH_SHORT).show();
+               }
+            });
+
+            // Step 3: Update the ViewPager or RecyclerView with the Adapter
+// Set the updated adapter to ViewPager
+
+
+
+// Initialize ViewPager2 Adapter
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(searchResultsAdapter, friendMeetingAdapter);
+        viewPager.setAdapter(viewPagerAdapter);
+
+// Listen for page changes
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                currentPage = position; // Update the current page index
+            }
+        });
+        // fetch the meeting request from server
+        fetchMeetingStatuses(email, new MeetingStatusCallback() {
+            @Override
+            public void onSuccess(List<MeetingFriend> meetingFriends) {
+                if (!meetingFriends.isEmpty()) {
+                    // Update the FriendMeetingAdapter with the fetched data
+                    friendMeetingAdapter.updateMeetingFriends(meetingFriends);
+
+                    // Notify the ViewPagerAdapter of data changes
+                    viewPagerAdapter.notifyAllPagesChanged();
+                } else {
+                    // Handle empty meetingFriends list
+                    Toast.makeText(MiddlePointActivity.this, "No meeting friends found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                // Log error and show empty list message
+                Toast.makeText(MiddlePointActivity.this, "Error loading meeting statuses", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //initialize button to transfer message:
+        mButton.setOnClickListener(v->{
+            Intent intent = new Intent(MiddlePointActivity.this, LocationDetailsActivity.class);
+            if (currentPage == 0) {
+                // Currently viewing SearchResultAdapter
+                Log.d("ButtonClick", "SearchResultAdapter is active");
+                if (place != null) {
+                    System.out.println("placeid from middle:" + place.getId());
+                    intent.putExtra("placeID", place.getId());
+                    intent.putExtra("placeName", place.getName());
+                    intent.putExtra("placeRating", place.getRating());
+                    intent.putExtra("placeLatitude", placeLatLng.latitude);
+                    intent.putExtra("placeLongitude", placeLatLng.longitude);
+                    intent.putExtra("placeAddress", place.getFormattedAddress());
+                }
+                else{
+                    intent.putExtra("placeID","MID");
+                    intent.putExtra("placeName","Meet in Middle");
+                    intent.putExtra("placeRating","0.0");
+                    intent.putExtra("placeLatitude",averlatitute);
+                    intent.putExtra("placeLongitude",averlogitute);
+                    intent.putExtra("placeAddress","Load as middle point");
+                }
+                startActivity(intent);
+            } else if (currentPage == 1) {
+                // Currently viewing MeetRequestAdapter
+                Log.d("ButtonClick", "MeetRequestAdapter is active");
+                if (friend_meet_loaded) {
+                    intent.putExtra("placeID", "No ID");
+                    intent.putExtra("placeName", friend_meet_location);
+                    intent.putExtra("placeRating", "No rating");
+                    intent.putExtra("placeLatitude",meeting_request_latitude);
+                    intent.putExtra("placeLongitude", meeting_request_longitude);
+                    intent.putExtra("placeAddress", "");
+                }
+                else{
+                    System.out.println("placeid from middle:" + place.getId());
+                    intent.putExtra("placeID","MID");
+                    intent.putExtra("placeName","Meet in Middle");
+                    intent.putExtra("placeRating","0.0");
+                    intent.putExtra("placeLatitude",averlatitute);
+                    intent.putExtra("placeLongitude",averlogitute);
+                    intent.putExtra("placeAddress","Load as middle point");
+                }
+                friend_meet_loaded=false;
+                startActivity(intent);
+            } else {
+                Log.d("ButtonClick", "Unknown page");
+            }
+                    });
         // initial BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -285,13 +411,8 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
         if (googleMap != null) {
 
             // add friends and suggested location info
-            List<Friend> selectedFriends = getIntent().getParcelableArrayListExtra("selected_friends");
-            /*
-            List<Location> locations = getSampleLocations();
-            for (Location location : locations) {
-                addLocationMarker(location);
-            }
-            */
+            List<Friend> selectedFriends = SelectedFriendShareData.getInstance().getSelectedFriends();
+            System.out.println("call from mapready call back");
             averlogitute = 0;
             averlatitute =0;
             fri_num=0;
@@ -350,64 +471,116 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
                 googleMap.addMarker(markerOptions);
             }
         }
-
     private void transferImagesToOtherActivity(ArrayList<byte[]> imagesByteArrayList) {
         Intent intent = new Intent(this, LocationDetailsActivity.class);
         intent.putExtra("images", imagesByteArrayList);
         startActivity(intent);
     }
-/*
-// add Location Marker
-private void addLocationMarker(Location location) {
-    LatLng locationLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-    Bitmap markerBitmap = createCustomMarker(this, String.valueOf(location.getId()));
 
-    MarkerOptions markerOptions = new MarkerOptions()
-            .position(locationLatLng)
-            .title(location.getName())
-            .icon(BitmapDescriptorFactory.fromBitmap(markerBitmap));
+    // get friend request from server:
+    // Fetch meeting requests from the server (replace with actual server logic)
+    private void fetchMeetingStatuses(String email, MeetingStatusCallback callback) {
+        fetchMeetingStatusesFromServer(email, new MeetingStatusCallback() {
+            @Override
+            public void onSuccess(List<MeetingFriend> meetingFriends) {
+                // Return the list of MeetingFriends to the callback
+                callback.onSuccess(meetingFriends);
+            }
 
-    // mark on map
-    googleMap.addMarker(markerOptions);
-
-}
-// Sample location data
-    private List<Location> getSampleLocations() {
-        List<Location> locations = new ArrayList<>();
-        locations.add(new Location(1, "Cafe Blue", "Best place to meet", 35.0522, -118.2440));
-        locations.add(new Location(2, "Green Park", "Perfect for a walk", 33.0522, -118.2427));
-        return locations;
+            @Override
+            public void onError(String errorMessage) {
+                // Return an empty list on error
+                callback.onSuccess(new ArrayList<>()); // Return empty list
+                // Optionally show the error to the user
+                Toast.makeText(MiddlePointActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    //set customer marker for location
-    private Bitmap createCustomMarker(Context context, String idText) {
-        Bitmap markerBitmap = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(markerBitmap);
+    private void fetchMeetingStatusesFromServer(String email, MeetingStatusCallback callback) {
+        String url = getString(R.string.IP) +"/meeting_status?email=" + email; // Replace with your server's URL
+        SharedPreferences sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", null);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        List<MeetingFriend> meetingFriends = new ArrayList<>();
 
-        Paint backgroundPaint = new Paint();
-        backgroundPaint.setColor(Color.BLUE);
+                        // Parse response array
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject meetingObj = response.getJSONObject(i);
 
+                            int meetingId = meetingObj.getInt("meeting_id");
+                            JSONObject meetingDetails = meetingObj.getJSONObject("meeting_details");
 
-        canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), backgroundPaint);
+                            String senderEmail = meetingDetails.getString("sender_email");
+                            String locationName = meetingDetails.getString("location_name");
+                            double locationLatitude = meetingDetails.getDouble("location_latitude");
+                            double locationLongitude = meetingDetails.getDouble("location_longitude");
+                            String statusSummary = meetingObj.getString("status_summary");
 
+                            // Add to the meetingFriends list
+                            MeetingFriend meetingFriend = new MeetingFriend(meetingId,
+                                    senderEmail,
+                                    locationName,
+                                    locationLatitude,
+                                    locationLongitude,
+                                    statusSummary
+                            );
+                            meetingFriends.add(meetingFriend);
+                        }
 
-        Paint textPaint = new Paint();
-        textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(40);
-        textPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        textPaint.setAntiAlias(true);
+                        // Pass the list back to the callback
+                        callback.onSuccess(meetingFriends);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        callback.onError("Failed to parse meeting status response");
+                    }
+                },
+                error -> {
+                    // Handle Volley error
+                    callback.onError("Failed to fetch meeting statuses: " + error.getMessage());
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-access-token", token); // Add token to request header
+                return headers;
+            }
+        };
 
-
-        int xPos = (canvas.getWidth() / 2) - 20;
-        int yPos = (int) ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2));
-
-
-        canvas.drawText(idText, xPos, yPos, textPaint);
-
-        return markerBitmap;
+        // Add the request to the Volley queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this); // Replace 'context' with your Activity or Application Context
+        requestQueue.add(request);
     }
-    */
 
+    public interface MeetingStatusCallback {
+        void onSuccess(List<MeetingFriend> meetingFriends);
+        void onError(String errorMessage);
+    }
+    //load user email:
+    private String[] loadCredentials() {
+        FileInputStream fis = null;
+        try {
+            fis = openFileInput(FILE_NAME);
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            String credentials = new String(buffer);
+            return credentials.split(",");  // split by comma to separate email and password
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     //Map lifecycle management
     @Override
     protected void onStart() {

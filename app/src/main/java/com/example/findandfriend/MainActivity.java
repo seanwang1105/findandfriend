@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import android.util.Log;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.location.Location;
 
 import androidx.annotation.NonNull;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String FILE_NAME = "user_credentials.txt";
 
     private static final double EARTH_RADIUS = 3959.0;
+    //private List<Friend> friends =new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,16 +129,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationRequest.setFastestInterval(2000); // Fastest possible update interval
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        /*
-        // Request location permission
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            requestLocationUpdates();
-        } else {
-            // Request the location permission at runtime
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
-        }
-        */
+        int screenHeight = getResources().getDisplayMetrics().heightPixels;
+        ViewGroup.LayoutParams params = mapView.getLayoutParams();
+        params.height = screenHeight / 3;  // set 1/3 of screen height
+        mapView.setLayoutParams(params);
+
+        btnZoomIn = findViewById(R.id.btn_zoom_in);
+        btnZoomOut = findViewById(R.id.btn_zoom_out);
+
+
+        // set zoon in and out event
+        btnZoomIn.setOnClickListener(v -> {
+            if (googleMap != null) {
+                googleMap.animateCamera(CameraUpdateFactory.zoomIn());
+            }
+        });
+
+        btnZoomOut.setOnClickListener(v -> {
+            if (googleMap != null) {
+                googleMap.animateCamera(CameraUpdateFactory.zoomOut());
+            }
+        });
+
+        friendListView = findViewById(R.id.friend_list);
+        friendListView.setLayoutManager(new LinearLayoutManager(this));
         //Download friend list
         String[] savedCredentials = loadCredentials();
 
@@ -145,7 +161,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         downloadAndSaveFriendList();
+        // Update the RecyclerView adapter with the loaded friends
+        // Initialize the adapter with an empty list
+        friendAdapter = new FriendAdapter(this, new ArrayList<>(), position -> {
+            //Friend deletedFriend = friendAdapter.getSelectedFriends().get(position);
+            //friendAdapter.removeFriend(position);
+            //Toast.makeText(MainActivity.this, deletedFriend.name + " deleted", Toast.LENGTH_SHORT).show();
+        });
+        friendListView.setAdapter(friendAdapter);
+        //initialize the swip to show delete:
+        // Add swipe-to-show-delete functionality with ItemTouchHelper
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false; // No move action is needed
+            }
 
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // Show delete button
+                System.out.println("swip left!"+direction);
+                FriendAdapter.FriendViewHolder friendViewHolder = (FriendAdapter.FriendViewHolder) viewHolder;
+                if (direction == ItemTouchHelper.LEFT) {
+                    // Show delete button on swipe left
+                    System.out.println("swip left");
+                   friendViewHolder.deleteButton.setVisibility(View.VISIBLE);
+                } else if (direction == ItemTouchHelper.RIGHT) {
+                    // Restore to normal state on swipe right
+                    System.out.println("swip right");
+                    friendViewHolder.deleteButton.setVisibility(View.GONE);
+                    friendAdapter.notifyItemChanged(viewHolder.getAdapterPosition()); // Reset the item
+                }
+            }
+        });
+
+      // Attach ItemTouchHelper to the RecyclerView
+        itemTouchHelper.attachToRecyclerView(friendListView);
         // Define location callback
         locationCallback = new LocationCallback() {
             @Override
@@ -197,12 +248,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
 
                     updateLocationOnServer(currentlatitute, currentlogitute);
-
-                    List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
-                    if (updateflag== false&&!friends.isEmpty()) {
-                        friendAdapter.updateFriendDistances(friends);;
-                        friendAdapter.notifyDataSetChanged();
-                        //updateflag=true;
+                    System.out.println("call from localtion call back");
+                    List<Friend>friends=getSampleFriends(currentlatitute,currentlogitute);
+                    System.out.println("friends transfered to adapter is"+friends);
+                    if (!friends.isEmpty()) {
+                        if(updateflag==false){
+                            friendAdapter.updateFriends(friends); // Assuming updateFriendList is defined in FriendAdapter
+                            friendAdapter.notifyDataSetChanged();
+                            updateflag=true;
+                        }
+                        if(updateflag==true) {
+                            friendAdapter.updateFriendDistances(friends);
+                            friendAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }
@@ -210,8 +268,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         requestLocationUpdates();
 
+       // Load data from local JSON file
+        //getSampleFriends(currentlatitute,currentlogitute);
         // Go click event
         btnGo.setOnClickListener(v -> {
+            List<Friend> selectedFriends = friendAdapter.getSelectedFriends();
+            selectedFriends.add(new Friend("me","Me","me@google.com", currentlatitute, currentlogitute, "0 min", R.drawable.ic_friend_avatar1));
+            if (!selectedFriends.isEmpty()) {
+                System.out.println("receive selected friend in main is :"+selectedFriends);
+                SelectedFriendShareData.getInstance().setSelectedFriends(selectedFriends);
+                Intent intent = new Intent(MainActivity.this, MiddlePointActivity.class);
+                //intent.putParcelableArrayListExtra("selected_friends", new ArrayList<>(selectedFriends));
+                startActivity(intent);
+            }
+        });
+
+        // floating click event
+        btGoFloat.setOnClickListener(v -> {
             List<Friend> selectedFriends = friendAdapter.getSelectedFriends();
             selectedFriends.add(new Friend("me","Me","me@google.com", currentlatitute, currentlogitute, "0 min", R.drawable.ic_friend_avatar1));
             if (!selectedFriends.isEmpty()) {
@@ -220,49 +293,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(intent);
             }
         });
-
-        // floating click event
-        btGoFloat.setOnClickListener(v -> {
-            List<Friend> selectedFriends = friendAdapter.getSelectedFriends();
-
-            if (!selectedFriends.isEmpty()) {
-                Intent intent = new Intent(MainActivity.this, MiddlePointActivity.class);
-                intent.putParcelableArrayListExtra("selected_friends", new ArrayList<>(selectedFriends));
-                startActivity(intent);
-            }
-        });
-
-        int screenHeight = getResources().getDisplayMetrics().heightPixels;
-        ViewGroup.LayoutParams params = mapView.getLayoutParams();
-        params.height = screenHeight / 3;  // set 1/3 of screen height
-        mapView.setLayoutParams(params);
-
-        btnZoomIn = findViewById(R.id.btn_zoom_in);
-        btnZoomOut = findViewById(R.id.btn_zoom_out);
-
-
-        // set zoon in and out event
-        btnZoomIn.setOnClickListener(v -> {
-            if (googleMap != null) {
-                googleMap.animateCamera(CameraUpdateFactory.zoomIn());
-            }
-        });
-
-        btnZoomOut.setOnClickListener(v -> {
-            if (googleMap != null) {
-                googleMap.animateCamera(CameraUpdateFactory.zoomOut());
-            }
-        });
-
-        friendListView = findViewById(R.id.friend_list);
-        friendListView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize the adapter with an empty list
-        friendAdapter = new FriendAdapter(this, new ArrayList<>());
-        friendListView.setAdapter(friendAdapter);
-
-        // Load data from local JSON file
-        getSampleFriends(currentlatitute,currentlogitute);
 
          // default to Home layout
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
@@ -367,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // verify map loaded
         if (googleMap != null) {
             // add friend info
-            List<Friend> friends = getSampleFriends(currentlatitute,currentlogitute);
+            List<Friend>friends = getSampleFriends(currentlatitute,currentlogitute);
             for (Friend friend : friends) {
                 addFriendMarker(friend);
             }
@@ -568,8 +598,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
     private List<Friend> getSampleFriends(double mylatitute,double mylogitute) {
-        List<Friend> friends = new ArrayList<>();
-              try {
+            List<Friend> friends =new ArrayList<>();
+            try {
             FileInputStream fis = openFileInput("friends.json");
             StringBuilder sb = new StringBuilder();
             int ch;
@@ -601,10 +631,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // Update the RecyclerView adapter with the loaded friends
-        friendAdapter.updateFriends(friends); // Assuming updateFriendList is defined in FriendAdapter
-        friendAdapter.notifyDataSetChanged();
-
+        System.out.println("returned from sample friends are"+friends);
         return friends;
     }
 

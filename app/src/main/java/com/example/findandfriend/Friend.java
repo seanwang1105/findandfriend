@@ -87,7 +87,17 @@ public class Friend implements Parcelable {
         dest.writeString(timeAtLocation); // write timeAtLocation
         dest.writeInt(avatarResourceId);  // write avatarResourceId
     }
-
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", distance='" + timeAtLocation + '\'' +
+                '}';
+    }
     @Override
     public int describeContents() {
         return 0;

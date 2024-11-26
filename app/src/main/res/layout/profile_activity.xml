@@ -15,7 +15,6 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-        <!-- 用户头像 -->
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="100dp"
@@ -27,7 +26,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_gravity="center" />
 
-        <!-- 用户名 -->
+
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
@@ -37,7 +36,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
-        <!-- 用户邮箱 -->
+
         <TextView
             android:id="@+id/profile_email"
             android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
             android:textSize="16sp"
             android:layout_marginBottom="24dp" />
 
-        <!-- 操作按钮：编辑资料 -->
+
         <Button
             android:id="@+id/btn_edit_profile"
             android:layout_width="match_parent"
@@ -59,7 +58,6 @@
             android:iconifiedByDefault="false"
             android:layout_marginTop="8dp"/>
 
-        <!-- 操作按钮：收藏 -->
         <Button
             android:id="@+id/btn_view_favorites"
             android:layout_width="match_parent"
@@ -72,7 +70,6 @@
             android:iconifiedByDefault="false"
             android:layout_marginTop="8dp"/>
 
-        <!-- 操作按钮：退出登录 -->
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
@@ -84,6 +81,16 @@
             android:iconifiedByDefault="false"
             android:layout_marginTop="8dp"/>
 
+        <Button
+            android:id="@+id/btn_DeleteAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Account"
+            android:textColor="@android:color/holo_red_dark"
+            android:textAllCaps="false"
+            android:backgroundTint="@android:color/white"
+            android:iconifiedByDefault="false"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 </ScrollView>
     <!-- Bottom Navigation Bar -->

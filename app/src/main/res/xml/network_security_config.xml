@@ -7,6 +7,6 @@
         <domain includeSubdomains="true">34.170.115.42</domain> <!-- Replace with your server's public IP -->
     </domain-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">172.24.4.77</domain>
+        <domain includeSubdomains="true">172.24.19.7</domain>
     </domain-config>
 </network-security-config>
