@@ -72,7 +72,14 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
     @Override
     public void onBindViewHolder(@NonNull FriendViewHolder holder, int position) {
         Friend friend = friendList.get(position);
-        holder.friendName.setText(friend.name);
+        System.out.println("friend name is "+friend.name+friend.email);
+        if (friend.name == "null") {
+            System.out.println("friend name is null ");
+            holder.friendName.setText(friend.email);
+        }
+        else {
+            holder.friendName.setText(friend.name);
+        }
         holder.timeds.setText(friend.timeAtLocation);
         holder.checkBox.setChecked(selectedFriends.contains(friend));
 

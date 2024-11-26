@@ -128,9 +128,11 @@ public class FriendsActivityFeedActivity extends AppCompatActivity {
                             String lastVisitPlace = friend.optString("last_visit_place", "Unknown");
                             String lastVisitRating = friend.optString("last_visit_rating", "No rating");
                             String lastReviews = friend.optString("last_visit_place_reviews","No review");
+                            System.out.println("last visit activity is"+lastVisitPlace.length());
+                            if (lastVisitPlace.length()>0){
                             feedData.add(new ActivityFeed(name, lastVisitPlace, lastVisitRating,lastReviews));
+                          }
                         }
-
                         // Update RecyclerView
                         Feedadapter.updateData(feedData);
                     } catch (JSONException e) {

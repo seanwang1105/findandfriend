@@ -50,8 +50,10 @@
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:text="Delete"
-        android:background="@color/bottom_nav_color"
-        android:textColor="@android:color/white"
+        android:text="Del"
+        android:textColor="@android:color/holo_red_dark"
+        android:textAllCaps="false"
+        android:backgroundTint="@android:color/white"
+        android:iconifiedByDefault="false"
         android:visibility="gone" />
 </RelativeLayout>

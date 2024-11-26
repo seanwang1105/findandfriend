@@ -68,9 +68,10 @@
                 android:layout_height="wrap_content"
                 android:text="Meet Here"
                 android:layout_alignParentStart="true"
-                android:textColor="@color/quantum_grey"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2196F3"
+                android:elevation="8dp"
                 android:textAllCaps="false"
-                android:backgroundTint="@android:color/white"
                 android:iconifiedByDefault="false"
                 android:layout_marginTop="8dp"/>
 
@@ -80,9 +81,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_meet_here"
                 android:text="Save For Later"
-                android:textColor="@color/quantum_grey"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2196F3"
+                android:elevation="8dp"
                 android:textAllCaps="false"
-                android:backgroundTint="@android:color/white"
                 android:iconifiedByDefault="false"
                 android:layout_marginTop="8dp"/>
 
@@ -92,9 +94,10 @@
                 android:layout_height="wrap_content"
                 android:text="Add Review"
                 android:layout_below="@id/btn_save_for_later"
-                android:textColor="@color/quantum_grey"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2196F3"
+                android:elevation="8dp"
                 android:textAllCaps="false"
-                android:backgroundTint="@android:color/white"
                 android:iconifiedByDefault="false"
                 android:layout_marginTop="8dp"/>
 
@@ -104,9 +107,10 @@
                 android:layout_height="wrap_content"
                 android:text="Navigation"
                 android:layout_below="@id/btn_Review"
-                android:textColor="@color/quantum_grey"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#2196F3"
+                android:elevation="8dp"
                 android:textAllCaps="false"
-                android:backgroundTint="@android:color/white"
                 android:iconifiedByDefault="false"
                 android:layout_marginTop="8dp"/>
 
@@ -123,8 +127,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="labeled" />
+        app:itemIconTint="@android:color/holo_blue_dark"
+        app:itemTextColor="@android:color/holo_blue_dark"
+        app:labelVisibilityMode="labeled"
+        android:background="@color/material_dynamic_neutral_variant99"/>
 
 </RelativeLayout>

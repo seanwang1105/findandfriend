@@ -39,6 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:elevation="8dp"
+        android:textAllCaps="false"
         android:layout_marginTop="16dp" />
 
     <!-- REGISTER -->
@@ -47,6 +51,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:elevation="8dp"
+        android:textAllCaps="false"
         android:layout_marginTop="8dp" />
 
 </LinearLayout>

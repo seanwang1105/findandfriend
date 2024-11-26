@@ -31,7 +31,11 @@
         android:id="@+id/upload_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload Photo" />
+        android:text="Upload Photo"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:elevation="8dp"
+        android:textAllCaps="false"/>
 
     <!-- Submit Button -->
     <Button
@@ -39,6 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit Review"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:elevation="8dp"
+        android:textAllCaps="false"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
     <!-- Bottom Navigation Bar -->

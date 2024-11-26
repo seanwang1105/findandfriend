@@ -49,6 +49,10 @@
         android:text="Go"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/friend_list"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:elevation="8dp"
+        android:textAllCaps="false"
         android:layout_marginTop="16dp" />
 
     <!-- Floating Action Button -->
@@ -85,8 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="labeled" />
+        app:itemIconTint="@android:color/holo_blue_dark"
+        app:itemTextColor="@android:color/holo_blue_dark"
+        app:labelVisibilityMode="labeled"
+        android:background="@color/material_dynamic_neutral_variant99"/>
 
 </RelativeLayout>

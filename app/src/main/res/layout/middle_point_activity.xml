@@ -48,8 +48,12 @@
     <Button
         android:id="@+id/meet_button"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:text="Meet"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2196F3"
+        android:elevation="8dp"
+        android:textAllCaps="false"
          android:layout_above="@id/bottom_navigation"
         android:layout_marginTop="8dp" />
 
@@ -60,7 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color"
-        app:labelVisibilityMode="labeled"/>
+        app:itemIconTint="@android:color/holo_blue_dark"
+        app:itemTextColor="@android:color/holo_blue_dark"
+        app:labelVisibilityMode="labeled"
+        android:background="@color/material_dynamic_neutral_variant99"/>
 </RelativeLayout>

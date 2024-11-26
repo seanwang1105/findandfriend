@@ -40,19 +40,37 @@
             android:id="@+id/btn_accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Accept" />
+            android:text="Accept"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2196F3"
+            android:elevation="8dp"
+            android:textAllCaps="false"/>
 
         <Button
             android:id="@+id/btn_reject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reject"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2196F3"
+            android:elevation="8dp"
+            android:textAllCaps="false"
             android:layout_marginStart="8dp" />
         <Button
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2196F3"
+            android:elevation="8dp"
+            android:textAllCaps="false"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>
