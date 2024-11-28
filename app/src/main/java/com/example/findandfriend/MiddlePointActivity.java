@@ -184,9 +184,11 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
         List<MeetingFriend>meetingFriends = new ArrayList<>();
 // Step 1: Fetch Meeting Statuses from Server
         FriendMeetingAdapter friendMeetingAdapter = new FriendMeetingAdapter(this,meetingFriends, new FriendMeetingAdapter.OnItemClickListener() {
+
             @Override
                 public void onItemClick(MeetingFriend friendMeet) {
                     // Show friendMeet on the map
+                    System.out.println("item clicked on friend meeting");
                     friend_meet_loaded = true;
                     friend_meet_location = friendMeet.getLocationName();
                     meeting_request_longitude = friendMeet.getLongitude();

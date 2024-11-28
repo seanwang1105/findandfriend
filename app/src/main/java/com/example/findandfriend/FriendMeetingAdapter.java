@@ -51,6 +51,7 @@ public class FriendMeetingAdapter extends RecyclerView.Adapter<FriendMeetingAdap
         }
         this.context = context;
         this.friendMeetingList = friendMeetingList;
+        this.listener=listener;
         if (context != null) {
             this.SERVER_URL_RESPOND = context.getString(R.string.IP) + "/respond_meeting";
             this.SERVER_URL_DELETE = context.getString(R.string.IP) + "/delete_meeting_participant";
@@ -80,10 +81,9 @@ public class FriendMeetingAdapter extends RecyclerView.Adapter<FriendMeetingAdap
         holder.Mstatus.setText(friendmeet.meet_status);
         // Handle item click to show friend on map
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
+                System.out.println("FriendMeetingAdapter Item clicked: " + friendmeet.name);
                 listener.onItemClick(friendmeet);
-            }
-        });
+                });
 
         // Handle accept and reject button clicks
         holder.btnAccept.setOnClickListener(v -> {
