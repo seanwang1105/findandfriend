@@ -196,8 +196,13 @@ public class MiddlePointActivity extends AppCompatActivity implements OnMapReady
                     LatLng friendLatLng = new LatLng(friendMeet.getLatitude(), friendMeet.getLongitude());
 
                     googleMap.clear();  // Clear existing markers
-                    googleMap.addMarker(new MarkerOptions().position(friendLatLng).title(friendMeet.getSenderEmail()));
+                    googleMap.addMarker(new MarkerOptions().position(friendLatLng).title(friendMeet.getLocationName()));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friendLatLng, 12));
+                    if (selectedFriends!=null) {
+                        for (Friend friend : selectedFriends) {
+                            addFriendMarker(friend);
+                        }
+                    }
                 }
 
                 @Override

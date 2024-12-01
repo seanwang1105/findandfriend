@@ -97,8 +97,9 @@ public class LocationDetailsActivity extends AppCompatActivity {
         List<Friend> selectedFriends = SelectedFriendShareData.getInstance().getSelectedFriends();
 
         if (locationId != null) {
-            fetchPlaceAndPhoto(locationId);
-
+            if (!"No ID".equals(locationId) && !"MID".equals(locationId)) {
+                fetchPlaceAndPhoto(locationId);
+            }
         } else {
             Toast.makeText(this, "Place ID can't be found", Toast.LENGTH_SHORT).show();
         }
@@ -253,13 +254,18 @@ public class LocationDetailsActivity extends AppCompatActivity {
     }
        // Mock method to load location details based on location ID
     private void loadLocationDetails(String locationId,String locationname,double locationRate,ArrayList<byte[]> imagesByteArrayList) {
-        if (locationId == "1") {
+        System.out.println("location id is:"+locationId);
+        if ("No ID".equals(locationId)) {
             // Set up the adapter with the image list
+            System.out.println("in friend meeting now:");
+            addImageToByteArrayList(imagesByteArrayList, this, R.drawable.findandfriendbk);
             ImageSliderAdapter adapter = new ImageSliderAdapter(imagesByteArrayList);
             viewPager2.setAdapter(adapter);
             locationName.setText(locationname);
             locationDescription.setText(String.valueOf(locationRate));
-        } else if (locationId == "2") {
+        } else if ("MID".equals(locationId)) {
+            System.out.println("in middle meeting now:");
+            addImageToByteArrayList(imagesByteArrayList, this, R.drawable.findandfriendbk);
             ImageSliderAdapter adapter = new ImageSliderAdapter(imagesByteArrayList);
             viewPager2.setAdapter(adapter);
             locationName.setText(locationname);
@@ -392,5 +398,16 @@ public class LocationDetailsActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
     }
+    private void addImageToByteArrayList(ArrayList<byte[]> imagesList, Context context, int drawableId) {
+        // Decode the drawable into a Bitmap
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
 
+        // Convert the Bitmap to a byte array
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] imageBytes = stream.toByteArray();
+
+        // Add the byte array to the list
+        imagesList.add(imageBytes);
+    }
 }
